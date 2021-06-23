@@ -1,5 +1,48 @@
 baseURL = "http://hearecho.github.io"
 languageCode = "zh-cn"
 title = "Road to Final"
+canonifyurls = true
+languagecode = "cn"
 
-theme="tanka"
+theme="tania"
+
+[params]
+  # Emoji will show before the blog title on site navbar.
+  titleEmoji  = "😎"
+
+  # Logo will show before the blog title on site navbar.
+  titleLogo = ""
+
+  # Enable float footnotes.
+  # Default to true
+  enableFootnotes = true
+  siteName = "Road to Final"
+  siteDesc = "Work，Walk，Rest!"
+  author = "Hearecho"
+
+  # Limit how many categories filter show above search input.
+  # Default to 5
+  maxCategoryToShow = 10
+
+  # Show your social information with icon on index bio with `_index.md` content.
+  [params.socialOptions]
+    email = "1540302560@qq.com "
+    github = "https://github.com/hearecho"
+
+[menu]
+  [[menu.header]]
+    name = "Articles"
+    url = "/articles/"
+  [[menu.footer]]
+      name = "📡"
+      url = "/index.xml"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    lineNos = true
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
