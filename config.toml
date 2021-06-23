@@ -1,0 +1,5 @@
+baseURL = "http://hearecho.github.io"
+languageCode = "zh-cn"
+title = "Road to Final"
+
+theme="tanka"
