@@ -14,7 +14,7 @@ install:
   - wget https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_0.84.0_Linux-64bit.deb
   - sudo dpkg -i hugo*.deb
   # 安装主题
-  - git clone https://github.com/adityatelange/hugo-PaperMod themes/paperMod --depth=1
+  - git clone https://github.com/nanxstats/hugo-tanka.git themes/tanka --depth=1
 
 script:
   # 运行hugo命令
