@@ -5,6 +5,25 @@
     <link>https://hearecho.github.io/tags/</link>
     <description>Recent content in Tags on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language><atom:link href="https://hearecho.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 23 Jun 2021 18:05:27 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo</title>
+      <link>https://hearecho.github.io/tags/hugo/</link>
+      <pubDate>Wed, 23 Jun 2021 18:05:27 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Travis CI</title>
+      <link>https://hearecho.github.io/tags/travis-ci/</link>
+      <pubDate>Wed, 23 Jun 2021 18:05:27 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/tags/travis-ci/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
