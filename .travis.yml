@@ -13,8 +13,6 @@ install:
   # 安装最新的hugo
   - wget https://github.com/gohugoio/hugo/releases/download/v0.84.0/hugo_0.84.0_Linux-64bit.deb
   - sudo dpkg -i hugo*.deb
-  # 安装主题
-  - git clone https://github.com/WingLim/hugo-tania.git themes/tania --depth=1
 
 script:
   # 运行hugo命令

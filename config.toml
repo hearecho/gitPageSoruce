@@ -5,7 +5,7 @@ canonifyurls = true
 languagecode = "cn"
 
 theme="tania"
-
+googleAnalytics = "G-WGPZHY21MR"
 [params]
   # Emoji will show before the blog title on site navbar.
   titleEmoji  = "😎"
