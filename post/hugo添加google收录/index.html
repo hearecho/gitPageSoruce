@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Hugo添加Google收录 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="Hugo添加Google收录 | Road to Final"/>
+    <meta itemprop="name" content="Hugo添加Google收录 | Road to Final" />
+    <meta name="twitter:title" content="Hugo添加Google收录 | Road to Final" />
+    <meta name="application-name" content="Hugo添加Google收录 | Road to Final" />
+    
+    <meta name="description" content="hugo将网站添加到google收录中，使得网站可以被用户搜索到" />
+    <meta name="twitter:description" content="hugo将网站添加到google收录中，使得网站可以被用户搜索到 "/>
+    <meta itemprop="description" content=" hugo将网站添加到google收录中，使得网站可以被用户搜索到 "/>
+    <meta property="og:description" content=" hugo将网站添加到google收录中，使得网站可以被用户搜索到 " />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-06-24T16:51:49&#43;0800 />
+<meta property="article:published_time" content=2021-06-24T16:51:49&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Hugo添加Google收录",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-06-24",
+    "description": "hugo将网站添加到google收录中，使得网站可以被用户搜索到",
+    "wordCount":  241 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-06-24",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WGPZHY21MR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WGPZHY21MR');
+</script>
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Hugo添加Google收录</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>June 24, 2021</time>
+                            | 2 minutes
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/hugo/">Hugo</a>
+                            
+                            <a href="https://hearecho.github.io/tags/google-console/">Google Console</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E6%9D%82%E8%AE%B0/">杂记</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h3 id="添加谷歌收录">添加谷歌收录</h3>
+<p>添加谷歌收录的方式主要有四种方式：</p>
+<ol>
+<li>Google Analytics</li>
+<li>HTML file</li>
+<li>HTML tag</li>
+<li>Google Tag Manager</li>
+<li>Domain name provider</li>
+</ol>
+<p>最简单的方式就是使用HTML TAG直接在模板<code>head</code>标签里面加上网站给出的验证标签即可。</p>
+<h3 id="google-分析">google 分析</h3>
+<p>添加谷歌分析，可以获知自己网站的各项数据。同时也可以用于上述使得网站被谷歌收录。</p>
+<h4 id="注册google-分析">注册Google 分析</h4>
+<blockquote>
+<ol>
+<li>打开<a href="https://analytics.google.com/analytics/web/">Google Analytics官网</a>注册账户并添加自己的网站域名</li>
+<li>打开主页，添加数据流，之后记录衡量ID。</li>
+</ol>
+</blockquote>
+<h4 id="修改配置文件">修改配置文件</h4>
+<p>在config.toml中新建googleAnalytics参数并设置成自己的衡量ID</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-toml" data-lang="toml"><span class="nx">googleAnalytics</span> <span class="p">=</span> <span class="s2">&#34;xx-xxxxxxxxx-x&#34;</span> <span class="c"># Enable Google Analytics by entering your tracking id</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="新建模板">新建模板</h4>
+<p>在Hugo站点根目录下新建模板文件(./layouts/_internal/google_analytics_async.html)并添加如下代码.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="c">&lt;!-- Global Site Tag (gtag.js) - Google Analytics --&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">async</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://www.googletagmanager.com/gtag/js?id={{ .Site.GoogleAnalytics }}&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">dataLayer</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">dataLayer</span> <span class="o">||</span> <span class="p">[];</span>
+  <span class="kd">function</span> <span class="nx">gtag</span><span class="p">(){</span><span class="nx">dataLayer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);}</span>
+  <span class="nx">gtag</span><span class="p">(</span><span class="s1">&#39;js&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
+
+  <span class="nx">gtag</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;{{ .Site.GoogleAnalytics }}&#39;</span><span class="p">);</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="引用模板">引用模板</h4>
+<p>在baseof.html基础模板文件中的head标签尾部添加如下代码, 这样站点发布到非Hugo Server后就会自动引用Google Analytics模板.或者也可以将上述的模板内容直接粘贴复制到baseof.html相应的位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-html" data-lang="html"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+{{- if not .Site.IsServer }}
+	{{ template &#34;_internal/google_analytics_async.html&#34; . }}
+{{- end }}
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="每日一题">每日一题</h3>
+<h4 id="下一个排列">下一个排列</h4>
+<p>实现获取 下一个排列 的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。必须 原地 修改，只允许使用额外常数空间。</p>
+<blockquote>
+<p>目的是寻求按照字典序来说，下一个排列，当然可以找到全部排列，但是不太靠谱。我们可以自己通过该排列的顺序，找到下一个排列。</p>
+<p>例如：</p>
+<p>[1,2,3]</p>
+<p>[1,3,2]</p>
+<p>[2,1,3]</p>
+<p>[2,3,1]</p>
+<p>[3,1,2]</p>
+<p>[3,2,1]</p>
+<p>所以我们的目标是将左边一个较小的数和右边的一个较大的数进行交换，如此下一个排列才会更大，同时由于不能打太多。同时我们要让这个「较小数」尽量靠右，而「较大数」尽可能小。当交换完成后，「较大数」右边的数需要按照升序重新排列。这样可以在保证新排列大于原来排列的情况下，使变大的幅度尽可能小。所以可以使用两次排序来确定两个数字的位置，然后进行交换.</p>
+<p>以排列 [4,5,2,6,3,1][4,5,2,6,3,1] 为例：</p>
+<p>我们能找到的符合条件的一对「较小数」与「较大数」的组合为 2 与 3，满足「较小数」尽量靠右，而「较大数」尽可能小。</p>
+<p>当我们完成交换后排列变为 [4,5,3,6,2,1][4,5,3,6,2,1]，此时我们可以重排「较小数」右边的序列，序列变为 [4,5,3,1,2,6][4,5,3,1,2,6]。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">nextPermutation</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 先找到一个最小数，然后找到比这个较小数稍微大的较大数
+</span><span class="c1"></span>	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span>
+	<span class="nx">i</span> <span class="o">:=</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">2</span>
+    <span class="c1">//找到此时分割左右边的位置
+</span><span class="c1"></span>    <span class="c1">// 也就是较小数尽可能的小
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">--</span>
+	<span class="p">}</span>
+	
+	<span class="k">if</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">{</span>
+		<span class="nx">j</span> <span class="o">:=</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="c1">//找到较小数
+</span><span class="c1"></span>		<span class="k">for</span> <span class="nx">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">{</span>
+			<span class="nx">j</span><span class="o">--</span>
+		<span class="p">}</span>
+        <span class="c1">//交换
+</span><span class="c1"></span>		<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+	<span class="p">}</span>
+    <span class="c1">//之后反转右边的序列
+</span><span class="c1"></span>	<span class="nf">reverse</span><span class="p">(</span><span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:])</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">reverse</span><span class="p">(</span><span class="nx">a</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">n</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">n</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">a</span><span class="p">[</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">a</span><span class="p">[</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="nx">i</span><span class="p">],</span> <span class="nx">a</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="Previous post (older)">
+            <span>Previous</span>
+            Hugo搭建个人博客
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>

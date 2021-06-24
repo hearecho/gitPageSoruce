@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>blog on Road to Final</title>
-    <link>https://hearecho.github.io/categories/blog/</link>
-    <description>Recent content in blog on Road to Final</description>
+    <title>杂记 on Road to Final</title>
+    <link>https://hearecho.github.io/tags/%E6%9D%82%E8%AE%B0/</link>
+    <description>Recent content in 杂记 on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 24 Jun 2021 16:51:49 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Jun 2021 16:51:49 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hugo添加Google收录</title>
       <link>https://hearecho.github.io/post/hugo%E6%B7%BB%E5%8A%A0google%E6%94%B6%E5%BD%95/</link>
