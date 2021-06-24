@@ -73,7 +73,7 @@ Total in 76 ms
 
 > 前提是仓库已经全部建立，此时我们进入[token](https://github.com/settings/tokens)，生成GITHUB_TOKEN。repo标签内全部选上即可。
 
-![](1.png)
+![](1.PNG)
 
 ### 结合Travis
 
