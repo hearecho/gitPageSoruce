@@ -2,10 +2,11 @@
 title: "Hugo搭建个人博客"
 date: 2021-06-23T18:05:27+08:00
 draft: false
-description:
+description: "hugo结合Travis自动集成blog"
 tags:
 - Hugo
 - Travis CI
+- 杂记
 categories:
 - blog
 ---

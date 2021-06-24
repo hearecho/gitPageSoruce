@@ -7,4 +7,3 @@ link: https://github.com/hearecho/MagicSpider
 repo: https://github.com/hearecho/MagicSpider
 icon: 🕷
 ---
-
