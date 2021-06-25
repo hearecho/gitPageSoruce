@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Road to Final</title>
-    <link>https://hearecho.github.io/post/</link>
-    <description>Recent content in Posts on Road to Final</description>
+    <title>算法 on Road to Final</title>
+    <link>https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Jun 2021 13:49:02 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Jun 2021 13:49:02 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>论文阅读 DAG</title>
       <link>https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-dag/</link>
@@ -46,33 +46,6 @@
 &lt;/ol&gt;
 &lt;p&gt;在所提出的调度模型中，ITQ中的并行任务和就绪任务都在处理器的PTQ中。即使ITQ和DTQ位于中央调度器上，实际执行映射任务的处理器也与调度器分离并放置在PTQi处。同时，调度过程和执行过程是并行的。因此，调度器和工作处理器之间是同步的。&lt;/p&gt;
 &lt;p&gt;未完！！&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hugo添加Google收录</title>
-      <link>https://hearecho.github.io/post/hugo%E6%B7%BB%E5%8A%A0google%E6%94%B6%E5%BD%95/</link>
-      <pubDate>Thu, 24 Jun 2021 16:51:49 +0800</pubDate>
-      
-      <guid>https://hearecho.github.io/post/hugo%E6%B7%BB%E5%8A%A0google%E6%94%B6%E5%BD%95/</guid>
-      <description>添加谷歌收录 添加谷歌收录的方式主要有四种方式：
- Google Analytics HTML file HTML tag Google Tag Manager Domain name provider  最简单的方式就是使用HTML TAG直接在模板head标签里面加上网站给出的验证标签即可。
-google 分析 添加谷歌分析，可以获知自己网站的各项数据。同时也可以用于上述使得网站被谷歌收录。
-注册Google 分析   打开Google Analytics官网注册账户并添加自己的网站域名 打开主页，添加数据流，之后记录衡量ID。   修改配置文件 在config.toml中新建googleAnalytics参数并设置成自己的衡量ID
-1  googleAnalytics = &amp;#34;xx-xxxxxxxxx-x&amp;#34; # Enable Google Analytics by entering your tracking id   新建模板 在Hugo站点根目录下新建模板文件(./layouts/_internal/google_analytics_async.html)并添加如下代码.
-1 2 3 4 5 6 7 8 9  &amp;lt;!-- Global Site Tag (gtag.js) - Google Analytics --&amp;gt; &amp;lt;script async src=&amp;#34;https://www.</description>
-    </item>
-    
-    <item>
-      <title>Hugo搭建个人博客</title>
-      <link>https://hearecho.github.io/post/hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
-      <pubDate>Wed, 23 Jun 2021 18:05:27 +0800</pubDate>
-      
-      <guid>https://hearecho.github.io/post/hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
-      <description>简介  使用hugo搭建个人博客，并结合Github与Travis CI实现自动化集成部署。
- 本地运行 hugo下载（windows） 1  brew install hugo   检查可用之后，使用命令新建一个网站（不用新建文件夹，hugo会自动建立）：
-1 2  hugo new site your-site-name cd your-site-name   主题下载 主题是放到themes目录中，一般从hugo themes中找到想要的主题，下载到themes文件夹中。需要修改配置文件中相关配置，名字为文件夹名称。
-静态资源位置 静态资源位置一般是在网站目录下的static文件夹中
-添加文章 1 2 3  hugo new post/first.md # 该文件会在 content/post/目录下 # 执行编译之后，产生的文件在public目录下   运行 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  hugo server -D # 该条命令是本地测试运行，有可能markdown文件的draft标签为true，在真正编译的时候需要把true改为false # 不然不会显示 hugo # 就是编译命令 编译结果如下 Start building sites … | EN -------------------+----- Pages | 12 Paginator pages | 0 Non-page files | 0 Static files | 1 Processed images | 0 Aliases | 4 Sitemaps | 1 Cleaned | 0 Total in 76 ms   部署  部署我们一般使用两个仓库，一个仓库(blog)用于存放源文件，一个仓库(*.</description>
     </item>
     
   </channel>
