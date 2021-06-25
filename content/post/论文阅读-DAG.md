@@ -62,3 +62,74 @@ DYTAS算法的核心是处理器的选择策略，也就是对于任务的迁徙
 
 在所提出的调度模型中，ITQ中的并行任务和就绪任务都在处理器的PTQ中。即使ITQ和DTQ位于中央调度器上，实际执行映射任务的处理器也与调度器分离并放置在PTQi处。同时，调度过程和执行过程是并行的。因此，调度器和工作处理器之间是同步的。
 
+未完！！
+
+<!--more-->
+
+
+
+## 每日一题
+
+你有一个带有四个圆形拨轮的转盘锁。每个拨轮都有10个数字： '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' 。每个拨轮可以自由旋转：例如把 '9' 变为 '0'，'0' 变为 '9' 。每次旋转都只能旋转一个拨轮的一位数字。
+
+锁的初始数字为 '0000' ，一个代表四个拨轮的数字的字符串。
+
+列表 deadends 包含了一组死亡数字，一旦拨轮的数字和列表里的任何一个元素相同，这个锁将会被永久锁定，无法再被旋转。
+
+字符串 target 代表可以解锁的数字，你需要给出解锁需要的最小旋转次数，如果无论如何不能解锁，返回 -1 。
+
+> 题目中问的是最小拨动次数，对应图中两者之间的最短路径，所以这种类型的题大多都广度优先搜索，因为有四个位置，并且每次拨动都有两种选择。而对于已经搜索过的图将不会再次搜索。对于每次的字符串他的下一个变化的字符串有八个。
+
+```go
+func openLock(deadends []string, target string) int {
+	step := -1
+	queue := make([]string, 0)
+	visited := make(map[string]bool, 0)
+	for i := 0; i < len(deadends); i++ {
+		visited[deadends[i]] = true
+	}
+    if _, ok := visited["0000"]; ok {
+		return -1
+	}
+	queue = append(queue, "0000")
+	for len(queue) != 0 {
+		size := len(queue)
+		//没过一层就要步数加1，刚开始的0000不算在内
+		step++
+		for i := 0; i < size; i++ {
+			cur := queue[i]
+			//当前字符串与目标字符串相同则return
+			if cur == target {
+				return step
+			}
+			//取出现在的队头字符串
+			for j := 0; j < len(cur); j++ {
+				//每个字符的变化,之后再将
+				changenum, _ := strconv.Atoi(cur[j : j+1])
+				nstr1, nstr2 := "", ""
+				if changenum == 9 {
+					nstr1 = cur[:j] + strconv.Itoa(0) + cur[j+1:]
+				} else {
+					nstr1 = cur[:j] + strconv.Itoa(changenum+1) + cur[j+1:]
+				}
+				if changenum == 0 {
+					nstr2 = cur[:j] + strconv.Itoa(9) + cur[j+1:]
+				} else {
+					nstr2 = cur[:j] + strconv.Itoa(changenum-1) + cur[j+1:]
+				}
+				if _, ok := visited[nstr1]; !ok {
+					queue = append(queue, nstr1)
+					visited[nstr1] = true
+				}
+				if _, ok := visited[nstr2]; !ok {
+					queue = append(queue, nstr2)
+					visited[nstr2] = true
+				}
+			}
+		}
+		queue = queue[size:]
+	}
+	return -1
+}
+```
+
