@@ -62,11 +62,76 @@ DYTAS算法的核心是处理器的选择策略，也就是对于任务的迁徙
 
 在所提出的调度模型中，ITQ中的并行任务和就绪任务都在处理器的PTQ中。即使ITQ和DTQ位于中央调度器上，实际执行映射任务的处理器也与调度器分离并放置在PTQi处。同时，调度过程和执行过程是并行的。因此，调度器和工作处理器之间是同步的。
 
-未完！！
+> 该论文算法有点问题，没有讲清楚部分参数的含义。给出的cc参数不知道是什么意思。不知道为啥引用还那么多。
 
-<!--more-->
+#### 算法简单解释
 
+```python
+Procedure DYTAS 
+# 这个部分是对整个任务进行拓扑排序
+dtq[ ] = SORT[Ti , Tj] 
+l = 0; 
+# 将排序好的任务放置在各个不同ptq也就是处理器本地存储队列
+while (dtq[ ] is not empty) do 
+    for i = 1 to n 
+      ptqi = dtq [l] 
+      l  = l  + 1 
+    end for; 
+  end while; 
 
+for each processor Pk in processor group do 
+	# 对每个处理器状态进行检查，如果处理器在运行，则选择下一个处理器队列
+   while (Pk is in running state) 
+        skip and select the next ptqk+1  
+   end while 
+   Pk = ptqk[j] 
+    # 如果这个任务的前置任务已经完成，并且有处理器空闲，则执行任务
+   if (dependent task of ptqk[j] is in ctq) 
+     TASK(ptqk[ ],Pk , j, ctq, cpk, CTj) 
+   else 
+# 否则的话，就是将指针指向下一个ptq队列判断，下一个队列同样位置上的任务是否可以执行。算法的关键就在这个部分
+# 关键在于在执行的时间迁移任务。
+   do 
+     move the pointer to the next ptq 
+      if (dependent task of ptqk[j] is in ctq) 
+       TASK(ptqk[ ],Pk , j, ctq, cpk, CTj) 
+       exit do 
+      endif 
+   while(checking with all ptq’s once) 
+   endif 
+ end for 
+end DYTAS 
+Procedure for TASK 
+# 任务执行
+procedure TASK(ptqk[ ],Pk,j,ctq,cpk,CTj) 
+    do Tj with Pk 
+    remove Tj from ptqk 
+    insert Tj in ctq 
+    cpk = cpk + Ctj 
+end TASK
+```
+
+#### 实验
+
+##### 实验数据
+
+> cp是任务执行时间，cc不清楚是什么，也没说。
+
+![](3.PNG)
+
+> 经过拓扑排序之后，装配在ptq中的任务仿真图。拓扑排序结果是有很多种结果的。但是不影响算法运行。
+
+![](4.PNG)
+
+> ！！！重要的运行时间迁移任务
+
+![](5.PNG)
+
+> 结果展示，单处理器中的调度长度是240个时间单位。在第一个处理器（P1）中完成任务所用的时间是80个时间单位，P2是65个时间单位，P3是67个时间单位，P4是66个时间单位。
+
+![](6.PNG)
+
+！！！论文意义不是很大，不清楚为什么那么多引用这篇文章的。
 
 ## 每日一题
 
