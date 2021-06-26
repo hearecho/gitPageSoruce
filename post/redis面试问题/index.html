@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Redis面试问题 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="Redis面试问题 | Road to Final"/>
+    <meta itemprop="name" content="Redis面试问题 | Road to Final" />
+    <meta name="twitter:title" content="Redis面试问题 | Road to Final" />
+    <meta name="application-name" content="Redis面试问题 | Road to Final" />
+    
+    <meta name="description" content="Work，Walk，Rest!" />
+    <meta name="twitter:description" content="Work，Walk，Rest!"/>
+    <meta itemprop="description" content="Work，Walk，Rest!"/>
+    <meta property="og:description" content="Work，Walk，Rest!" />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-06-26T15:14:50&#43;0800 />
+<meta property="article:published_time" content=2021-06-26T15:14:50&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Redis面试问题",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-06-26",
+    "description": "",
+    "wordCount":  444 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-06-26",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WGPZHY21MR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WGPZHY21MR');
+</script>
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Redis面试问题</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>June 26, 2021</time>
+                            | 3 minutes |444 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                            
+                            <a href="https://hearecho.github.io/tags/redis/">redis</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h1 id="redis">Redis</h1>
+<h2 id="1简介">1.简介</h2>
+<p>Redis是一种非关系型（NoSQL）内存键值数据库，可以存储键和五种不同类型的值之间的映射。</p>
+<p>键的类型只能为字符串，保证不可变性，值的类型只有五种：字符串、列表、集合、哈希表、有序集合。</p>
+<p>Redis面试问题的主要出发点：数据类型、跳表、缓存、持久化、数据淘汰策略。</p>
+<h2 id="2数据类型">2.数据类型</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据类型</th>
+<th style="text-align:center">可以存储的值</th>
+<th style="text-align:center">操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">STRING</td>
+<td style="text-align:center">字符串、整数或者浮点数</td>
+<td style="text-align:center">对整个字符串或者字符串的其中一部分执行操作，对整数和浮点数执行自增或者自减操作</td>
+</tr>
+<tr>
+<td style="text-align:center">LIST</td>
+<td style="text-align:center">列表</td>
+<td style="text-align:center">从两端压入或者弹出元素 ，对单个或者多个元素进行修剪， 只保留一个范围内的元素</td>
+</tr>
+<tr>
+<td style="text-align:center">SET</td>
+<td style="text-align:center">无序集合</td>
+<td style="text-align:center">添加、获取、移除单个元素， 检查一个元素是否存在于集合中， 计算交集、并集、差集， 从集合里面随机获取元素</td>
+</tr>
+<tr>
+<td style="text-align:center">HASH</td>
+<td style="text-align:center">包含键值对的无序散列表</td>
+<td style="text-align:center">添加、获取、移除单个键值对， 获取所有键值对，检查某个键是否存在</td>
+</tr>
+<tr>
+<td style="text-align:center">ZSET</td>
+<td style="text-align:center">有序集合</td>
+<td style="text-align:center">添加、获取、删除元素，根据分值范围或者成员来获取元素， 计算一个键的排名</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3数据结构">3.数据结构</h2>
+<h4 id="字典">字典</h4>
+<p>字典是HASH的底层结构，是一种散列表结构，使用的是拉链法解决哈希冲突。Redis 的字典 dict 中包含两个哈希表 dictht，这是为了方便进行 rehash 操作。在扩容时，将其中一个 dictht 上的键值对 rehash 到另一个 dictht 上面，完成之后释放空间并交换两个 dictht 的角色。有点类似于<code>CopyandWriteList</code>中扩容的操作。rehash 操作不是一次性完成，而是采用渐进方式，这是为了避免一次性执行过多的 rehash 操作给服务器带来过大的负担。</p>
+<h3 id="跳表">跳表</h3>
+<p>是有序集合的底层实现之一。跳跃表是基于多指针有序链表实现的，可以看成多个有序链表。在查找时，从上层指针开始查找，找到<strong>对应的区间</strong>之后再到下一层去查找。</p>
+<p>与红黑树等平衡树相比，跳跃表具有以下优点：</p>
+<ul>
+<li>插入速度非常快速，因为不需要进行旋转等操作来维护平衡性；</li>
+<li>更容易实现；</li>
+<li>支持无锁操作。</li>
+</ul>
+<h2 id="4-redis使用场景">4. redis使用场景</h2>
+<table>
+<thead>
+<tr>
+<th>使用场景</th>
+<th>详细</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>计数器</td>
+<td>可以对 String 进行自增自减运算，从而实现计数器功能。Redis 这种内存型数据库的读写性能非常高，很适合存储频繁读写的计数量。</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>一般和关系型数据库进行配合，将热点数据放到内存中，设置内存的最大使用量以及淘汰策略来保证缓存的命中率。</td>
+</tr>
+<tr>
+<td>查找表</td>
+<td>例如 DNS 记录就很适合使用 Redis 进行存储。查找表和缓存类似，也是利用了 Redis 快速的查找特性。但是查找表的内容不能失效，而缓存的内容可以失效，因为缓存不作为可靠的数据来源</td>
+</tr>
+<tr>
+<td>消息队列</td>
+<td>List 是一个双向链表，可以通过 lpush 和 rpop 写入和读取消息</td>
+</tr>
+<tr>
+<td>会话缓存</td>
+<td>可以使用 Redis 来统一存储多台应用服务器的会话信息。</td>
+</tr>
+<tr>
+<td>分布式锁</td>
+<td>利用SETNX实现分布式锁，或者是ReadLock实现分布式锁。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5键的过期时间">5.键的过期时间</h2>
+<p>Redis 可以为每个键设置过期时间，当键过期时，会自动删除该键。</p>
+<p>对于散列表这种容器，只能为整个键设置过期时间（整个散列表），而不能为键里面的单个元素设置过期时间。散列表算作值。</p>
+<h3 id="6数据淘汰策略">6.数据淘汰策略</h3>
+<p>因为我们的内存是有限的，所以对于部分数据我们总会要实行内存淘汰策略，以免超出内存发生大小。</p>
+<p>Redis具体有6中淘汰策略：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">策略</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">volatile-lru</td>
+<td style="text-align:center">从已设置过期时间的数据集中挑选最近最少使用的数据淘汰</td>
+</tr>
+<tr>
+<td style="text-align:center">volatile-ttl</td>
+<td style="text-align:center">从已设置过期时间的数据集中挑选将要过期的数据淘汰</td>
+</tr>
+<tr>
+<td style="text-align:center">volatile-random</td>
+<td style="text-align:center">从已设置过期时间的数据集中任意选择数据淘汰</td>
+</tr>
+<tr>
+<td style="text-align:center">allkeys-lru</td>
+<td style="text-align:center">从所有数据集中挑选最近最少使用的数据淘汰</td>
+</tr>
+<tr>
+<td style="text-align:center">allkeys-random</td>
+<td style="text-align:center">从所有数据集中任意选择数据进行淘汰</td>
+</tr>
+<tr>
+<td style="text-align:center">noeviction</td>
+<td style="text-align:center">禁止驱逐数据</td>
+</tr>
+</tbody>
+</table>
+<p>使用 Redis 缓存数据时，为了提高缓存命中率，需要保证缓存数据都是热点数据。可以将内存最大使用量设置为热点数据占用的内存量，然后启用 allkeys-lru 淘汰策略，将最近最少使用的数据淘汰。</p>
+<p>Redis 4.0 引入了 volatile-lfu 和 allkeys-lfu 淘汰策略，LFU 策略通过统计访问频率，将访问频率最少的键值对淘汰。</p>
+<p>一般情况下还是使用前三种最好，因为不设置过期时间可能确实这些数据比较重要。</p>
+<h2 id="7持久化">7.持久化</h2>
+<p>Redis 是内存型数据库，为了保证数据在断电后不会丢失，需要将内存中的数据持久化到硬盘上。</p>
+<h3 id="rdb-持久化">RDB 持久化</h3>
+<p>将某个时间点的所有数据都存放到硬盘上。</p>
+<p>可以将快照复制到其它服务器从而创建具有相同数据的服务器副本。</p>
+<p>如果系统发生故障，将会丢失最后一次创建快照之后的数据。</p>
+<p>如果数据量很大，保存快照的时间会很长。</p>
+<h3 id="持久化">持久化</h3>
+<p>将写命令添加到 AOF 文件（Append Only File）的末尾。</p>
+<p>使用 AOF 持久化需要设置同步选项，从而确保写命令同步到磁盘文件上的时机。这是因为对文件进行写入并不会马上将内容同步到磁盘上，而是先存储到缓冲区，然后由操作系统决定什么时候同步到磁盘。有以下同步选项：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:center">同步频率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">always</td>
+<td style="text-align:center">每个写命令都同步</td>
+</tr>
+<tr>
+<td style="text-align:center">everysec</td>
+<td style="text-align:center">每秒同步一次</td>
+</tr>
+<tr>
+<td style="text-align:center">no</td>
+<td style="text-align:center">让操作系统来决定何时同步</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>always 选项会严重减低服务器的性能；</li>
+<li>everysec 选项比较合适，可以保证系统崩溃时只会丢失一秒左右的数据，并且 Redis 每秒执行一次同步对服务器性能几乎没有任何影响；</li>
+<li>no 选项并不能给服务器性能带来多大的提升，而且也会增加系统崩溃时数据丢失的数量。</li>
+</ul>
+<p>随着服务器写请求的增多，AOF 文件会越来越大。Redis 提供了一种将 AOF 重写的特性，能够去除 AOF 文件中的冗余写命令。大致思路是将redis文件中所有的数据作为插入指令重新写入一个文件中，之后将以前文件丢弃即可。以后的命令都写入新的AOF文件。</p>
+<h2 id="8哨兵机制">8.哨兵机制</h2>
+<p>Sentinel（哨兵）可以监听集群中的服务器，并在主服务器进入下线状态时，自动从从服务器中选举出新的主服务器。</p>
+<h2 id="9-缓存问题">9. 缓存问题</h2>
+<h3 id="缓存穿透">缓存穿透</h3>
+<p>指的是对某个一定不存在的数据进行请求，该请求将会穿透缓存到达数据库。</p>
+<p>解决方案：</p>
+<ul>
+<li>对这些不存在的数据缓存一个空数据；</li>
+<li>对这类请求进行过滤</li>
+</ul>
+<h3 id="缓存雪崩">缓存雪崩</h3>
+<p>指的是由于数据没有被加载到缓存中，或者缓存数据在同一时间大面积失效（过期），又或者缓存服务器宕机，导致大量的请求都到达数据库。</p>
+<p>在有缓存的系统中，系统非常依赖于缓存，缓存分担了很大一部分的数据请求。当发生缓存雪崩时，数据库无法处理这么大的请求，导致数据库崩溃。</p>
+<p>解决方案：</p>
+<ul>
+<li>为了防止缓存在同一时间大面积过期导致的缓存雪崩，可以通过观察用户行为，合理设置缓存过期时间来实现；</li>
+<li>为了防止缓存服务器宕机出现的缓存雪崩，可以使用分布式缓存，分布式缓存中每一个节点只缓存部分的数据，当某个节点宕机时可以保证其它节点的缓存仍然可用。最好的解决方案。增加了系统的高可用性。</li>
+<li>也可以进行缓存预热，避免在系统刚启动不久由于还未将大量数据进行缓存而导致缓存雪崩。</li>
+</ul>
+<h3 id="缓存一致性">缓存一致性</h3>
+<p>缓存一致性一般就是redis数据库和mysql数据库之间在更新和删除时候的问题。其实一般情况下设置过期时间，一段时间之后缓存中数据都会消失，但是就怕在过期时间内又缓存更新的情况。</p>
+<p>先更新数据库，然后再立即去删除缓存。再读缓存的时候判断缓存是否是最新的，如果不是先进行更新。</p>
+<h2 id="每日一题">每日一题</h2>
+<p>在一个 2 x 3 的板上（<code>board</code>）有 5 块砖瓦，用数字 <code>1~5</code> 来表示, 以及一块空缺用 <code>0</code> 来表示.</p>
+<p>一次移动定义为选择 <code>0</code> 与一个相邻的数字（上下左右）进行交换.</p>
+<p>最终当板 <code>board</code> 的结果是 <code>[[1,2,3],[4,5,0]]</code> 谜板被解开。</p>
+<p>给出一个谜板的初始状态，返回最少可以通过多少次移动解开谜板，如果不能解开谜板，则返回 -1 。</p>
+<blockquote>
+<p>遇到这种问题基本很多都是广度优先搜索，这些可以将二维数组转换为1维。按照<strong>行优先</strong>的顺序给2×3 的谜板进行编号。因此，我们在<code> status</code> 中找出 00 所在的位置 <code>x</code>，对于每一个与 <code>x</code> 相邻的位置 <code>y</code>，我们将 <code>status[x]</code> 与 status[y] 进行交换，即等同于进行了一次操作。就是对位置进行标号，找出位置的相邻关系，然后进行广度优先搜索。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">neighbors</span> <span class="p">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">][]</span><span class="kt">int</span><span class="p">{{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">},</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">}}</span>
+<span class="c1">// 这种最少通过多少次变换，很多都是使用广度优先搜索
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">slidingPuzzle</span><span class="p">(</span><span class="nx">board</span> <span class="p">[][]</span><span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">target</span> <span class="p">=</span> <span class="s">&#34;123450&#34;</span>
+
+    <span class="nx">s</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">r</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">board</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">r</span> <span class="p">{</span>
+            <span class="nx">s</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="sc">&#39;0&#39;</span><span class="o">+</span><span class="nb">byte</span><span class="p">(</span><span class="nx">v</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">start</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">start</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 枚举 status 通过一次交换操作得到的状态
+</span><span class="c1"></span>    <span class="nx">get</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">status</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">ret</span> <span class="p">[]</span><span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">s</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">status</span><span class="p">)</span>
+        <span class="nx">x</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nf">Index</span><span class="p">(</span><span class="nx">status</span><span class="p">,</span> <span class="s">&#34;0&#34;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">y</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">neighbors</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="p">{</span>
+            <span class="nx">s</span><span class="p">[</span><span class="nx">x</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">y</span><span class="p">]</span> <span class="p">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">y</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span>
+            <span class="nx">ret</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">ret</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+            <span class="nx">s</span><span class="p">[</span><span class="nx">x</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">y</span><span class="p">]</span> <span class="p">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">y</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="kd">type</span> <span class="nx">pair</span> <span class="kd">struct</span> <span class="p">{</span>
+        <span class="nx">status</span> <span class="kt">string</span>
+        <span class="nx">step</span>   <span class="kt">int</span>
+    <span class="p">}</span>
+    <span class="nx">q</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">pair</span><span class="p">{{</span><span class="nx">start</span><span class="p">,</span> <span class="mi">0</span><span class="p">}}</span>
+    <span class="nx">seen</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">bool</span><span class="p">{</span><span class="nx">start</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+    <span class="k">for</span> <span class="nb">len</span><span class="p">(</span><span class="nx">q</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+        <span class="nx">p</span> <span class="o">:=</span> <span class="nx">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nx">q</span> <span class="p">=</span> <span class="nx">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">nxt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nf">get</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">!</span><span class="nx">seen</span><span class="p">[</span><span class="nx">nxt</span><span class="p">]</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="nx">nxt</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="nx">p</span><span class="p">.</span><span class="nx">step</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="p">}</span>
+                <span class="nx">seen</span><span class="p">[</span><span class="nx">nxt</span><span class="p">]</span> <span class="p">=</span> <span class="kc">true</span>
+                <span class="nx">q</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">q</span><span class="p">,</span> <span class="nx">pair</span><span class="p">{</span><span class="nx">nxt</span><span class="p">,</span> <span class="nx">p</span><span class="p">.</span><span class="nx">step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">})</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="参考资料">参考资料</h1>
+<ul>
+<li><a href="https://www.cyc2018.xyz/">CsNotes</a></li>
+<li><a href="https://juejin.cn/post/6844903907726983181">缓存数据库更新</a></li>
+</ul>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-dag/" title="Previous post (older)">
+            <span>Previous</span>
+            论文阅读 DAG
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>面试 on Road to Final</title>
+    <link>https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/</link>
+    <description>Recent content in 面试 on Road to Final</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 26 Jun 2021 15:14:50 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis面试问题</title>
+      <link>https://hearecho.github.io/post/redis%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 26 Jun 2021 15:14:50 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/redis%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/</guid>
+      <description>Redis 1.简介 Redis是一种非关系型（NoSQL）内存键值数据库，可以存储键和五种不同类型的值之间的映射。
+键的类型只能为字符串，保证不可变性，值的类型只有五种：字符串、列表、集合、哈希表、有序集合。
+Redis面试问题的主要出发点：数据类型、跳表、缓存、持久化、数据淘汰策略。
+2.数据类型    数据类型 可以存储的值 操作     STRING 字符串、整数或者浮点数 对整个字符串或者字符串的其中一部分执行操作，对整数和浮点数执行自增或者自减操作   LIST 列表 从两端压入或者弹出元素 ，对单个或者多个元素进行修剪， 只保留一个范围内的元素   SET 无序集合 添加、获取、移除单个元素， 检查一个元素是否存在于集合中， 计算交集、并集、差集， 从集合里面随机获取元素   HASH 包含键值对的无序散列表 添加、获取、移除单个键值对， 获取所有键值对，检查某个键是否存在   ZSET 有序集合 添加、获取、删除元素，根据分值范围或者成员来获取元素， 计算一个键的排名    3.数据结构 字典 字典是HASH的底层结构，是一种散列表结构，使用的是拉链法解决哈希冲突。Redis 的字典 dict 中包含两个哈希表 dictht，这是为了方便进行 rehash 操作。在扩容时，将其中一个 dictht 上的键值对 rehash 到另一个 dictht 上面，完成之后释放空间并交换两个 dictht 的角色。有点类似于CopyandWriteList中扩容的操作。rehash 操作不是一次性完成，而是采用渐进方式，这是为了避免一次性执行过多的 rehash 操作给服务器带来过大的负担。
+跳表 是有序集合的底层实现之一。跳跃表是基于多指针有序链表实现的，可以看成多个有序链表。在查找时，从上层指针开始查找，找到对应的区间之后再到下一层去查找。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-06-25",
     "description": "A new DAG based Dynamic Task Scheduling Algorithm (DYTAS) for Multiprocessor Systems论文阅读",
-    "wordCount":  310 ,
+    "wordCount":  513 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-06-25",
     "publisher": {
@@ -113,7 +113,7 @@
                               
                             
                             By Hearecho | <time>June 25, 2021</time>
-                            | 2 minutes |310 Words
+                            | 3 minutes |513 Words
                         </div>
                         <div class="tags">
                             
@@ -163,7 +163,119 @@
 <li>处理器Pi上任务vi的最早开始时间。</li>
 </ol>
 <p>在所提出的调度模型中，ITQ中的并行任务和就绪任务都在处理器的PTQ中。即使ITQ和DTQ位于中央调度器上，实际执行映射任务的处理器也与调度器分离并放置在PTQi处。同时，调度过程和执行过程是并行的。因此，调度器和工作处理器之间是同步的。</p>
-<p>未完！！</p>
+<blockquote>
+<p>该论文算法有点问题，没有讲清楚部分参数的含义。给出的cc参数不知道是什么意思。不知道为啥引用还那么多。</p>
+</blockquote>
+<h4 id="算法简单解释">算法简单解释</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Procedure</span> <span class="n">DYTAS</span> 
+<span class="c1"># 这个部分是对整个任务进行拓扑排序</span>
+<span class="n">dtq</span><span class="p">[</span> <span class="p">]</span> <span class="o">=</span> <span class="n">SORT</span><span class="p">[</span><span class="n">Ti</span> <span class="p">,</span> <span class="n">Tj</span><span class="p">]</span> 
+<span class="n">l</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="c1"># 将排序好的任务放置在各个不同ptq也就是处理器本地存储队列</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">dtq</span><span class="p">[</span> <span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty</span><span class="p">)</span> <span class="n">do</span> 
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">n</span> 
+      <span class="n">ptqi</span> <span class="o">=</span> <span class="n">dtq</span> <span class="p">[</span><span class="n">l</span><span class="p">]</span> 
+      <span class="n">l</span>  <span class="o">=</span> <span class="n">l</span>  <span class="o">+</span> <span class="mi">1</span> 
+    <span class="n">end</span> <span class="k">for</span><span class="p">;</span> 
+  <span class="n">end</span> <span class="k">while</span><span class="p">;</span> 
+
+<span class="k">for</span> <span class="n">each</span> <span class="n">processor</span> <span class="n">Pk</span> <span class="ow">in</span> <span class="n">processor</span> <span class="n">group</span> <span class="n">do</span> 
+	<span class="c1"># 对每个处理器状态进行检查，如果处理器在运行，则选择下一个处理器队列</span>
+   <span class="k">while</span> <span class="p">(</span><span class="n">Pk</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">running</span> <span class="n">state</span><span class="p">)</span> 
+        <span class="n">skip</span> <span class="ow">and</span> <span class="n">select</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">ptqk</span><span class="o">+</span><span class="mi">1</span>  
+   <span class="n">end</span> <span class="k">while</span> 
+   <span class="n">Pk</span> <span class="o">=</span> <span class="n">ptqk</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> 
+    <span class="c1"># 如果这个任务的前置任务已经完成，并且有处理器空闲，则执行任务</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">dependent</span> <span class="n">task</span> <span class="n">of</span> <span class="n">ptqk</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">ctq</span><span class="p">)</span> 
+     <span class="n">TASK</span><span class="p">(</span><span class="n">ptqk</span><span class="p">[</span> <span class="p">],</span><span class="n">Pk</span> <span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">ctq</span><span class="p">,</span> <span class="n">cpk</span><span class="p">,</span> <span class="n">CTj</span><span class="p">)</span> 
+   <span class="k">else</span> 
+<span class="c1"># 否则的话，就是将指针指向下一个ptq队列判断，下一个队列同样位置上的任务是否可以执行。算法的关键就在这个部分</span>
+<span class="c1"># 关键在于在执行的时间迁移任务。</span>
+   <span class="n">do</span> 
+     <span class="n">move</span> <span class="n">the</span> <span class="n">pointer</span> <span class="n">to</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">ptq</span> 
+      <span class="k">if</span> <span class="p">(</span><span class="n">dependent</span> <span class="n">task</span> <span class="n">of</span> <span class="n">ptqk</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">ctq</span><span class="p">)</span> 
+       <span class="n">TASK</span><span class="p">(</span><span class="n">ptqk</span><span class="p">[</span> <span class="p">],</span><span class="n">Pk</span> <span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">ctq</span><span class="p">,</span> <span class="n">cpk</span><span class="p">,</span> <span class="n">CTj</span><span class="p">)</span> 
+       <span class="n">exit</span> <span class="n">do</span> 
+      <span class="n">endif</span> 
+   <span class="k">while</span><span class="p">(</span><span class="n">checking</span> <span class="k">with</span> <span class="nb">all</span> <span class="n">ptq</span><span class="err">’</span><span class="n">s</span> <span class="n">once</span><span class="p">)</span> 
+   <span class="n">endif</span> 
+ <span class="n">end</span> <span class="k">for</span> 
+<span class="n">end</span> <span class="n">DYTAS</span> 
+<span class="n">Procedure</span> <span class="k">for</span> <span class="n">TASK</span> 
+<span class="c1"># 任务执行</span>
+<span class="n">procedure</span> <span class="n">TASK</span><span class="p">(</span><span class="n">ptqk</span><span class="p">[</span> <span class="p">],</span><span class="n">Pk</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">ctq</span><span class="p">,</span><span class="n">cpk</span><span class="p">,</span><span class="n">CTj</span><span class="p">)</span> 
+    <span class="n">do</span> <span class="n">Tj</span> <span class="k">with</span> <span class="n">Pk</span> 
+    <span class="n">remove</span> <span class="n">Tj</span> <span class="kn">from</span> <span class="nn">ptqk</span> 
+    <span class="n">insert</span> <span class="n">Tj</span> <span class="ow">in</span> <span class="n">ctq</span> 
+    <span class="n">cpk</span> <span class="o">=</span> <span class="n">cpk</span> <span class="o">+</span> <span class="n">Ctj</span> 
+<span class="n">end</span> <span class="n">TASK</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="实验">实验</h4>
+<h5 id="实验数据">实验数据</h5>
+<blockquote>
+<p>cp是任务执行时间，cc不清楚是什么，也没说。</p>
+</blockquote>
+<p><img loading="lazy" src="3.PNG" alt=""   width=357 height="774"  /></p>
+<blockquote>
+<p>经过拓扑排序之后，装配在ptq中的任务仿真图。拓扑排序结果是有很多种结果的。但是不影响算法运行。</p>
+</blockquote>
+<p><img loading="lazy" src="4.PNG" alt=""   width=413 height="141"  /></p>
+<blockquote>
+<p>！！！重要的运行时间迁移任务</p>
+</blockquote>
+<p><img loading="lazy" src="5.PNG" alt=""   width=529 height="333"  /></p>
+<blockquote>
+<p>结果展示，单处理器中的调度长度是240个时间单位。在第一个处理器（P1）中完成任务所用的时间是80个时间单位，P2是65个时间单位，P3是67个时间单位，P4是66个时间单位。</p>
+</blockquote>
+<p><img loading="lazy" src="6.PNG" alt=""   width=972 height="418"  /></p>
+<p>！！！论文意义不是很大，不清楚为什么那么多引用这篇文章的。</p>
 <h2 id="每日一题">每日一题</h2>
 <p>你有一个带有四个圆形拨轮的转盘锁。每个拨轮都有10个数字： &lsquo;0&rsquo;, &lsquo;1&rsquo;, &lsquo;2&rsquo;, &lsquo;3&rsquo;, &lsquo;4&rsquo;, &lsquo;5&rsquo;, &lsquo;6&rsquo;, &lsquo;7&rsquo;, &lsquo;8&rsquo;, &lsquo;9&rsquo; 。每个拨轮可以自由旋转：例如把 &lsquo;9&rsquo; 变为 &lsquo;0&rsquo;，&lsquo;0&rsquo; 变为 &lsquo;9&rsquo; 。每次旋转都只能旋转一个拨轮的一位数字。</p>
 <p>锁的初始数字为 &lsquo;0000&rsquo; ，一个代表四个拨轮的数字的字符串。</p>
@@ -292,6 +404,11 @@
             </a>
         
         
+        
+        <a rel="next" href="https://hearecho.github.io/post/redis%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="Next post (newer)">
+            <span>Next</span>
+            Redis面试问题
+            </a> 
         
     </nav>
     
