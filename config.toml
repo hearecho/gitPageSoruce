@@ -7,7 +7,6 @@ languagecode = "cn"
 theme="tania"
 googleAnalytics = "G-WGPZHY21MR"
 page_view_conter=true
-
 [params]
   # Emoji will show before the blog title on site navbar.
   titleEmoji  = "😎"
