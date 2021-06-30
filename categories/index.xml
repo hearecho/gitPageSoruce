@@ -6,7 +6,43 @@
     <description>Recent content in Categories on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 26 Jun 2021 15:14:50 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Jun 2021 11:50:15 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DAG</title>
+      <link>https://hearecho.github.io/categories/dag/</link>
+      <pubDate>Wed, 30 Jun 2021 11:50:15 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/categories/dag/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>EDF</title>
+      <link>https://hearecho.github.io/categories/edf/</link>
+      <pubDate>Wed, 30 Jun 2021 11:50:15 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/categories/edf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>算法</title>
+      <link>https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 30 Jun 2021 11:50:15 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>论文阅读</title>
+      <link>https://hearecho.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
+      <pubDate>Wed, 30 Jun 2021 11:50:15 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>redis</title>
       <link>https://hearecho.github.io/categories/redis/</link>
@@ -22,24 +58,6 @@
       <pubDate>Sat, 26 Jun 2021 15:14:50 +0800</pubDate>
       
       <guid>https://hearecho.github.io/categories/%E9%9D%A2%E8%AF%95/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>算法</title>
-      <link>https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/</link>
-      <pubDate>Fri, 25 Jun 2021 13:49:02 +0800</pubDate>
-      
-      <guid>https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>论文阅读</title>
-      <link>https://hearecho.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
-      <pubDate>Fri, 25 Jun 2021 13:49:02 +0800</pubDate>
-      
-      <guid>https://hearecho.github.io/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</guid>
       <description></description>
     </item>
     

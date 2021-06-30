@@ -6,7 +6,18 @@
     <description>Recent content in 论文阅读 on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Jun 2021 13:49:02 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Jun 2021 11:50:15 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>论文阅读 EDF</title>
+      <link>https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-edf/</link>
+      <pubDate>Wed, 30 Jun 2021 11:50:15 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-edf/</guid>
+      <description>论文阅读 《A Stretching Algorithm for Parallel Real-time DAG Tasks on Multiprocessor Systems》
+本篇论文的算法属于静态调度算法，预先知道DAG图，然后根据DAG图转换为MTS。再在MTS的基础上对整个任务进行拉伸。也就是本文提出的全局拉伸算法。
+本文的贡献  提出了一种适用于DAG任务模型的拉伸算法。该算法是DAG调度过程的前一步（静态调度）。将并行的DAG转换为独立的舒徐线程，其他无法进行转换，或者转换之后超出时间的则在其他处理器并行执行。 对于在m个相同处理器平台上执行的由n个DAG任务组成的任务集合，作者证明了扩展任务的全局EDF调度具有相同的资源扩充界限:$\frac{3+\sqrt{5}}{2}$，在$n&amp;lt;\varphi*m^{&#39;}$，其中$m^{&#39;}&amp;lt;=m$，是除了主线程之外的其他线程的数量，而$\varphi$是黄金分割率。  文章中参数的含义    参数名 含义     ${t_{i,j} 1&amp;lt;=j&amp;lt;=n_i}$   $G_i$ 子任务之间的依赖关系   $O_i$ DAG任务的偏移量   $D_i$ DAG任务的相对截至时间   $T_i$ 连续任务之间的间隔时间，一般看作$T_i=D_i$   $C_{i,j}$ 单个子任务任务的最坏执行情况所用的时间   $C_i = \sum_{j=1}^{n_i}C_{i,j}$ 单个DAG任务的最坏执行情况所用的时间   $U_i=\frac{C_i}{T_i}$ 利用率，最坏运行情况在限制时间内多少   $Li$ DAG图中所有路径中执行时间最长的路径所用的时间   $Sl_i = D_i-L_i$ 执行最长路径之后剩余的时间。   $S_i$ 转换为MTS形式之后，段的总数。   $e_{i,j}$ 每个段的最长执行时间，按这个段中所有子任务最短的计算。   $m_{i,j}$ 每个段中任务的数量   $MTS L_i = \sum_{j=1}^{s_i}e_{i,j}$ MTS模式下的关键路径的长度   $MTSC_i = \sum_{j=1}^{s_i}m_{i,j}*e_{i,j}$ MTS模式下的最坏情况执行时间   $ f_i = \frac{Sl_i}{C_i-L_i}=\frac{D_i-L_i}{C_i-L_i}&amp;lt;=\frac{D_i}{C_i}&amp;lt;1 $ 分发参数   $f_{i,j} = f_i*(m_{i,j}-1)$ 要添加到主线程的段$S_{i,j}$中的线程数   $D_{i,j} = (1+f_{i,j})*e_{i,j}$ 每段$S_{i,j}$的中间截止日期$D_{i,j}$   $O_{i,j}=\sum_{k=1}^{j-1}D_{i,k}$ 每个段的偏移量    任务模型 文章提出的任务模型就是DAG集合，其中每个DAG任务使用$({t_{i,j}|1&amp;lt;=j&amp;lt;=n_i},G_i,O_i,D_i)$来进行表示，其中$t_{i,j}$表示任务$T_i$的每个子任务，而$G_i$表示各个子任务之间的依赖关系，$O_i$表示整个任务的偏移量，而$D_i$表示任务的相对截至时间。</description>
+    </item>
+    
     <item>
       <title>论文阅读 DAG</title>
       <link>https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-dag/</link>

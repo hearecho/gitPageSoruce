@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>论文阅读 EDF | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="论文阅读 EDF | Road to Final"/>
+    <meta itemprop="name" content="论文阅读 EDF | Road to Final" />
+    <meta name="twitter:title" content="论文阅读 EDF | Road to Final" />
+    <meta name="application-name" content="论文阅读 EDF | Road to Final" />
+    
+    <meta name="description" content="Work，Walk，Rest!" />
+    <meta name="twitter:description" content="Work，Walk，Rest!"/>
+    <meta itemprop="description" content="Work，Walk，Rest!"/>
+    <meta property="og:description" content="Work，Walk，Rest!" />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-06-30T11:50:15&#43;0800 />
+<meta property="article:published_time" content=2021-06-30T11:50:15&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "论文阅读 EDF",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-06-30",
+    "description": "",
+    "wordCount":  94 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-06-30",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WGPZHY21MR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WGPZHY21MR');
+</script>
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>论文阅读 EDF</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>June 30, 2021</time>
+                            | 1 minutes |94 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+                            
+                            <a href="https://hearecho.github.io/tags/edf/">EDF</a>
+                            
+                            <a href="https://hearecho.github.io/tags/dag/">DAG</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h2 id="论文阅读">论文阅读</h2>
+<p>《<a href="https://www.researchgate.net/profile/Laurent_George/publication/280852823_A_Stretching_Algorithm_for_Parallel_Real-time_DAG_Tasks_on_Multiprocessor_Systems/links/55fc290608aeafc8ac431da6.pdf">A Stretching Algorithm for Parallel Real-time DAG Tasks on Multiprocessor Systems</a>》</p>
+<p>本篇论文的算法属于<strong>静态调度算法</strong>，预先知道DAG图，然后根据DAG图转换为MTS。再在MTS的基础上对整个任务进行拉伸。也就是本文提出的全局拉伸算法。</p>
+<h3 id="本文的贡献">本文的贡献</h3>
+<ul>
+<li>提出了一种适用于DAG任务模型的拉伸算法。该算法是DAG调度过程的前一步（静态调度）。将并行的DAG转换为独立的舒徐线程，其他无法进行转换，或者转换之后超出时间的则在其他处理器并行执行。</li>
+<li>对于在m个相同处理器平台上执行的由n个DAG任务组成的任务集合，作者证明了扩展任务的全局EDF调度具有相同的资源扩充界限:$\frac{3+\sqrt{5}}{2}$，在$n&lt;\varphi*m^{'}$，其中$m^{'}&lt;=m$，是除了主线程之外的其他线程的数量，而$\varphi$是黄金分割率。</li>
+</ul>
+<h3 id="文章中参数的含义">文章中参数的含义</h3>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>${t_{i,j}</td>
+<td>1&lt;=j&lt;=n_i}$</td>
+</tr>
+<tr>
+<td>$G_i$</td>
+<td>子任务之间的依赖关系</td>
+</tr>
+<tr>
+<td>$O_i$</td>
+<td>DAG任务的偏移量</td>
+</tr>
+<tr>
+<td>$D_i$</td>
+<td>DAG任务的相对截至时间</td>
+</tr>
+<tr>
+<td>$T_i$</td>
+<td>连续任务之间的间隔时间，一般看作$T_i=D_i$</td>
+</tr>
+<tr>
+<td>$C_{i,j}$</td>
+<td>单个子任务任务的最坏执行情况所用的时间</td>
+</tr>
+<tr>
+<td>$C_i = \sum_{j=1}^{n_i}C_{i,j}$</td>
+<td>单个DAG任务的最坏执行情况所用的时间</td>
+</tr>
+<tr>
+<td>$U_i=\frac{C_i}{T_i}$</td>
+<td>利用率，最坏运行情况在限制时间内多少</td>
+</tr>
+<tr>
+<td>$Li$</td>
+<td>DAG图中所有路径中执行时间最长的路径所用的时间</td>
+</tr>
+<tr>
+<td>$Sl_i = D_i-L_i$</td>
+<td>执行最长路径之后剩余的时间。</td>
+</tr>
+<tr>
+<td>$S_i$</td>
+<td>转换为MTS形式之后，段的总数。</td>
+</tr>
+<tr>
+<td>$e_{i,j}$</td>
+<td>每个段的最长执行时间，按这个段中所有子任务最短的计算。</td>
+</tr>
+<tr>
+<td>$m_{i,j}$</td>
+<td>每个段中任务的数量</td>
+</tr>
+<tr>
+<td>$MTS L_i = \sum_{j=1}^{s_i}e_{i,j}$</td>
+<td>MTS模式下的关键路径的长度</td>
+</tr>
+<tr>
+<td>$MTSC_i = \sum_{j=1}^{s_i}m_{i,j}*e_{i,j}$</td>
+<td>MTS模式下的最坏情况执行时间</td>
+</tr>
+<tr>
+<td>$ f_i = \frac{Sl_i}{C_i-L_i}=\frac{D_i-L_i}{C_i-L_i}&lt;=\frac{D_i}{C_i}&lt;1 $</td>
+<td>分发参数</td>
+</tr>
+<tr>
+<td>$f_{i,j} = f_i*(m_{i,j}-1)$</td>
+<td>要添加到主线程的段$S_{i,j}$中的线程数</td>
+</tr>
+<tr>
+<td>$D_{i,j} = (1+f_{i,j})*e_{i,j}$</td>
+<td>每段$S_{i,j}$的中间截止日期$D_{i,j}$</td>
+</tr>
+<tr>
+<td>$O_{i,j}=\sum_{k=1}^{j-1}D_{i,k}$</td>
+<td>每个段的偏移量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="任务模型">任务模型</h3>
+<p>文章提出的任务模型就是DAG集合，其中每个DAG任务使用$({t_{i,j}|1&lt;=j&lt;=n_i},G_i,O_i,D_i)$来进行表示，其中$t_{i,j}$表示任务$T_i$的每个子任务，而$G_i$表示各个子任务之间的依赖关系，$O_i$表示整个任务的偏移量，而$D_i$表示任务的相对截至时间。</p>
+<p>任务集如果想在m个处理器使用任何调度算法进行调度，则需要满足下面两个条件。
+$$
+\forall{t_i}\in{T},L_i&lt;D_i \<br>
+U(T) = \sum_{i=1}^{n}U_i = \sum_{i=1}^{n}\frac{C_i}{T_i}&lt;=m
+$$</p>
+<h3 id="dag拉伸算法">DAG拉伸算法</h3>
+<p>我们结合文中给出的示例来说明文章中提出的算法。</p>
+<p><img loading="lazy" src="7.PNG" alt=""   width=344 height="320"  /></p>
+<p>图中我们可以获得的信息就是路径总共有六条可执行路径，分别是{1，4，6}，{1，4，7}，{2，4，6}，{2，4，7}，{3，6}，{5，7}。则L = 6，也就是主路径的情况。</p>
+<p><img loading="lazy" src="8.PNG" alt=""   width=517 height="237"  /></p>
+<p>这是转换为MTS之后的形式。我们根据依赖关系和主路径，将子任务转换为MTS形式。其中如果DAG图的利用率小于1，证明整个任务可以在一个处理器中顺序执行，所以只有当利用率大于1的时候才会将DAG图转换为MTS形式。从图中我们可以看出总共有5段，每段的任务数量不相同。如第一段，由于任务3，5的最坏执行时间都是2，所以第一段的$e_{i,j}$也为2。后续同理。</p>
+<p><img loading="lazy" src="9.PNG" alt=""   width=525 height="240"  /></p>
+<p>转换为MTS之后，最重要的就是计算每个段有几个线程可以加入到主线程中，也就是$f_{i,j}$的计算。</p>
+<p><img loading="lazy" src="10.PNG" alt=""   width=523 height="251"  /></p>
+<p>转换结果如上图。整个算法流程如此，所以整个来说，这个就是一个静态的调度算法。</p>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/redis%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="Previous post (older)">
+            <span>Previous</span>
+            Redis面试问题
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>

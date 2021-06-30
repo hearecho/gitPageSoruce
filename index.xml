@@ -5,7 +5,130 @@
     <description>Recent content on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 26 Jun 2021 15:14:50 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 Jun 2021 11:50:15 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+    <title>论文阅读 EDF</title>
+    <link>https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-edf/</link>
+    <pubDate>Wed, 30 Jun 2021 11:50:15 +0800</pubDate>
+    
+    <guid>https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-edf/</guid>
+    <description>
+        &lt;h2 id=&#34;论文阅读&#34;&gt;论文阅读&lt;/h2&gt;
+&lt;p&gt;《&lt;a href=&#34;https://www.researchgate.net/profile/Laurent_George/publication/280852823_A_Stretching_Algorithm_for_Parallel_Real-time_DAG_Tasks_on_Multiprocessor_Systems/links/55fc290608aeafc8ac431da6.pdf&#34;&gt;A Stretching Algorithm for Parallel Real-time DAG Tasks on Multiprocessor Systems&lt;/a&gt;》&lt;/p&gt;
+&lt;p&gt;本篇论文的算法属于&lt;strong&gt;静态调度算法&lt;/strong&gt;，预先知道DAG图，然后根据DAG图转换为MTS。再在MTS的基础上对整个任务进行拉伸。也就是本文提出的全局拉伸算法。&lt;/p&gt;
+&lt;h3 id=&#34;本文的贡献&#34;&gt;本文的贡献&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;提出了一种适用于DAG任务模型的拉伸算法。该算法是DAG调度过程的前一步（静态调度）。将并行的DAG转换为独立的舒徐线程，其他无法进行转换，或者转换之后超出时间的则在其他处理器并行执行。&lt;/li&gt;
+&lt;li&gt;对于在m个相同处理器平台上执行的由n个DAG任务组成的任务集合，作者证明了扩展任务的全局EDF调度具有相同的资源扩充界限:$\frac{3+\sqrt{5}}{2}$，在$n&amp;lt;\varphi*m^{&#39;}$，其中$m^{&#39;}&amp;lt;=m$，是除了主线程之外的其他线程的数量，而$\varphi$是黄金分割率。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;文章中参数的含义&#34;&gt;文章中参数的含义&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;参数名&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;${t_{i,j}&lt;/td&gt;
+&lt;td&gt;1&amp;lt;=j&amp;lt;=n_i}$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$G_i$&lt;/td&gt;
+&lt;td&gt;子任务之间的依赖关系&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$O_i$&lt;/td&gt;
+&lt;td&gt;DAG任务的偏移量&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$D_i$&lt;/td&gt;
+&lt;td&gt;DAG任务的相对截至时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$T_i$&lt;/td&gt;
+&lt;td&gt;连续任务之间的间隔时间，一般看作$T_i=D_i$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$C_{i,j}$&lt;/td&gt;
+&lt;td&gt;单个子任务任务的最坏执行情况所用的时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$C_i = \sum_{j=1}^{n_i}C_{i,j}$&lt;/td&gt;
+&lt;td&gt;单个DAG任务的最坏执行情况所用的时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$U_i=\frac{C_i}{T_i}$&lt;/td&gt;
+&lt;td&gt;利用率，最坏运行情况在限制时间内多少&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$Li$&lt;/td&gt;
+&lt;td&gt;DAG图中所有路径中执行时间最长的路径所用的时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$Sl_i = D_i-L_i$&lt;/td&gt;
+&lt;td&gt;执行最长路径之后剩余的时间。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$S_i$&lt;/td&gt;
+&lt;td&gt;转换为MTS形式之后，段的总数。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$e_{i,j}$&lt;/td&gt;
+&lt;td&gt;每个段的最长执行时间，按这个段中所有子任务最短的计算。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$m_{i,j}$&lt;/td&gt;
+&lt;td&gt;每个段中任务的数量&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$MTS L_i = \sum_{j=1}^{s_i}e_{i,j}$&lt;/td&gt;
+&lt;td&gt;MTS模式下的关键路径的长度&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$MTSC_i = \sum_{j=1}^{s_i}m_{i,j}*e_{i,j}$&lt;/td&gt;
+&lt;td&gt;MTS模式下的最坏情况执行时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$ f_i = \frac{Sl_i}{C_i-L_i}=\frac{D_i-L_i}{C_i-L_i}&amp;lt;=\frac{D_i}{C_i}&amp;lt;1 $&lt;/td&gt;
+&lt;td&gt;分发参数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$f_{i,j} = f_i*(m_{i,j}-1)$&lt;/td&gt;
+&lt;td&gt;要添加到主线程的段$S_{i,j}$中的线程数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$D_{i,j} = (1+f_{i,j})*e_{i,j}$&lt;/td&gt;
+&lt;td&gt;每段$S_{i,j}$的中间截止日期$D_{i,j}$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$O_{i,j}=\sum_{k=1}^{j-1}D_{i,k}$&lt;/td&gt;
+&lt;td&gt;每个段的偏移量&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;任务模型&#34;&gt;任务模型&lt;/h3&gt;
+&lt;p&gt;文章提出的任务模型就是DAG集合，其中每个DAG任务使用$({t_{i,j}|1&amp;lt;=j&amp;lt;=n_i},G_i,O_i,D_i)$来进行表示，其中$t_{i,j}$表示任务$T_i$的每个子任务，而$G_i$表示各个子任务之间的依赖关系，$O_i$表示整个任务的偏移量，而$D_i$表示任务的相对截至时间。&lt;/p&gt;
+&lt;p&gt;任务集如果想在m个处理器使用任何调度算法进行调度，则需要满足下面两个条件。
+$$
+\forall{t_i}\in{T},L_i&amp;lt;D_i \&lt;br&gt;
+U(T) = \sum_{i=1}^{n}U_i = \sum_{i=1}^{n}\frac{C_i}{T_i}&amp;lt;=m
+$$&lt;/p&gt;
+&lt;h3 id=&#34;dag拉伸算法&#34;&gt;DAG拉伸算法&lt;/h3&gt;
+&lt;p&gt;我们结合文中给出的示例来说明文章中提出的算法。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;7.PNG&#34; alt=&#34;&#34;   width=344 height=&#34;320&#34;  /&gt;&lt;/p&gt;
+&lt;p&gt;图中我们可以获得的信息就是路径总共有六条可执行路径，分别是{1，4，6}，{1，4，7}，{2，4，6}，{2，4，7}，{3，6}，{5，7}。则L = 6，也就是主路径的情况。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;8.PNG&#34; alt=&#34;&#34;   width=517 height=&#34;237&#34;  /&gt;&lt;/p&gt;
+&lt;p&gt;这是转换为MTS之后的形式。我们根据依赖关系和主路径，将子任务转换为MTS形式。其中如果DAG图的利用率小于1，证明整个任务可以在一个处理器中顺序执行，所以只有当利用率大于1的时候才会将DAG图转换为MTS形式。从图中我们可以看出总共有5段，每段的任务数量不相同。如第一段，由于任务3，5的最坏执行时间都是2，所以第一段的$e_{i,j}$也为2。后续同理。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;9.PNG&#34; alt=&#34;&#34;   width=525 height=&#34;240&#34;  /&gt;&lt;/p&gt;
+&lt;p&gt;转换为MTS之后，最重要的就是计算每个段有几个线程可以加入到主线程中，也就是$f_{i,j}$的计算。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;10.PNG&#34; alt=&#34;&#34;   width=523 height=&#34;251&#34;  /&gt;&lt;/p&gt;
+&lt;p&gt;转换结果如上图。整个算法流程如此，所以整个来说，这个就是一个静态的调度算法。&lt;/p&gt;
+
+    </description>
+    </item>
+    
     <item>
     <title>Redis面试问题</title>
     <link>https://hearecho.github.io/post/redis%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/</link>
