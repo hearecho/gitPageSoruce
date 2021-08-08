@@ -12,7 +12,7 @@
     <meta itemprop="name" content="{{with.Title}}{{.}} | {{end}}{{.Site.Title}}" />
     <meta name="twitter:title" content="{{with.Title}}{{.}} | {{end}}{{.Site.Title}}" />
     <meta name="application-name" content="{{with.Title}}{{.}} | {{end}}{{.Site.Title}}" />
-    <!-- <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" /> -->
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
     <meta name="description" content="{{ if .Description }}{{.Description}}{{ else }}{{.Site.Params.siteDesc}}{{end}}" />
     <meta name="twitter:description" content="{{ if .Description }}{{.Description}} {{ else }}{{.Site.Params.siteDesc}}{{end}}"/>
     <meta itemprop="description" content="{{ if .Description }} {{.Description}} {{ else }}{{.Site.Params.siteDesc}}{{end}}"/>
@@ -23,5 +23,5 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}" />
     {{ $style := resources.Get "sass/main.scss" | toCSS | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-	{{ template "_internal/google_analytics_async.html" . }}
+	<!-- {{ template "_internal/google_analytics_async.html" . }}/> -->
 </head>
