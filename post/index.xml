@@ -6,7 +6,26 @@
     <description>Recent content in Posts on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 08 Aug 2021 11:25:01 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Aug 2021 09:58:40 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Surver Dynamic Dag Schedule</title>
+      <link>https://hearecho.github.io/post/surver-dynamic-dag-schedule/</link>
+      <pubDate>Sun, 22 Aug 2021 09:58:40 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/surver-dynamic-dag-schedule/</guid>
+      <description>动态DAG调度综述  在异构系统中调度的核心问题是：由于异构系统中处理器的性能不尽相同，所以为了获得更高的性能。系统调度需要将应用程序的任务分配给合适的处理器，并对每个资源上的任务执行进行排序。给定一个有向无环图（DAG）建模的应用程序，调度问题处理的是在异构环境中映射每个任务以最小化执行时间（makspan）。
+ 动态调度基础  动态调度，任务在到达时分配给处理器，调度决策必须在运行时做出。调度决策基于在运行时可能更改的动态参数。在动态调度中，任务可以在运行时重新分配给其他处理器。动态调度相比静态调度灵活且速度更快。由于我们异构系统处理同一个任务的时间是不相同的，所以我们每次调度的时候应该考虑将任务放在最合适的处理器中。
+ 相关的DAG调度算法 Monte Carlo 算法  Stochastic DAG scheduling using a Monte Carlo approach
+该算法使用静态调度方法。主要目的是最大限度地缩短完工时间。该算法避免了适用于任意随机分布的随机变量的复杂计算。阈值用于优化调度。概率分布用于最小化完工时间。
+ CBHD 算法  基于集群的复制权重，用于异构系统上任务的高效调度和映射，将程序分解为子任务，同时与其他任务一起工作[12]。该算法将三重聚类算法与HEFT算法相结合，将任务分为相互关联的组，并对每个簇中的任务进行排序，以提高负载均衡调度算法的性能。其主要目标是最小化执行时间，最大化处理器利用率和处理器之间的负载平衡。
+ P-HEFT算法  P-HEFT（并行异构最早完成时间）的算法。该算法在不影响最大完工时间的前提下，以很高的效率处理异构集群中的并行任务。该算法的主要目标是最小化具有不同到达时间的作业的最大完工时间和批处理时间，从而在作业执行期间更改分配给作业的处理器(看描述也不是动态算法)
+ High Performance and Energy Efficient Task Scheduling Algorithm  该算法关注调度长度和能量/功耗的最小化。该算法分为编译阶段和运行阶段。编译时间阶段有三个阶段，例如级别排序、任务优先级和处理器选择。在运行期间，为了节省能量，该算法将任务从繁忙节点重新调度到理想节点。该算法的性能明显优于传统算法。
+该算法为动态调度算法。
+ Constrained Earliest Finish Time (CEFT) Algorithm  受约束的最早完成时间。这种新方法是使用受约束关键路径（CCPs）的概念为异构系统提供更好的调度。一旦发现DAG中的CCPs，任务将使用整个CCPs的完成时间进行调度。这种方法有助于以较短的完工时间生成时间表，并且工作复杂度很低。
+ Sorted Nodes in Leveled DAG Division (SNLDD) Algorithm  该算法称为高性能任务调度算法。这种类型的算法将DAG划分为不同的级别，每个级别根据计算时间按降序排序，从而减少任务之间的依赖性。静态任务调度适用于处理器数量有限的异构系统。这种类型可能会产生高质量的任务调度。DAG中所有任务的计算时间只计算一次，因此消除了运行时开销。处理器的平滑时间也被最小化，因为DAG被调平并分配给处理器。
+ Multi – Queue Balancing Algorithm  在功能单元中引入了调度概念。该算法具有各种类型的功能单元，不使用有限数量的硬件和软件。这种类型的算法称为离线非确定性算法。该算法的主要目标是最小化作业完成时间，根据资源的可用性将任务分配给机器，并最大限度地利用异构系统。每个任务都在其匹配的处理器上执行。也是静态调度算法。</description>
+    </item>
+    
     <item>
       <title>Runtime_Parallel_Incremental_Scheduling_of_DAGs论文阅读</title>
       <link>https://hearecho.github.io/post/runtime_parallel_incremental_scheduling_of_dags%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/</link>
