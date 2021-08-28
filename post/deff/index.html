@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>DEFF算法论文阅读 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="DEFF算法论文阅读 | Road to Final"/>
+    <meta itemprop="name" content="DEFF算法论文阅读 | Road to Final" />
+    <meta name="twitter:title" content="DEFF算法论文阅读 | Road to Final" />
+    <meta name="application-name" content="DEFF算法论文阅读 | Road to Final" />
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
+    <meta name="description" content="Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system论文阅读" />
+    <meta name="twitter:description" content="Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system论文阅读 "/>
+    <meta itemprop="description" content=" Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system论文阅读 "/>
+    <meta property="og:description" content=" Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system论文阅读 " />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-08-22T15:19:32&#43;0800 />
+<meta property="article:published_time" content=2021-08-22T15:19:32&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "DEFF算法论文阅读",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-08-22",
+    "description": "Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system论文阅读",
+    "wordCount":  512 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-08-22",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>DEFF算法论文阅读</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>August 22, 2021</time>
+                            | 3 minutes |512 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+                            
+                            <a href="https://hearecho.github.io/tags/dag/">DAG</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E5%BA%A6/">动态调度</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h1 id="论文介绍">论文介绍</h1>
+<p>《Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system》</p>
+<blockquote>
+<p>异构系统中并行实时作业的动态任务调度仍然是一些研究人员正在研究的具有挑战性的问题。但是基于DAG的实时任务调度还没有得到足够的重视。提出了一种基于DAG的实时任务调度模型和一种时间复杂度较低的实时调度算法DEFF。仿真实验表明，该调度模型和调度算法是可行的，在中小型并行作业的情况下，该算法可以获得较高的调度成功率</p>
+</blockquote>
+<h3 id="模型符号">模型符号</h3>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$V$</td>
+<td>实时任务集合</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>任务之间通信</td>
+</tr>
+<tr>
+<td>$dl(v_i)$</td>
+<td>任务$v_i$的截至时间</td>
+</tr>
+<tr>
+<td>$cv_i$</td>
+<td>任务$v_i$的计算量</td>
+</tr>
+<tr>
+<td>$e_{i,j}=(v_i,v_j)$</td>
+<td>表示任务$v_i,v_j$之间的通信量</td>
+</tr>
+<tr>
+<td>$P$</td>
+<td>处理器集合</td>
+</tr>
+<tr>
+<td>$p_i$</td>
+<td>拥有本地存储的处理器</td>
+</tr>
+<tr>
+<td>$C:V*P \rightarrow R$</td>
+<td>表示不同的计算能力</td>
+</tr>
+<tr>
+<td>$w_k$</td>
+<td>表示处理器$p_k$在单位时间内的计算量</td>
+</tr>
+<tr>
+<td>$cv_i/w_k$</td>
+<td>表示任务$v_i$在处理器$p_k$上的计算时间</td>
+</tr>
+<tr>
+<td>$M:E * P * P \rightarrow R$</td>
+<td>表示异构通信能力。</td>
+</tr>
+<tr>
+<td>$w_{km}$</td>
+<td>表示处理器$p_k,p_m$之间单位长度信息的传输时间</td>
+</tr>
+<tr>
+<td>$w_{km}*e_{i,j}$</td>
+<td>表示$e_{i,j}$的传输时间</td>
+</tr>
+<tr>
+<td>queue-Global  Job  Queue （GJQ）</td>
+<td>全局作业队列，所有到达系统的任务首先都要进入这个队列中，然后再进入中心调度器。进入这个队列的是DAG任务</td>
+</tr>
+<tr>
+<td>queue-Task Dispatch  Queue  (TDQ)</td>
+<td>和中心调度器进行交互的，分解之后的dag子任务</td>
+</tr>
+<tr>
+<td>Local Scheduling Queue (LSQ)</td>
+<td>每个处理器拥有的本地任务队列</td>
+</tr>
+<tr>
+<td>$at(p_k)$</td>
+<td>处理器$p_k$的最早空闲时间</td>
+</tr>
+<tr>
+<td>$st_k(v_i)$</td>
+<td>实时任务$v_i$的最早开始时间</td>
+</tr>
+<tr>
+<td>$ft_k(v_i)$</td>
+<td>映射到处理器$p_k$实时任务$v_i$的最早完成时间</td>
+</tr>
+</tbody>
+</table>
+<h4 id="调度算法">调度算法</h4>
+<h5 id="定义1">定义1</h5>
+<blockquote>
+<p>如果映射到处理器$p_k$实时任务$v_i$的最早完成时间$ft_k(v_i)$小于等于任务$v_i$的截至时间$dl(v_i)$，则实时任务$v_i$可以被调度到处理器$p_k$中。</p>
+</blockquote>
+<h5 id="定义2">定义2</h5>
+<blockquote>
+<p>映射到处理器$p_k$实时任务$v_i$的最早完成时间$ft_k(v_i)$被定义为:$$ft_k(v_i) = cv_i/w_k + max(st_k(v_i),at(p_k))$$</p>
+</blockquote>
+<h5 id="定义3">定义3</h5>
+<blockquote>
+<p>实时任务$v_i$的最早开始时间$st_k(v_i)$被定义为:$st_k(v_i)=max_{v_j\in pred(v_i)}( ft_m(v_j+w_{mk}*e_{i,j}))$;其中$pred(v_i)$表示任务$v_i$的前一个集合。</p>
+</blockquote>
+<h3 id="算法实现">算法实现</h3>
+<h4 id="deff调度算法">deff调度算法</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">论文算法实现
+</span><span class="s2">deff
+</span><span class="s2">AST 本次deff调度算法启动的时间
+</span><span class="s2">AFT 上次deff调度算法结束的时间
+</span><span class="s2">DIFT 中间的插值  DIFT = AST-DIFT
+</span><span class="s2">&#34;&#34;&#34;</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">def</span> <span class="nf">deff</span><span class="p">(</span><span class="n">AFT</span><span class="p">,</span> <span class="n">processors</span><span class="p">,</span> <span class="n">tasks_dtq</span><span class="p">,</span> <span class="n">tasks_scheduled</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">cp_w</span><span class="p">,</span> <span class="n">deL_dag_tasks</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    :param deL_dag_tasks: 无法进行调度的dag任务
+</span><span class="s2">    :param cp_w: 处理器的计算能力一个数组
+</span><span class="s2">    :param e: 表示任务之间的通信量，一个字典  e[task_i][task_j]表示两个任务之间的通信量
+</span><span class="s2">    :param w: 表示处理器之间单位长度信息的传输时间  二维矩阵
+</span><span class="s2">    :param tasks_scheduled: 已经被调度过的任务
+</span><span class="s2">    :param tasks_dtq: dtq中的准备被调度的任务队列
+</span><span class="s2">    :param AFT: 上次deff调度算法结束的时间
+</span><span class="s2">    :param processors: 处理器数组，每个处理器元素都是一个字段储存处理器相关的信息
+</span><span class="s2">    :return:
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">DIFT</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">AFT</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">processors</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">DIFT</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">p</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">DIFT</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tasks_scheduled</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">-</span> <span class="n">DIFT</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">v</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">v</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">-</span> <span class="n">DIFT</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">tasks_dtq</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">tasks_dtq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># 如果该子任务的其他任务已经存在不可调度的子任务 则直接舍弃</span>
+        <span class="k">if</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;father&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">deL_dag_tasks</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">sps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">processors</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">max_st</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span> <span class="n">pred_task</span> <span class="ow">in</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]:</span>
+                    <span class="n">temp</span> <span class="o">=</span> <span class="n">pred_task</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">pred_task</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">pred_task</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">e</span><span class="p">[</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]][</span>
+                        <span class="n">pred_task</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]]</span>
+                    <span class="k">if</span> <span class="n">temp</span> <span class="o">&gt;</span> <span class="n">max_st</span><span class="p">:</span>
+                        <span class="n">max_st</span> <span class="o">=</span> <span class="n">temp</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;st&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_st</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;st&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">task</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">cp_w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;st&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">processors</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;at&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;dl&#39;</span><span class="p">]:</span>
+                <span class="n">sps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">processors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">min_p</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">min_p_ft</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sps</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span> <span class="o">&lt;</span> <span class="n">min_p_ft</span><span class="p">:</span>
+                    <span class="n">min_p</span> <span class="o">=</span> <span class="n">p</span>
+                    <span class="n">min_p_ft</span> <span class="o">=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span>
+            <span class="n">task</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_p</span>
+            <span class="n">min_p</span><span class="p">[</span><span class="s1">&#39;at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_p_ft</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># 无法进行调度（也就是调度最后实时性不满足，直接舍弃）</span>
+            <span class="c1"># 需要删除的是这个子任务所属dag任务的所有任务，但是不包括已经调度。</span>
+            <span class="n">deL_dag_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;father&#39;</span><span class="p">])</span>
+            <span class="c1"># 我的做法是不在这里删除，只是将这个任务所属的dag任务加入到一个内存中进行存储</span>
+            <span class="c1"># 之后再进行再从gjq向tdq调度的时候进行判断 然后执行算法的时候进行判断不对他们进行调度即可</span>
+        <span class="n">tasks_dtq</span> <span class="o">=</span> <span class="n">tasks_dtq</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="c1"># 返回算法结束时间</span>
+    <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">pass</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="触发器算法">触发器算法</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="s2">&#34;&#34;&#34;
+</span><span class="s2">论文调度器的触发算法实现
+</span><span class="s2">触发器的触发条件，一个新的dag任务图到达，或者是一个一个子任务完成则会调用触发器算法
+</span><span class="s2">调用触发器的时刻，当GJQ新到达一个dag任务或者是一个子任务完成了
+</span><span class="s2">GJQ 全局作业队列
+</span><span class="s2">TDQ 任务分发队列
+</span><span class="s2">&#34;&#34;&#34;</span>
+<span class="k">def</span> <span class="nf">trigger</span><span class="p">(</span><span class="n">completed_tasks</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">trigger_type</span><span class="p">,</span> <span class="n">remain_tasks</span><span class="p">,</span> <span class="n">TDQ</span><span class="p">,</span> <span class="n">completed_job</span><span class="p">,</span> <span class="n">GJQ</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    :param GJQ: job队列
+</span><span class="s2">    :param completed_job: 完成的并行任务
+</span><span class="s2">    :param TDQ:
+</span><span class="s2">    :param remain_tasks: 剩余任务
+</span><span class="s2">    :param trigger_type: 0 新job到达  1 任务完成
+</span><span class="s2">    :param completed_tasks: 已经完成的子任务，字典格式，key为dag任务的图
+</span><span class="s2">    :param task: 完成的任务或者是新到的dag任务的开头任务，
+</span><span class="s2">    :return:
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">if</span> <span class="n">trigger_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># 将所有的入口任务都加进去 也就是没有前继的任务</span>
+        <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">remain_tasks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">TDQ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="c1"># 从剩余任务中删除这个任务</span>
+                <span class="n">remain_tasks</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remain_tasks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># 任务完成</span>
+            <span class="n">completed_job</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;father&#39;</span><span class="p">]:</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;ft&#39;</span><span class="p">][</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;mapped_p&#39;</span><span class="p">][</span><span class="s1">&#39;index&#39;</span><span class="p">]]})</span>
+            <span class="k">return</span>
+        <span class="n">completed_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">remain_tasks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">TDQ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="c1"># 从剩余任务中删除这个任务</span>
+                <span class="n">remain_tasks</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">for</span> <span class="n">pred_t</span> <span class="ow">in</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;pred&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">pred_t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">completed_tasks</span><span class="p">:</span>
+                        <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+                    <span class="n">TDQ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                    <span class="c1"># 从剩余任务中删除这个任务</span>
+                    <span class="n">remain_tasks</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/surver-dynamic-dag-schedule/" title="Previous post (older)">
+            <span>Previous</span>
+            Surver Dynamic Dag Schedule
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>

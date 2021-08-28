@@ -6,7 +6,18 @@
     <description>Recent content in 算法 on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 22 Aug 2021 09:58:40 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Aug 2021 15:19:32 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DEFF算法论文阅读</title>
+      <link>https://hearecho.github.io/post/deff/</link>
+      <pubDate>Sun, 22 Aug 2021 15:19:32 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/deff/</guid>
+      <description>论文介绍 《Dynamic_scheduling_algorithm_for_parpllel_real_time_jobs_in_heterogeneous_system》
+ 异构系统中并行实时作业的动态任务调度仍然是一些研究人员正在研究的具有挑战性的问题。但是基于DAG的实时任务调度还没有得到足够的重视。提出了一种基于DAG的实时任务调度模型和一种时间复杂度较低的实时调度算法DEFF。仿真实验表明，该调度模型和调度算法是可行的，在中小型并行作业的情况下，该算法可以获得较高的调度成功率
+ 模型符号    符号 意义     $V$ 实时任务集合   $E$ 任务之间通信   $dl(v_i)$ 任务$v_i$的截至时间   $cv_i$ 任务$v_i$的计算量   $e_{i,j}=(v_i,v_j)$ 表示任务$v_i,v_j$之间的通信量   $P$ 处理器集合   $p_i$ 拥有本地存储的处理器   $C:V*P \rightarrow R$ 表示不同的计算能力   $w_k$ 表示处理器$p_k$在单位时间内的计算量   $cv_i/w_k$ 表示任务$v_i$在处理器$p_k$上的计算时间   $M:E * P * P \rightarrow R$ 表示异构通信能力。   $w_{km}$ 表示处理器$p_k,p_m$之间单位长度信息的传输时间   $w_{km}*e_{i,j}$ 表示$e_{i,j}$的传输时间   queue-Global Job Queue （GJQ） 全局作业队列，所有到达系统的任务首先都要进入这个队列中，然后再进入中心调度器。进入这个队列的是DAG任务   queue-Task Dispatch Queue (TDQ) 和中心调度器进行交互的，分解之后的dag子任务   Local Scheduling Queue (LSQ) 每个处理器拥有的本地任务队列   $at(p_k)$ 处理器$p_k$的最早空闲时间   $st_k(v_i)$ 实时任务$v_i$的最早开始时间   $ft_k(v_i)$ 映射到处理器$p_k$实时任务$v_i$的最早完成时间    调度算法 定义1  如果映射到处理器$p_k$实时任务$v_i$的最早完成时间$ft_k(v_i)$小于等于任务$v_i$的截至时间$dl(v_i)$，则实时任务$v_i$可以被调度到处理器$p_k$中。</description>
+    </item>
+    
     <item>
       <title>Surver Dynamic Dag Schedule</title>
       <link>https://hearecho.github.io/post/surver-dynamic-dag-schedule/</link>
