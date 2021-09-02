@@ -8,10 +8,10 @@
     <lastBuildDate>Tue, 31 Aug 2021 15:33:49 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
     <title>HEFT算法 静态调度</title>
-    <link>https://hearecho.github.io/post/daeap%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%B0%83%E5%BA%A6/</link>
+    <link>https://hearecho.github.io/post/heft%E7%AE%97%E6%B3%95-%E9%9D%99%E6%80%81%E8%B0%83%E5%BA%A6/</link>
     <pubDate>Tue, 31 Aug 2021 15:33:49 +0800</pubDate>
     
-    <guid>https://hearecho.github.io/post/daeap%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%B0%83%E5%BA%A6/</guid>
+    <guid>https://hearecho.github.io/post/heft%E7%AE%97%E6%B3%95-%E9%9D%99%E6%80%81%E8%B0%83%E5%BA%A6/</guid>
     <description>
         &lt;h1 id=&#34;论文&#34;&gt;论文&lt;/h1&gt;
 &lt;p&gt;《&lt;a href=&#34;http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=993206&#34;&gt;Performance-effective and low-complexity task scheduling for heterogeneous computing&lt;/a&gt; 》&lt;/p&gt;
@@ -82,6 +82,15 @@
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;算法&#34;&gt;算法&lt;/h3&gt;
+&lt;h4 id=&#34;两个重要指标&#34;&gt;两个重要指标&lt;/h4&gt;
+&lt;h5 id=&#34;rank_u&#34;&gt;$rank_{u}$&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$rank_{u}$是从任务ni到出口节点关键路径的长度，是包括任务ni的计算耗时的。对于出口节点$rank_{u}$的值等于它的平均执行时间。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;rank_d&#34;&gt;$rank_{d}$&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$rank_{d}$是从入口节点到任务ni的关键路径长度，不包括任务ni的执行时间，对于入口节点其$rank_{d}$的值等于0。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h4 id=&#34;heft算法&#34;&gt;heft算法&lt;/h4&gt;
 &lt;blockquote&gt;
 &lt;p&gt;heft算法主要有两个阶段，第一个阶段计算所有任务的权重优先级，第二个阶段按照优先级顺序调度任务到最适合他们的处理器，以达到最小化任务的完成时间。&lt;/p&gt;
