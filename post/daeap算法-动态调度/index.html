@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>HEFT算法 静态调度 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="HEFT算法 静态调度 | Road to Final"/>
+    <meta itemprop="name" content="HEFT算法 静态调度 | Road to Final" />
+    <meta name="twitter:title" content="HEFT算法 静态调度 | Road to Final" />
+    <meta name="application-name" content="HEFT算法 静态调度 | Road to Final" />
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
+    <meta name="description" content="经典heft调度算法阅读" />
+    <meta name="twitter:description" content="经典heft调度算法阅读 "/>
+    <meta itemprop="description" content=" 经典heft调度算法阅读 "/>
+    <meta property="og:description" content=" 经典heft调度算法阅读 " />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-08-31T15:33:49&#43;0800 />
+<meta property="article:published_time" content=2021-08-31T15:33:49&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "HEFT算法 静态调度",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-08-31",
+    "description": "经典heft调度算法阅读",
+    "wordCount":  386 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-08-31",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>HEFT算法 静态调度</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>August 31, 2021</time>
+                            | 2 minutes |386 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+                            
+                            <a href="https://hearecho.github.io/tags/dag/">DAG</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E9%9D%99%E6%80%81%E8%B0%83%E5%BA%A6/">静态调度</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h1 id="论文">论文</h1>
+<p>《<a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=993206">Performance-effective and low-complexity task scheduling for heterogeneous computing</a> 》</p>
+<blockquote>
+<p>本文是异构平台的两种静态调度方法，分别是heft和cpop算法。</p>
+</blockquote>
+<h3 id="模型符号">模型符号</h3>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$\overline {w_i}$</td>
+<td>任务i的平均执行时间</td>
+</tr>
+<tr>
+<td>$w_{i,j}$</td>
+<td>任务i在处理器j上的执行时间</td>
+</tr>
+<tr>
+<td>$L$</td>
+<td>处理器通信模块启动时间</td>
+</tr>
+<tr>
+<td>$L_m$</td>
+<td>处理器m的通信模块启动时间</td>
+</tr>
+<tr>
+<td>$c_{i,k} = L_m + \frac{data_{i,k}}{B_{m,n}}$</td>
+<td>任务i和任务j的通信时间</td>
+</tr>
+<tr>
+<td>$B_{m,n}$</td>
+<td>处理器m，n的单位时间通信量</td>
+</tr>
+<tr>
+<td>$data_{i,k}$</td>
+<td>任务i和任务j的通信量</td>
+</tr>
+<tr>
+<td>$EST(n_i,p_j) = max{avail[j], max_{n_m\in pred(n_i)} (AFT(n_m)+c_{m,j})}$</td>
+<td>任务i在处理器j上的最早启动时间</td>
+</tr>
+<tr>
+<td>$EFT(n_i,p_j) = w_{i,j} + EST(n_i,p_j)$</td>
+<td>任务i在处理器j上的最早完成时间</td>
+</tr>
+<tr>
+<td>$avail[j]$</td>
+<td>处理器j最早可用时间</td>
+</tr>
+<tr>
+<td>$makespan = max{AFT(n_{exit})}$</td>
+<td>dag的工作完成时间</td>
+</tr>
+<tr>
+<td>$rank_u(n_i) = \overline {w_i} + max_{n_j \in succ(n_i)}(\overline {c_{i,j}}+rank_u(n_j)) $</td>
+<td>作为权重</td>
+</tr>
+<tr>
+<td>$rank_d(n_i) = max_{n_j \in pred(ni)} {rankd(n_j) + \overline {w_j} + \overline {c_{j,i}}}$</td>
+<td>作为权重</td>
+</tr>
+</tbody>
+</table>
+<h3 id="算法">算法</h3>
+<h4 id="heft算法">heft算法</h4>
+<blockquote>
+<p>heft算法主要有两个阶段，第一个阶段计算所有任务的权重优先级，第二个阶段按照优先级顺序调度任务到最适合他们的处理器，以达到最小化任务的完成时间。</p>
+</blockquote>
+<h5 id="计算任务优先级">计算任务优先级</h5>
+<blockquote>
+<p>heft算法会将任务的优先度设置为$rank_u$，之后按照$rank_u$降低的顺序排列生成任务执行序列，如果两个任务的$rank_u$是相同的则可以有很多打破这种局面的策略，比如选择直接后继任务的$rank_u$更大的任务。最后生成的序列是一个拓扑排序所以肯定满足前序约束。</p>
+</blockquote>
+<h5 id="处理器选择">处理器选择</h5>
+<blockquote>
+<p>对于大多数调度算法，处理器的最早启动时间都是在该处理完成最后一个被分配任务之后。但是heft算法是考虑一个插入策略，考虑将任务插入到一个最早的空间时间间隔在两个已经完成调度的任务。空闲时隙时间的长度，即，在同一处理器上连续调度的两个任务的执行开始时间和完成时间之间的差异，应该至少能够满足计算要调度的任务的成本。并且必须要满足前置要求。</p>
+</blockquote>
+<h5 id="算法伪代码">算法伪代码</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># set the computation costs of tasks and communication costs of edges with mean values</span>
+<span class="c1"># Compute ranku for all tasks by traversing graph upward, starting from the exit task</span>
+<span class="c1"># Sort tasks in a scheduling list by noincreasing order of ranku values</span>
+<span class="k">while</span> <span class="n">there</span> <span class="n">are</span> <span class="n">unscheduled</span> <span class="n">tasks</span> <span class="ow">in</span> <span class="n">the</span> <span class="nb">list</span> <span class="n">do</span><span class="p">:</span>
+    <span class="n">Select</span> <span class="n">the</span> <span class="n">first</span> <span class="n">task</span> <span class="n">ni</span> <span class="kn">from</span> <span class="nn">the</span> <span class="nb">list</span> <span class="k">for</span> <span class="n">scheduling</span>
+    <span class="k">for</span> <span class="n">each</span> <span class="n">processor</span> <span class="n">pk</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">processor</span><span class="o">-</span><span class="nb">set</span> <span class="p">(</span><span class="n">pk</span> <span class="ow">in</span> <span class="n">Q</span><span class="p">)</span> <span class="n">do</span><span class="p">:</span>
+        <span class="n">Comput</span> <span class="n">EFT</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span><span class="n">pk</span><span class="p">)</span> <span class="n">value</span> <span class="n">using</span> <span class="n">the</span> <span class="n">insertion</span><span class="o">-</span><span class="n">based</span> <span class="n">scheduling</span> <span class="n">policy</span>
+    <span class="n">Assign</span> <span class="n">task</span> <span class="n">ni</span> <span class="n">to</span> <span class="n">processor</span> <span class="n">pj</span> <span class="n">that</span> <span class="n">minimizes</span> <span class="n">EFT</span> <span class="n">of</span> <span class="n">task</span> <span class="n">ni</span>
+<span class="n">endwhile</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="cpop算法">cpop算法</h4>
+<blockquote>
+<p>cpop算法和heft算法结构相同都有两部分，不过使用的算法不相同。使用不同的属性设置任务的优先级以及不同的策略来选择最佳的处理器。</p>
+</blockquote>
+<h5 id="计算任务优先级-1">计算任务优先级</h5>
+<blockquote>
+<p>对于cpop算法需要将每个任务的$rank_u,rank_d$使用平均执行时间和平均通信时间进行计算。cpop算法使用dag的关键路径，路径的长度是沿着这条路径计算时间以及任务之间通信时间的总和。这条路径上所有计算时间总和是调度长度的下限（所有的任务都在同一个处理器上进行处理）。而每个任务的优先度是$rank_u,rank_d$的总和。入口的优先度等于关键路径的长度。对于平等的情况，选择第一个直系后继有更高的优先级的任务。具体选择在伪代码部分给出。</p>
+</blockquote>
+<h5 id="处理器选择-1">处理器选择</h5>
+<blockquote>
+<p>选择一个处理器作为关键路径专用处理器，这个处理器能够最小化执行时间。如果一个任务在关键路径上，直接调度到关键路径处理器。除此之外选择能够让该任务执行时间最短的其他处理器，注意不能调度到关键路径专用处理器。</p>
+</blockquote>
+<h5 id="算法伪代码-1">算法伪代码</h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># set the computation costs of tasks and communication costs of edges with mean values</span>
+<span class="c1"># Compute ranku for all tasks by traversing graph upward, starting from the exit task</span>
+<span class="c1"># Compute rankd for all tasks by traversing graph downward, starting from the entry task</span>
+<span class="c1"># Compute priority(ni) = ranku(ni) + rankd(ni) for each task ni in the graph</span>
+<span class="c1"># SET_CP = {n_entry}, where SET_CP is the set of tasks on the critical path</span>
+<span class="n">nk</span> <span class="o">&lt;-</span> <span class="n">n_entry</span>
+<span class="k">while</span> <span class="n">nk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">the</span> <span class="n">exit</span> <span class="n">task</span> <span class="n">do</span><span class="p">:</span>
+    <span class="n">Select</span> <span class="n">nj</span> <span class="n">where</span> <span class="p">((</span><span class="n">nj</span> <span class="ow">in</span> <span class="n">succ</span><span class="p">(</span><span class="n">nk</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">priority</span><span class="p">(</span><span class="n">nj</span><span class="p">)</span><span class="o">==</span> <span class="o">|</span><span class="n">CP</span><span class="o">|</span><span class="p">))</span>
+    <span class="n">SET_CP</span> <span class="o">=</span> <span class="n">SET_CP</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nj</span><span class="p">)</span>
+    <span class="n">nk</span> <span class="o">&lt;-</span> <span class="n">nj</span>
+<span class="n">endwhile</span>
+<span class="n">Select</span> <span class="n">the</span> <span class="n">critical</span> <span class="n">path</span> <span class="n">processor</span><span class="p">(</span><span class="n">p_cp</span><span class="p">)</span> <span class="n">which</span> <span class="n">minizes</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w_i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+<span class="n">Initialize</span> <span class="n">the</span> <span class="n">priority</span> <span class="n">queue</span> <span class="n">whith</span> <span class="n">entry</span> <span class="n">task</span>
+<span class="k">while</span> <span class="n">ther</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">unscheduled</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">priority</span> <span class="n">queue</span> <span class="n">do</span><span class="p">:</span>
+    <span class="n">Select</span> <span class="n">the</span> <span class="n">highest</span> <span class="n">priority</span> <span class="n">task</span> <span class="n">ni</span> <span class="kn">from</span> <span class="nn">priority</span> <span class="n">queue</span>
+    <span class="k">if</span> <span class="n">ni</span> <span class="ow">in</span> <span class="n">SET_CP</span><span class="p">:</span>
+        <span class="n">Assign</span> <span class="n">the</span> <span class="n">task</span> <span class="n">ni</span> <span class="n">on</span> <span class="n">p_cp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Assign</span> <span class="n">the</span> <span class="n">task</span> <span class="n">ni</span> <span class="n">to</span> <span class="n">processor</span> <span class="n">pj</span> <span class="n">which</span> <span class="n">minimizes</span> <span class="n">the</span> <span class="n">EFT</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span><span class="n">pj</span><span class="p">)</span>
+    <span class="n">Update</span> <span class="n">the</span> <span class="n">priority</span><span class="o">-</span><span class="n">queue</span> <span class="k">with</span> <span class="n">the</span> <span class="n">sucessors</span> <span class="n">of</span> <span class="n">ni</span> <span class="k">if</span> <span class="n">they</span> <span class="n">ready</span> <span class="n">tasks</span>
+<span class="n">endwhile</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/deff/" title="Previous post (older)">
+            <span>Previous</span>
+            DEFF算法论文阅读
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>

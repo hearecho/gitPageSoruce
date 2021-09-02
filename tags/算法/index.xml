@@ -6,7 +6,18 @@
     <description>Recent content in 算法 on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 22 Aug 2021 15:19:32 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 31 Aug 2021 15:33:49 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HEFT算法 静态调度</title>
+      <link>https://hearecho.github.io/post/daeap%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%B0%83%E5%BA%A6/</link>
+      <pubDate>Tue, 31 Aug 2021 15:33:49 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/daeap%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%B0%83%E5%BA%A6/</guid>
+      <description>论文 《Performance-effective and low-complexity task scheduling for heterogeneous computing 》
+ 本文是异构平台的两种静态调度方法，分别是heft和cpop算法。
+ 模型符号    符号 意义     $\overline {w_i}$ 任务i的平均执行时间   $w_{i,j}$ 任务i在处理器j上的执行时间   $L$ 处理器通信模块启动时间   $L_m$ 处理器m的通信模块启动时间   $c_{i,k} = L_m + \frac{data_{i,k}}{B_{m,n}}$ 任务i和任务j的通信时间   $B_{m,n}$ 处理器m，n的单位时间通信量   $data_{i,k}$ 任务i和任务j的通信量   $EST(n_i,p_j) = max{avail[j], max_{n_m\in pred(n_i)} (AFT(n_m)+c_{m,j})}$ 任务i在处理器j上的最早启动时间   $EFT(n_i,p_j) = w_{i,j} + EST(n_i,p_j)$ 任务i在处理器j上的最早完成时间   $avail[j]$ 处理器j最早可用时间   $makespan = max{AFT(n_{exit})}$ dag的工作完成时间   $rank_u(n_i) = \overline {w_i} + max_{n_j \in succ(n_i)}(\overline {c_{i,j}}+rank_u(n_j)) $ 作为权重   $rank_d(n_i) = max_{n_j \in pred(ni)} {rankd(n_j) + \overline {w_j} + \overline {c_{j,i}}}$ 作为权重    算法 heft算法  heft算法主要有两个阶段，第一个阶段计算所有任务的权重优先级，第二个阶段按照优先级顺序调度任务到最适合他们的处理器，以达到最小化任务的完成时间。</description>
+    </item>
+    
     <item>
       <title>DEFF算法论文阅读</title>
       <link>https://hearecho.github.io/post/deff/</link>
