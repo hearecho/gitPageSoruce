@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>二分查找及其变种 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="二分查找及其变种 | Road to Final"/>
+    <meta itemprop="name" content="二分查找及其变种 | Road to Final" />
+    <meta name="twitter:title" content="二分查找及其变种 | Road to Final" />
+    <meta name="application-name" content="二分查找及其变种 | Road to Final" />
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
+    <meta name="description" content="二分查找算法" />
+    <meta name="twitter:description" content="二分查找算法 "/>
+    <meta itemprop="description" content=" 二分查找算法 "/>
+    <meta property="og:description" content=" 二分查找算法 " />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-12-02T10:11:21&#43;0800 />
+<meta property="article:published_time" content=2021-12-02T10:11:21&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "二分查找及其变种",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-12-02",
+    "description": "二分查找算法",
+    "wordCount":  450 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-12-02",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>二分查找及其变种</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>December 02, 2021</time>
+                            | 3 minutes |450 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h2 id="二分查找">二分查找</h2>
+<p>​	二分查找常用来在<strong>排序数组</strong>中查找一个数的位置或者是一个数的边界。但是二分查找受到区间的影响很大。并且细节繁多，很容易就会产生偏差。二分查找不出错的关键就是先把所有的情况分支都完整的写出来，暂时不考虑分支合并的情况。总的来说只有三种分支情况那就是等于目标值、大于目标值以及小于目标值，基于这三种情况对边界进行修改。所以二分查找的基础框架如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="nx">or</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="nx">l</span><span class="p">&lt;</span><span class="nx">h</span> <span class="nx">or</span> <span class="nx">l</span><span class="o">&lt;=</span><span class="nx">h</span> <span class="p">{</span>
+        <span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+            <span class="c1">//TODO
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">target</span> <span class="p">{</span>
+            <span class="c1">//TODO  l = ...
+</span><span class="c1"></span>        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">target</span> <span class="p">{</span>
+            <span class="c1">//TODO	h = ...
+</span><span class="c1"></span>        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//TODO return  ... 
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="基本的二分搜搜">基本的二分搜搜</h3>
+<p>基本的二分搜索就是查找一个数据的位置，或者是判断这个数在不在数组中。一般二分搜索的关键是在于区间的改变，一般有两种方式，<strong>左闭右开或者是两端均闭合</strong></p>
+<h4 id="左闭右开">左闭右开</h4>
+<p>左闭右开的意思就是左边的元素在此次搜索中可以访问到，右边的元素不可访问，所以区间[i,i)是没有意义的，不存在这种空间，所以循环条件为 $l&lt;h$。并且为了保正每次修改区间之后仍未左闭右开，则$h$的每次改变应为$h = mid$。</p>
+<p>完整代码如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="c1">// 我们遵循找下界的方式 即每次的区间改为左闭右开
+</span><span class="c1"></span>	<span class="c1">// 所有的区间调整均要遵循左闭右开的原则
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">l</span> <span class="p">&lt;</span> <span class="nx">h</span> <span class="p">{</span>
+		<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+		<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">mid</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="nx">l</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="双端闭合">双端闭合</h4>
+<p>双端闭合即两端元素均可访问，在这种情况下[i,i]是有意义的。所以循环条件为$l&lt;=h$.而$h$的每次修改条件为$h=mid-1$.完整代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="c1">// 如果使用两边全部闭合的区间 则对应需要修改循环的结束条件以及每次区间修改
+</span><span class="c1"></span>	<span class="c1">// 包括区间的起始也要保证是两边闭合即均可访问到
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+	<span class="c1">// 两边闭合的情况下会出现 l==h的情况
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">l</span> <span class="o">&lt;=</span> <span class="nx">h</span> <span class="p">{</span>
+		<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+		<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">mid</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="nx">l</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="c1">//要保证两边均都要闭合
+</span><span class="c1"></span>			<span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">-</span> <span class="mi">1</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="寻找左边界">寻找左边界</h3>
+<p>更多情况下，二分搜索都是应用在搜索不是固定的目标问题上，最常见的一种是搜索边界问题，左边界或者是右边界。</p>
+<h4 id="左边界">左边界</h4>
+<p>我们是为了返回左边界的位置，所以等于目标值的时候缩小区间大小，并且缩小的右边界。其他情况不变，最后返回右边界和左边界都一样，因为循环截止条件就是$l==h$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">searchLeft</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="c1">// 寻找左侧边界问题
+</span><span class="c1"></span>	<span class="c1">// 应该使用左闭右开的区间大小
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">l</span> <span class="p">&lt;</span> <span class="nx">h</span> <span class="p">{</span>
+		<span class="c1">// 只有这样最后可以精确的返回左边界
+</span><span class="c1"></span>		<span class="c1">// 因为不是为了寻找确定的值的位置
+</span><span class="c1"></span>		<span class="c1">// 所以等于的情况并不会进行返回 也是修改区间
+</span><span class="c1"></span>		<span class="c1">// 可以看到 相等的情况和大于的情况是相同的处理，所以可以进行合并
+</span><span class="c1"></span>		<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+		<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="c1">// 我们是寻找左边界，所以需要修改h
+</span><span class="c1"></span>			<span class="c1">// 又因为是左闭右开
+</span><span class="c1"></span>			<span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="c1">//TODO l = ...
+</span><span class="c1"></span>			<span class="nx">l</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="c1">//TODO h = .
+</span><span class="c1"></span>			<span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+    <span class="c1">// 这里也可以返回h
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">l</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="右边界">右边界</h4>
+<p>右边界和左边界类似，只是在等于的时候修改的的是$l$索引。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">searchRight</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">l</span> <span class="p">&lt;</span> <span class="nx">h</span> <span class="p">{</span>
+		<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+		<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="c1">//TODO l = ...
+</span><span class="c1"></span>			<span class="nx">l</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">target</span> <span class="p">{</span>
+			<span class="c1">//TODO h = .
+</span><span class="c1"></span>			<span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+    <span class="c1">// 这里也可以返回h
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">l</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/heft%E7%AE%97%E6%B3%95-%E9%9D%99%E6%80%81%E8%B0%83%E5%BA%A6/" title="Previous post (older)">
+            <span>Previous</span>
+            HEFT算法 静态调度
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>
