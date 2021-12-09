@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>基础 on Road to Final</title>
+    <link>https://hearecho.github.io/tags/%E5%9F%BA%E7%A1%80/</link>
+    <description>Recent content in 基础 on Road to Final</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 08 Dec 2021 19:41:14 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E5%9F%BA%E7%A1%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go常见错误及处理方法</title>
+      <link>https://hearecho.github.io/post/gomistakes/</link>
+      <pubDate>Wed, 08 Dec 2021 19:41:14 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/gomistakes/</guid>
+      <description>Go常见错误 原文链接：50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs 
+初级  不熟悉Go语言可能会犯的错误
+ 1. 大括号问题 在大多数语言中，我们都可以将大括号放在任意位置，但是Go不同，Go不能将左括号放到新的一行。同时Go和Python相同是不需要分号的（即使含有分号也不会报错）。示例如下：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  package main import &amp;#34;fmt&amp;#34; func main() { //error, 不能在新的一行放置新的括号，必须紧跟函数之后  fmt.Println(&amp;#34;hello there!&amp;#34;) } // 错误信息 // syntax error: unexpected semicolon or newline before {  // 正确语句 package main import &amp;#34;fmt&amp;#34; func main() { fmt.</description>
+    </item>
+    
+  </channel>
+</rss>

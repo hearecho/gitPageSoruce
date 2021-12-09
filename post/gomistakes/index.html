@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Go常见错误及处理方法 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="Go常见错误及处理方法 | Road to Final"/>
+    <meta itemprop="name" content="Go常见错误及处理方法 | Road to Final" />
+    <meta name="twitter:title" content="Go常见错误及处理方法 | Road to Final" />
+    <meta name="application-name" content="Go常见错误及处理方法 | Road to Final" />
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
+    <meta name="description" content="Go常见错误的处理方法" />
+    <meta name="twitter:description" content="Go常见错误的处理方法 "/>
+    <meta itemprop="description" content=" Go常见错误的处理方法 "/>
+    <meta property="og:description" content=" Go常见错误的处理方法 " />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-12-08T19:41:14&#43;0800 />
+<meta property="article:published_time" content=2021-12-08T19:41:14&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Go常见错误及处理方法",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-12-08",
+    "description": "Go常见错误的处理方法",
+    "wordCount":  734 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-12-08",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Go常见错误及处理方法</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>December 08, 2021</time>
+                            | 4 minutes |734 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/go/">Go</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h2 id="go常见错误">Go常见错误</h2>
+<p>原文链接：<a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/index.html">50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs </a></p>
+<h3 id="初级">初级</h3>
+<blockquote>
+<p>不熟悉Go语言可能会犯的错误</p>
+</blockquote>
+<h4 id="1-大括号问题">1. 大括号问题</h4>
+<p>在大多数语言中，我们都可以将大括号放在任意位置，但是Go不同，Go不能将左括号放到新的一行。同时Go和Python相同是不需要分号的（即使含有分号也不会报错）。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Go" data-lang="Go"><span class="kn">package</span> <span class="nx">main</span>
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  
+<span class="p">{</span> <span class="c1">//error, 不能在新的一行放置新的括号，必须紧跟函数之后
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;hello there!&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// syntax error: unexpected semicolon or newline before {
+</span><span class="c1"></span>
+<span class="c1">// 正确语句
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;hello there!&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="2--未使用的变量">2.  未使用的变量</h4>
+<p>在Go中如果出现没有被使用的变量会无法完成编译。如果在函数中声明了变量则必须使用，但是全局变量不适用则不会出现问题。如果将一个新的值分配给一个未使用的变量并不算做使用该变量。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">var</span> <span class="nx">gvar</span> <span class="kt">int</span> <span class="c1">//not an error
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">one</span> <span class="kt">int</span>   <span class="c1">//error, unused variable
+</span><span class="c1"></span>    <span class="nx">two</span> <span class="o">:=</span> <span class="mi">2</span>      <span class="c1">//error, unused variable
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">three</span> <span class="kt">int</span> <span class="c1">//error, even though it&#39;s assigned 3 on the next line
+</span><span class="c1"></span>    <span class="nx">three</span> <span class="p">=</span> <span class="mi">3</span>
+
+    <span class="kd">func</span><span class="p">(</span><span class="nx">unused</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Unused arg. No compile error&#34;</span><span class="p">)</span>
+    <span class="p">}(</span><span class="s">&#34;what?&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">//正常代码 想办法“使用”变量 当然如果这个变量确实一点用处都没有，则可以考虑移除
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">one</span> <span class="kt">int</span>
+    <span class="nx">_</span> <span class="p">=</span> <span class="nx">one</span>
+
+    <span class="nx">two</span> <span class="o">:=</span> <span class="mi">2</span> 
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">two</span><span class="p">)</span>
+
+    <span class="kd">var</span> <span class="nx">three</span> <span class="kt">int</span> 
+    <span class="nx">three</span> <span class="p">=</span> <span class="mi">3</span>
+    <span class="nx">one</span> <span class="p">=</span> <span class="nx">three</span>
+
+    <span class="kd">var</span> <span class="nx">four</span> <span class="kt">int</span>
+    <span class="nx">four</span> <span class="p">=</span> <span class="nx">four</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="3未使用的导入的包">3.未使用的导入的包</h4>
+<p>在使用集成开发环境的时间，一般包都是自动导自动删除的，所以这个问题一般不会出现。Go也不会允许出现未使用的包，一般情况我们都会将不适用的包删除或者是注释掉。但是在一些特殊的情况，却需要只导入包，但是并不使用他（例如连接数据库的包），所以我们一般情况下使用，<code>_</code>，作为包的名字（别名）。使用<code>goimports</code>可以直接对文件进行处理。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>  
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+    <span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// imported and not used: &#34;fmt&#34; 
+</span><span class="c1">// imported and not used: &#34;log&#34; 
+</span><span class="c1">// imported and not used: &#34;time&#34;
+</span><span class="c1">// 正确代码
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>  
+    <span class="nx">_</span> <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;log&#34;</span>
+    <span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Println</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">_</span> <span class="p">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="4-短声明只能在函数内部使用">4. 短声明只能在函数内部使用</h4>
+<p>Go中声明方式有两种，一种是短声明，另外一种是正常声明。短声明只能在函数内部使用，所以说全局变量一般是使用正常声明方式。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="nx">myvar</span> <span class="o">:=</span> <span class="mi">1</span> <span class="c1">//error
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+<span class="p">}</span>
+<span class="c1">//错误信息
+</span><span class="c1">//non-declaration statement outside function body
+</span><span class="c1">// 正确声明
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">var</span> <span class="nx">myvar</span> <span class="p">=</span> <span class="mi">1</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="5-使用短声明对变量进行了重新声明">5. 使用短声明对变量进行了重新声明</h4>
+<p>在Go中我们不能对一个变量重新声明，即使重新声明是相同的数据类型。但在至少声明一个新变量的多变量声明中是允许的。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">one</span> <span class="o">:=</span> <span class="mi">0</span>
+    <span class="nx">one</span> <span class="o">:=</span> <span class="mi">1</span> <span class="c1">//error
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// no new variables on left side of :=
+</span><span class="c1">// 正确声明
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">one</span> <span class="o">:=</span> <span class="mi">0</span>
+    <span class="nx">one</span><span class="p">,</span> <span class="nx">two</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+
+    <span class="nx">one</span><span class="p">,</span><span class="nx">two</span> <span class="p">=</span> <span class="nx">two</span><span class="p">,</span><span class="nx">one</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="6-不能使用短声明来填充结构体中字段变量">6. 不能使用短声明来填充结构体中字段变量</h4>
+<p>短声明是不可以直接用于结构体中的字段变量，一般情况下我们都是使用临时变量先赋值后声明。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>  
+  <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">info</span> <span class="kd">struct</span> <span class="p">{</span>  
+  <span class="nx">result</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">work</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">error</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="k">return</span> <span class="mi">13</span><span class="p">,</span><span class="kc">nil</span>  
+  <span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+  <span class="kd">var</span> <span class="nx">data</span> <span class="nx">info</span>
+
+  <span class="nx">data</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">work</span><span class="p">()</span> <span class="c1">//error
+</span><span class="c1"></span>  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;info: %+v\n&#34;</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// non-name data.result on left side of :=
+</span><span class="c1">// 正确示例
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>  
+  <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">info</span> <span class="kd">struct</span> <span class="p">{</span>  
+  <span class="nx">result</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">work</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">error</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="k">return</span> <span class="mi">13</span><span class="p">,</span><span class="kc">nil</span>  
+  <span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+  <span class="kd">var</span> <span class="nx">data</span> <span class="nx">info</span>
+
+  <span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+  <span class="nx">data</span><span class="p">.</span><span class="nx">result</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nf">work</span><span class="p">()</span> <span class="c1">//ok
+</span><span class="c1"></span>  <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;info: %+v\n&#34;</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span> <span class="c1">//prints: info: {result:13}
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="7-意外隐藏变量">7. 意外隐藏变量</h4>
+<p>短声明语法是非常方便，因此很容易将其视为常规赋值操作。如果您在新代码块中犯此错误，则不会出现编译器错误，但您的应用程序将不会按照您的预期运行。这是一个非常普通的陷阱，它很容易出错但是不容易被发现，您可以使用 vet 命令来查找其中一些问题。默认情况下，vet 不会执行任何隐藏变量检查。确保使用 -shadow 标志：go tool vet -shadow your_file.go。请注意， vet 命令不会报告所有隐藏的变量。使用 go-nyet 进行更积极的隐藏变量检测。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="mi">1</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>     <span class="c1">//prints 1
+</span><span class="c1"></span>    <span class="c1">// 代码块所以 第一条错误在这里不会出现
+</span><span class="c1"></span>    <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="c1">//prints 1
+</span><span class="c1"></span>        <span class="nx">x</span> <span class="o">:=</span> <span class="mi">2</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="c1">//prints 2
+</span><span class="c1"></span>    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>     <span class="c1">//prints 1 (bad if you need 2)
+</span><span class="c1"></span><span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="8-不能使用nil来初始化没有显式类型的变量">8. 不能使用nil来初始化没有显式类型的变量</h4>
+<p>例如接口、函数、指针、哈希表、切片和通道的默认值是<code>nil</code>，但是如果我们没有指明一个变量的类型却将<code>nil</code>赋值或用于其初始化则是行不通的，因为Go无法推断出他的类型。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">x</span> <span class="p">=</span> <span class="kc">nil</span> <span class="c1">//error
+</span><span class="c1"></span>
+    <span class="nx">_</span> <span class="p">=</span> <span class="nx">x</span>
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// use of untyped nil
+</span><span class="c1">// 正确示例
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">x</span> <span class="kd">interface</span><span class="p">{}</span> <span class="p">=</span> <span class="kc">nil</span>
+
+    <span class="nx">_</span> <span class="p">=</span> <span class="nx">x</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="9-使用nil的切片和哈希表">9. 使用“nil”的切片和哈希表</h4>
+<p>直接向&quot;nil&quot;切片中添加元素是没有问题的，但是向&quot;nil&quot;的哈希表中添加元素会产生运行时错误。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">m</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span>
+    <span class="nx">m</span><span class="p">[</span><span class="s">&#34;one&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="mi">1</span> <span class="c1">//error
+</span><span class="c1"></span>
+<span class="p">}</span>
+<span class="c1">// slice
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">s</span> <span class="p">[]</span><span class="kt">int</span>
+    <span class="nx">s</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="10-哈希表容量">10. 哈希表容量</h4>
+<p>我们在创建哈希表的时候可以指定哈希表的容量，但是函数<code>cap()</code>无法在哈希表上使用。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">m</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span><span class="mi">99</span><span class="p">)</span>
+    <span class="nb">cap</span><span class="p">(</span><span class="nx">m</span><span class="p">)</span> <span class="c1">//error
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// invalid argument m (type map[string]int) for cap
+</span><span class="c1">// cap接收的参数是 Array、Pointer、Slice、 Channel
+</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" title="Previous post (older)">
+            <span>Previous</span>
+            二分查找及其变种
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>
