@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-08",
     "description": "Go常见错误的处理方法",
-    "wordCount":  734 ,
+    "wordCount":  1327 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-08",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 08, 2021</time>
-                            | 4 minutes |734 Words
+                            | 7 minutes |1327 Words
                         </div>
                         <div class="tags">
                             
@@ -634,7 +634,373 @@
 </span><span class="c1">// cap接收的参数是 Array、Pointer、Slice、 Channel
 </span></code></pre></td></tr></table>
 </div>
+</div><h4 id="11-字符串不可以被初始化赋值为nil">11. 字符串不可以被初始化赋值为nil</h4>
+<p>字符串的默认空值是<code>&quot;&quot;</code>，而不是<code>nil</code>。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">x</span> <span class="kt">string</span> <span class="p">=</span> <span class="kc">nil</span> <span class="c1">//error
+</span><span class="c1"></span>
+    <span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span> <span class="c1">//error
+</span><span class="c1"></span>        <span class="nx">x</span> <span class="p">=</span> <span class="s">&#34;default&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// cannot use nil as type string in assignment
+</span><span class="c1">// invalid operation: x == nil (mismatched types string and nil)
+</span><span class="c1">// 正确做法
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">x</span> <span class="kt">string</span> <span class="c1">//defaults to &#34;&#34; (zero value)
+</span><span class="c1"></span>
+    <span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+        <span class="nx">x</span> <span class="p">=</span> <span class="s">&#34;default&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
+</div><h4 id="12-数组参数">12. 数组参数</h4>
+<p>数组作为函数参数的时候是值复制，所以在函数内部修改数组的值是不会产生同步的修改。如果想要达到在函数内部的修改可以同步，则可以使用指针或者是使用切片。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+
+    <span class="kd">func</span><span class="p">(</span><span class="nx">arr</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">7</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="c1">//prints [7 2 3]
+</span><span class="c1"></span>    <span class="p">}(</span><span class="nx">x</span><span class="p">)</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="c1">//prints [1 2 3] (not ok if you need [7 2 3])
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">// 正确用法
+</span><span class="c1">// 使用指针
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+
+    <span class="kd">func</span><span class="p">(</span><span class="nx">arr</span> <span class="o">*</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">(</span><span class="o">*</span><span class="nx">arr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">7</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="c1">//prints &amp;[7 2 3]
+</span><span class="c1"></span>    <span class="p">}(</span><span class="o">&amp;</span><span class="nx">x</span><span class="p">)</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="c1">//prints [7 2 3]
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">// 使用切片 实际上切片也是传入的指针参数
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+
+    <span class="kd">func</span><span class="p">(</span><span class="nx">arr</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">7</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="c1">//prints [7 2 3]
+</span><span class="c1"></span>    <span class="p">}(</span><span class="nx">x</span><span class="p">)</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="c1">//prints [7 2 3]
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="13--使用range遍历数组和切片时候的意外值">13.  使用<code>range</code>遍历数组和切片时候的意外值</h4>
+<p>使用<code>range</code>遍历数组和切片的时候是返回索引和该索引对应的值一组键值对。第二位才是我们需要的值。第一位是索引。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;a&#34;</span><span class="p">,</span><span class="s">&#34;b&#34;</span><span class="p">,</span><span class="s">&#34;c&#34;</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">x</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="c1">//prints 0, 1, 2
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// 正确用法
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;a&#34;</span><span class="p">,</span><span class="s">&#34;b&#34;</span><span class="p">,</span><span class="s">&#34;c&#34;</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">x</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="c1">//prints a, b, c
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="14-数组和切片都是一维的">14. 数组和切片都是一维的</h4>
+<p>看起来Go支持多维数组和切片，但它并不支持。不过创建数组的数组或切片的切片是可能的。对于依赖动态多维数组的数值计算应用来说，在性能和复杂性方面都远非理想。你可以使用原始一维数组、&ldquo;独立 &ldquo;切片和 &ldquo;共享数据 &ldquo;切片来构建动态多维数组。如果你使用的是原始的一维数组，你要负责索引、边界检查，以及当数组需要增长时的内存重新分配。使用 &ldquo;独立 &ldquo;切片创建一个动态多维数组是一个两步过程。首先，你必须创建外层片。然后，你必须分配每个内片。内片是相互独立的。你可以在不影响其他内片的情况下增长和缩小它们。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="mi">2</span>
+    <span class="nx">y</span> <span class="o">:=</span> <span class="mi">4</span>
+
+    <span class="nx">table</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([][]</span><span class="kt">int</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span> <span class="k">range</span> <span class="nx">table</span> <span class="p">{</span>
+        <span class="nx">table</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="nx">y</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// 但是对于其他语言来说，底层是数据连续的层次
+</span><span class="c1">// 证明
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">h</span><span class="p">,</span> <span class="nx">w</span> <span class="o">:=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span>
+    <span class="nx">raw</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">h</span><span class="o">*</span><span class="nx">w</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">raw</span> <span class="p">{</span>
+		<span class="nx">raw</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">i</span>
+	<span class="p">}</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">raw</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">raw</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="o">&amp;</span><span class="nx">raw</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+	<span class="c1">//prints: [0 1 2 3 4 5 6 7]  0xc000010318 0xc000010320
+</span><span class="c1"></span>
+	<span class="nx">table</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([][]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">table</span> <span class="p">{</span>
+		<span class="nx">table</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">raw</span><span class="p">[</span><span class="nx">i</span><span class="o">*</span><span class="nx">w</span> <span class="p">:</span> <span class="nx">i</span><span class="o">*</span><span class="nx">w</span><span class="o">+</span><span class="nx">w</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">table</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">table</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="o">&amp;</span><span class="nx">table</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1">// prints [[0 1 2 3] [4 5 6 7]] 0xc000010318 0xc000010320
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="15-访问不存在的哈希表键">15. 访问不存在的哈希表键</h4>
+<p>一般情况下我们期望访问不存在的哈希表键的时候期望能够返回值为<code>nil</code>，但是返回<code>nil</code>的情况是那些value值的默认值为<code>nil</code>，但是还有很多数据类型的默认值不为<code>nil</code>。所以正确的做法是先辨别哈希表中是否存在哈希表键，之后再进行处理。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 错误示范
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;one&#34;</span><span class="p">:</span><span class="s">&#34;a&#34;</span><span class="p">,</span><span class="s">&#34;two&#34;</span><span class="p">:</span><span class="s">&#34;&#34;</span><span class="p">,</span><span class="s">&#34;three&#34;</span><span class="p">:</span><span class="s">&#34;c&#34;</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="nx">v</span> <span class="o">:=</span> <span class="nx">x</span><span class="p">[</span><span class="s">&#34;two&#34;</span><span class="p">];</span> <span class="nx">v</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span> <span class="c1">//incorrect
+</span><span class="c1"></span>        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;no entry&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// 正确做法
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;one&#34;</span><span class="p">:</span><span class="s">&#34;a&#34;</span><span class="p">,</span><span class="s">&#34;two&#34;</span><span class="p">:</span><span class="s">&#34;&#34;</span><span class="p">,</span><span class="s">&#34;three&#34;</span><span class="p">:</span><span class="s">&#34;c&#34;</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="nx">_</span><span class="p">,</span><span class="nx">ok</span> <span class="o">:=</span> <span class="nx">x</span><span class="p">[</span><span class="s">&#34;two&#34;</span><span class="p">];</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;no entry&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="16-字符串是不可变类型">16. 字符串是不可变类型</h4>
+<p>尝试直接更新字符串中某个字符是不可行的，字符串作为不可变类型是只能读取但是不能修改。如果需要更新一个字符串，则可以选择先将其转换为字节切片，之后在需要的时候转换为字符串。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//错误示范
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="s">&#34;text&#34;</span>
+    <span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="sc">&#39;T&#39;</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">//错误信息
+</span><span class="c1">//annot assign to x[0]
+</span><span class="c1">//正确示范
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="s">&#34;text&#34;</span>
+    <span class="nx">xbytes</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="nx">xbytes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="sc">&#39;T&#39;</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">xbytes</span><span class="p">))</span> <span class="c1">//prints Text
+</span><span class="c1"></span><span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>*注意：*这对于文本字符串来说并不是一个好的更新方式，因为文本字符串会存储在多个字节中。如果确实需要更新文本字符串，可以先将其转换为<code>rune</code>切片，但是即使使用<code>rune</code>切片也有可能会出现占据多个<code>rune</code>的情况。</p>
+<h4 id="17--字符串和字节切片之间的转换">17.  字符串和字节切片之间的转换</h4>
+<p>当你将一个字符串转换为一个字节片时（反之亦然），你会得到一个原始数据的完整拷贝。这不像其他语言中的转换操作，也不像重新切分那样，新的切分变量指向原始字节切分所使用的同一个底层数组。</p>
+<p>Go确实对<code>[]byte</code>到<code>string</code>和<code>string</code>到<code>[]byte</code>的转换进行了一些优化，以避免额外的分配（在todo列表中还有更多优化）。</p>
+<p>第一个优化避免了在<code>map[string]</code>集合中使用<code>[]byte</code>键来查找条目时的额外分配：<code>m[string(key)]</code>。</p>
+<p>第二个优化避免了<code>string</code>被转换为<code>[]byte</code>的<code>for range</code>子句中的额外分配：<code>for i,v := range []byte(str) {...}</code>.</p>
+<h4 id="18-字符串与索引操作">18. 字符串与索引操作</h4>
+<p>直接使用索引操作得到是一个<code>byte</code>值而不是字符。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="s">&#34;text&#34;</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1">//print 116
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%T&#34;</span><span class="p">,</span><span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1">//prints uint8
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果想要得到字符，则可以使用<code>for range</code>短语，官方的 &ldquo;unicode/utf8 &ldquo;包和实验性的utf8string包（golang.org/x/exp/utf8string）也很有用。utf8string包包括一个方便的<code>At()</code>方法。将字符串转换为符文片也是一种选择。</p>
+<h4 id="19-字符串不一定都是utf8文本">19. 字符串不一定都是UTF8文本</h4>
+<p>字符串值不要求是UTF8文本。它们可以包含任意的字节。只有在使用字符串字面的时候，字符串才是UTF8的。即使如此，它们也可以使用转义序列包含其他数据。要知道你是否有一个UTF8文本字符串，请使用 &ldquo;unicode/utf8 &ldquo;包中的ValidString()函数。 示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">data1</span> <span class="o">:=</span> <span class="s">&#34;ABC&#34;</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">utf8</span><span class="p">.</span><span class="nf">ValidString</span><span class="p">(</span><span class="nx">data1</span><span class="p">))</span> <span class="c1">//prints: true
+</span><span class="c1"></span>
+    <span class="nx">data2</span> <span class="o">:=</span> <span class="s">&#34;A\xfeC&#34;</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">utf8</span><span class="p">.</span><span class="nf">ValidString</span><span class="p">(</span><span class="nx">data2</span><span class="p">))</span> <span class="c1">//prints: false
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="20-字符串长度">20. 字符串长度</h4>
+<p>Go内置的<code>len()</code>函数返回值字节的数量而不是python中的字符的数量。为了得到字符的数量我们一般使用&quot;unicode/utf8&quot;包中的<code>RuneCountInString()</code>函数。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">data</span> <span class="o">:=</span> <span class="s">&#34;♥&#34;</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">utf8</span><span class="p">.</span><span class="nf">RuneCountInString</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>*注意：*这个和上面转换一样存在意外情况就是字符串中含有<code>é</code>等类似字符，因为其占用两个字符。</p>
+
     </div>
 </div>
 
@@ -648,6 +1014,11 @@
             </a>
         
         
+        
+        <a rel="next" href="https://hearecho.github.io/post/%E6%A0%91/" title="Next post (newer)">
+            <span>Next</span>
+            树
+            </a> 
         
     </nav>
     
