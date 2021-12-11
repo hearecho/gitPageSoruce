@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-10",
     "description": "学习关于树的算法题",
-    "wordCount":  713 ,
+    "wordCount":  939 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-10",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 10, 2021</time>
-                            | 4 minutes |713 Words
+                            | 5 minutes |939 Words
                         </div>
                         <div class="tags">
                             
@@ -500,6 +500,34 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
+</div><h5 id="翻转二叉树httpsleetcode-cncomproblemsinvert-binary-tree"><a href="https://leetcode-cn.com/problems/invert-binary-tree/">翻转二叉树</a></h5>
+<p>翻转二叉树类似于镜像二叉树，翻转是从最后的叶子节点开始进行反转.所以是先进行递归后续进行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">invertTree</span><span class="p">(</span><span class="nx">root</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="o">*</span><span class="nx">TreeNode</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">root</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span> 
+    <span class="nx">left</span> <span class="o">:=</span> <span class="nf">invertTree</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">)</span>
+    <span class="nx">right</span> <span class="o">:=</span> <span class="nf">invertTree</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">)</span>
+    <span class="nx">root</span><span class="p">.</span><span class="nx">Left</span> <span class="p">=</span> <span class="nx">right</span>
+    <span class="nx">root</span><span class="p">.</span><span class="nx">Right</span> <span class="p">=</span> <span class="nx">left</span>
+    <span class="k">return</span> <span class="nx">root</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
 </div><h4 id="与二叉树的深度相关的题目">与二叉树的深度相关的题目</h4>
 <p>一般情况下与二叉树深度相关的题目也不会太难。</p>
 <h5 id="二叉树的最大深度httpsleetcode-cncomproblemsmaximum-depth-of-binary-tree"><a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/">二叉树的最大深度</a></h5>
@@ -518,12 +546,118 @@
     <span class="k">if</span> <span class="nx">root</span><span class="o">==</span><span class="kc">nil</span> <span class="p">{</span>
         <span class="k">return</span> <span class="mi">0</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="nf">max</span><span class="p">(</span><span class="nf">maxDepth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">),</span> <span class="nf">maxDepth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nf">max</span><span class="p">(</span><span class="nf">maxDepth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">),</span> <span class="nf">maxDepth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h5 id="平衡二叉树">平衡二叉树</h5>
-
+</div><h5 id="二叉树的最小深度httpsleetcode-cncomproblemsminimum-depth-of-binary-tree"><a href="https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/">二叉树的最小深度</a></h5>
+<p>不同于二叉树的最大深度，最小深度如果使用最大深度的那种做法，则在单边树则会出现问题，更加稳健的做法应该是将问题缩小为判断左子树和右子树，并且不计算<code>nil</code>节点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">minDepth</span><span class="p">(</span><span class="nx">root</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">root</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Left</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Right</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    <span class="nx">minD</span> <span class="o">:=</span> <span class="nx">math</span><span class="p">.</span><span class="nx">MaxInt32</span>
+    <span class="k">if</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Left</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">minD</span> <span class="p">=</span> <span class="nf">min</span><span class="p">(</span><span class="nf">minDepth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">),</span> <span class="nx">minD</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Right</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">minD</span> <span class="p">=</span> <span class="nf">min</span><span class="p">(</span><span class="nf">minDepth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">),</span> <span class="nx">minD</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">minD</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="平衡二叉树httpsleetcode-cncomproblemsbalanced-binary-tree"><a href="https://leetcode-cn.com/problems/balanced-binary-tree/">平衡二叉树</a></h5>
+<p>平衡二叉树的定义是一个二叉树<em>每个节点</em> 的左右两个子树的高度差的绝对值不超过 1 。所以说可以通过判断左右子树的深度差来判断该二叉树是否为平衡二叉树。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">isBalanced</span><span class="p">(</span><span class="nx">root</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">root</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+    <span class="nx">left</span> <span class="o">:=</span> <span class="nf">depth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">)</span>
+    <span class="nx">right</span> <span class="o">:=</span> <span class="nf">depth</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">abs</span><span class="p">(</span><span class="nx">left</span><span class="o">-</span><span class="nx">right</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nf">isBalanced</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nf">isBalanced</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="祖先问题">祖先问题</h4>
+<h5 id="二叉树的公共祖先">二叉树的公共祖先</h5>
+<p>公共祖先的问题有一个基本点就是自己可以算作自己的祖先，那么我们就可以按个搜索目标节点之后返回不为<code>nil</code>的那一只节点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">lowestCommonAncestor</span><span class="p">(</span><span class="nx">root</span><span class="p">,</span> <span class="nx">p</span><span class="p">,</span> <span class="nx">q</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="o">*</span><span class="nx">TreeNode</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">root</span> <span class="o">==</span><span class="kc">nil</span> <span class="o">||</span> <span class="nx">root</span> <span class="o">==</span> <span class="nx">p</span> <span class="o">||</span> <span class="nx">root</span><span class="o">==</span><span class="nx">q</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">root</span>
+    <span class="p">}</span>
+    <span class="nx">left</span> <span class="o">:=</span> <span class="nf">lowestCommonAncestor</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Left</span><span class="p">,</span> <span class="nx">p</span><span class="p">,</span> <span class="nx">q</span><span class="p">)</span>
+    <span class="nx">right</span> <span class="o">:=</span> <span class="nf">lowestCommonAncestor</span><span class="p">(</span><span class="nx">root</span><span class="p">.</span><span class="nx">Right</span><span class="p">,</span> <span class="nx">p</span><span class="p">,</span> <span class="nx">q</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">left</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">right</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">right</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">left</span>
+    <span class="p">}</span>
+	<span class="k">return</span> <span class="nx">root</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 </div>
 
