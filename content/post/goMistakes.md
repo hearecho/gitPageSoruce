@@ -521,5 +521,318 @@ func main() {
 
 *注意：*这个和上面转换一样存在意外情况就是字符串中含有`é`等类似字符，因为其占用两个字符。
 
+#### 21. 在多行表示的切片，数组和哈希表中缺少逗号
+
+在单行的时候，最后一个元素后面可以不用跟符号(多了也不会出现错误)，但是多行不可以，每一行最后都需要逗号。示例如下：
+
+```go
+func main() {  
+    x := []int{
+    1,
+    2 //error
+    }
+    _ = x
+}
+// 错误信息
+// syntax error: need trailing comma before
+// 正确示例
+func main() {  
+    x := []int{
+    1,
+    2,
+    }
+    x = x
+
+    y := []int{3,4,} //no error
+    y = y
+}
+```
+
+#### 22. log.Fatal and log.Panic会停止程序
+
+**log.Fatal and log.Panic**会让打断程序。示例如下：
+
+```go
+func main() {  
+    log.Fatalln("Fatal Level: log entry") //app exits here
+    log.Println("Normal Level: log entry")
+}
+```
+
+#### 23. 内置的数据结构不是同步的
+
+Go的内置数据结构都不支持并发，但是可以使用携程和通道来实现原子操作。
+
+#### 24. Go的计算优先级不太相同
+
+在Go中位运算符的优先级是高于基础运算符（加减乘除）。示例如下：
+
+```go
+func main() {  
+    fmt.Printf("0x2 & 0x2 + 0x4 -> %#x\n",0x2 & 0x2 + 0x4)
+    //prints: 0x2 & 0x2 + 0x4 -> 0x6
+    //Go:    (0x2 & 0x2) + 0x4
+    //C++:    0x2 & (0x2 + 0x4) -> 0x2
+    fmt.Printf("0x2 + 0x2 << 0x1 -> %#x\n",0x2 + 0x2 << 0x1)
+    //prints: 0x2 + 0x2 << 0x1 -> 0x6
+    //Go:     0x2 + (0x2 << 0x1)
+    //C++:   (0x2 + 0x2) << 0x1 -> 0x8
+    fmt.Printf("0xf | 0x2 ^ 0x2 -> %#x\n",0xf | 0x2 ^ 0x2)
+    //prints: 0xf | 0x2 ^ 0x2 -> 0xd
+    //Go:    (0xf | 0x2) ^ 0x2
+    //C++:    0xf | (0x2 ^ 0x2) -> 0xf
+}
+```
+
+#### 25. 协程还在运行程序便退出
+
+基本上如果不增加操作，程序是不会主动等待协程完成之后才会退出的。在Go中最基本的方式是使用`WaitGroup`来使得主进程等待所有的协程完成。示例如下：
+
+```go
+// 不做操作
+func main() {  
+    workerCount := 2
+
+    for i := 0; i < workerCount; i++ {
+        go doit(i)
+    }
+    time.Sleep(1 * time.Second)
+    fmt.Println("all done!")
+}
+
+func doit(workerId int) {  
+    fmt.Printf("[%v] is running\n",workerId)
+    time.Sleep(3 * time.Second)
+    fmt.Printf("[%v] is done\n",workerId)
+}
+//运行结果
+/**
+[0] is running
+[1] is running
+all done!
+*/
+// 使用WaitGroup
+func main() {  
+    var wg sync.WaitGroup
+    done := make(chan struct{})
+    wq := make(chan interface{})
+    workerCount := 2
+
+    for i := 0; i < workerCount; i++ {
+        wg.Add(1)
+        go doit(i,wq,done,&wg)
+    }
+
+    for i := 0; i < workerCount; i++ {
+        wq <- i
+    }
+
+    close(done)
+    wg.Wait()
+    fmt.Println("all done!")
+}
+
+func doit(workerId int, wq <-chan interface{},done <-chan struct{},wg *sync.WaitGroup) {  
+    fmt.Printf("[%v] is running\n",workerId)
+    defer wg.Done()
+    for {
+        select {
+        case m := <- wq:
+            fmt.Printf("[%v] m => %v\n",workerId,m)
+        case <- done:
+            fmt.Printf("[%v] is done\n",workerId)
+            return
+        }
+    }
+}
+//运行结果
+/*
+[1] is running
+[1] m => 0
+[0] is running
+[0] is done
+[1] m => 1
+[1] is done
+all done!
+*/
+```
+
+#### 26. 向无缓冲通道中发送消息
+
+在你的信息被接收方处理之前，发送方不会被阻塞。根据你运行代码的机器，在发送方继续执行之前，接收方的goroutine可能有也可能没有足够的时间来处理消息。示例如下：
+
+```go
+func main() {  
+    ch := make(chan string)
+
+    go func() {
+        for m := range ch {
+            fmt.Println("processed:",m)
+        }
+    }()
+
+    ch <- "cmd.1"
+    ch <- "cmd.2" //won't be processed
+}
+```
+
+#### 27. 向已经关闭的通道发送消息
+
+从已经关闭的通道中接收消息是安全的。返回值`ok`会被赋值为`false`表示没有数据被接收到。发送通道关闭周，向发送通道中再次发送数据会导致出错。示例如下：
+
+```go
+func main() {  
+    ch := make(chan int)
+    for i := 0; i < 3; i++ {
+        go func(idx int) {
+            ch <- (idx + 1) * 2
+        }(i)
+    }
+
+    //get the first result
+    fmt.Println(<-ch)
+    close(ch) //not ok (you still have other senders)
+    //do other work
+    time.Sleep(2 * time.Second)
+}
+```
+
+这个错误的例子可以通过使用一个特殊的取消通道，向剩余的工作者发出不再需要他们的结果的信号来解决。示例如下:
+
+```go
+func main() {  
+    ch := make(chan int)
+    done := make(chan struct{})
+    for i := 0; i < 3; i++ {
+        go func(idx int) {
+            select {
+            case ch <- (idx + 1) * 2: fmt.Println(idx,"sent result")
+            case <- done: fmt.Println(idx,"exiting")
+            }
+        }(i)
+    }
+
+    //get first result
+    fmt.Println("result:",<-ch)
+    close(done)
+    //do other work
+    time.Sleep(3 * time.Second)
+}
+```
+
+#### 28. 使用未初始化的通道
+
+向一个未初始化的通道中发送消息或者是接收消息会永远阻塞。示例如下：
+
+```go
+func main() {  
+    var ch chan int
+    for i := 0; i < 3; i++ {
+        go func(idx int) {
+            ch <- (idx + 1) * 2
+        }(i)
+    }
+
+    //get first result
+    fmt.Println("result:",<-ch)
+    //do other work
+    time.Sleep(2 * time.Second)
+}
+// 错误信息
+// all goroutines are asleep - deadlock!
+```
+
+这种行为可以作为一种方式，在`select`语句中动态地启用和禁用`case`块。。示例如下：
+
+```go
+func main() {  
+    inch := make(chan int)
+    outch := make(chan int)
+
+    go func() {
+        var in <- chan int = inch
+        var out chan <- int
+        var val int
+        for {
+            select {
+            case out <- val:
+                // 关闭输出通道
+                out = nil
+                in = inch
+            case val = <- in:
+                out = outch
+                // 关闭 输入通道
+                in = nil
+            }
+        }
+    }()
+
+    go func() {
+        for r := range outch {
+            fmt.Println("result:",r)
+        }
+    }()
+
+    time.Sleep(0)
+    inch <- 1
+    inch <- 2
+    time.Sleep(3 * time.Second)
+}
+```
+
+### 中级
+
+#### 1. 关闭HTTP响应
+
+关闭HTTP相应我们通常使用`defer`进行关闭，但是在大多数情况下我们可能会将`defer`语句放错位置。当相应为`nil`的时候就会出现错误。示例如下：
+
+```go
+// 错误示范
+//  如果请求正常相应，程序不会出错，但是如果不是正常相应，则会
+func main() {  
+    resp, err := http.Get("https://api.ipify.org?format=json")
+    defer resp.Body.Close()//not ok
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(string(body))
+}
+// 正确做法
+func main() {  
+    resp, err := http.Get("https://api.ipify.org?format=json")
+    // 为了防止 重定向相应，此时err为nil
+    if resp != nil {
+        defer resp.Body.Close()
+    }
+
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    fmt.Println(string(body))
+}
+```
+
+resp.Body.Close()的原始实现也读取并丢弃剩余的响应体数据。这确保了如果启用了http连接的keepalive行为，该http连接可以被重新用于另一个请求。最新的http客户端行为是不同的。现在，你有责任读取并丢弃剩余的响应数据。如果你不这样做，http连接可能会被关闭，而不是被重新使用。这个小问题应该在Go 1.5中有所记载。如果重用http连接对你的应用程序很重要，你可能需要在响应处理逻辑的末尾添加类似这样的东西。
+
+```go
+_, err = io.Copy(ioutil.Discard, resp.Body)  
+```
+
 
 
