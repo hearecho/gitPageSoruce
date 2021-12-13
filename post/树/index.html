@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-10",
     "description": "学习关于树的算法题",
-    "wordCount":  939 ,
+    "wordCount":  1250 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-10",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 10, 2021</time>
-                            | 5 minutes |939 Words
+                            | 6 minutes |1250 Words
                         </div>
                         <div class="tags">
                             
@@ -620,6 +620,44 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
+</div><h5 id="二叉树的直径httpsleetcode-cncomproblemsdiameter-of-binary-tree"><a href="https://leetcode-cn.com/problems/diameter-of-binary-tree/">二叉树的直径</a></h5>
+<p>一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。但是这个这个最长路径所经过的节点一定位于一个节点的左右子树，除非该节点没有左右子树。所以我们只需要计算该节点左右子树的最大深度之后相加即为直径的长度</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">diameterOfBinaryTree</span><span class="p">(</span><span class="nx">root</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="nx">res</span> <span class="o">:=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nx">depth</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="kt">int</span>
+    <span class="nx">depth</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">t</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="p">}</span>
+        <span class="nx">left</span> <span class="o">:=</span> <span class="nf">depth</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">Left</span><span class="p">)</span>
+        <span class="nx">right</span> <span class="o">:=</span> <span class="nf">depth</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">Right</span><span class="p">)</span>
+        <span class="nx">res</span> <span class="p">=</span> <span class="nf">max</span><span class="p">(</span><span class="nx">res</span><span class="p">,</span> <span class="nx">left</span> <span class="o">+</span> <span class="nx">right</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nf">max</span><span class="p">(</span><span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="p">}</span>
+    <span class="nf">depth</span><span class="p">(</span><span class="nx">root</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">res</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
 </div><h4 id="祖先问题">祖先问题</h4>
 <h5 id="二叉树的公共祖先">二叉树的公共祖先</h5>
 <p>公共祖先的问题有一个基本点就是自己可以算作自己的祖先，那么我们就可以按个搜索目标节点之后返回不为<code>nil</code>的那一只节点。</p>
@@ -654,6 +692,141 @@
         <span class="k">return</span> <span class="nx">left</span>
     <span class="p">}</span>
 	<span class="k">return</span> <span class="nx">root</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="二叉树路径问题">二叉树路径问题</h4>
+<h5 id="二叉树的所有路径httpsleetcode-cncomproblemsbinary-tree-paths"><a href="https://leetcode-cn.com/problems/binary-tree-paths/">二叉树的所有路径</a></h5>
+<p>路径一般指的是根节点到叶子节点的节点顺序。而寻找路径的情况下最多使用的方式是回溯，减少重复计算。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">binaryTreePaths</span><span class="p">(</span><span class="nx">root</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+    <span class="nx">res</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="kd">var</span> <span class="nx">bk</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">,</span> <span class="nx">cur</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span>
+
+    <span class="nx">bk</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">,</span> <span class="nx">cur</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">t</span><span class="p">.</span><span class="nx">Left</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">Right</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="c1">// 回溯截止
+</span><span class="c1"></span>            <span class="nx">temp</span> <span class="o">:=</span> <span class="s">&#34;&#34;</span>
+            <span class="k">for</span> <span class="nx">_</span><span class="p">,</span><span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">cur</span> <span class="p">{</span>
+                <span class="nx">temp</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;-&gt;&#34;</span><span class="p">)</span>
+            <span class="p">}</span>
+            <span class="nx">res</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">res</span><span class="p">,</span> <span class="nx">temp</span> <span class="o">+</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">Val</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nx">t</span><span class="p">.</span><span class="nx">Left</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="nf">bk</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">Left</span><span class="p">,</span> <span class="nb">append</span><span class="p">(</span><span class="nx">cur</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">Val</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nx">t</span><span class="p">.</span><span class="nx">Right</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="nf">bk</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">Right</span><span class="p">,</span> <span class="nb">append</span><span class="p">(</span><span class="nx">cur</span><span class="p">,</span> <span class="nx">t</span><span class="p">.</span><span class="nx">Val</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nf">bk</span><span class="p">(</span><span class="nx">root</span><span class="p">,</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nx">res</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="二叉搜索树">二叉搜索树</h4>
+<p>二叉搜索树（BST）是当前节点的值大于等于其左子树的值，小于等于其右子树的值。所以二叉搜索树中序遍历结果是有序递增的。二分查找的搜索顺序就是一颗二分搜索树。</p>
+<h5 id="二叉搜索树搜索httpsleetcode-cncomproblemssearch-in-a-binary-search-tree"><a href="https://leetcode-cn.com/problems/search-in-a-binary-search-tree/">二叉搜索树搜索</a></h5>
+<p>相当于是对一个有序数组进行二分查找。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">searchBST</span><span class="p">(</span><span class="nx">root</span> <span class="o">*</span><span class="nx">TreeNode</span><span class="p">,</span> <span class="nx">val</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">TreeNode</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">root</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="nx">root</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+     	<span class="nx">temp</span> <span class="o">:=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Val</span>
+        <span class="k">if</span> <span class="nx">temp</span> <span class="o">==</span> <span class="nx">val</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">root</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">temp</span> <span class="p">&gt;</span> <span class="nx">val</span> <span class="p">{</span>
+			<span class="nx">root</span> <span class="p">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Left</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">root</span> <span class="p">=</span> <span class="nx">root</span><span class="p">.</span><span class="nx">Right</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="创建最小高度的树httpsleetcode-cncomproblemsminimum-height-tree-lcci"><a href="https://leetcode-cn.com/problems/minimum-height-tree-lcci/">创建最小高度的树</a></h5>
+<p>从有序数组中创建高度最小树，则使用二分搜索创建即可，根节点的左右子树高度应该尽可能的相同。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">sortedArrayToBST</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">TreeNode</span> <span class="p">{</span>
+    <span class="c1">// 高度最小  则应该是创建为 二分搜索树
+</span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">build</span> <span class="kd">func</span><span class="p">(</span><span class="nx">l</span><span class="p">,</span><span class="nx">h</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">TreeNode</span>
+    <span class="nx">build</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">l</span><span class="p">,</span><span class="nx">h</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">TreeNode</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">l</span> <span class="p">&gt;</span> <span class="nx">h</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">nil</span>
+        <span class="p">}</span>
+        <span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="nx">root</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">TreeNode</span><span class="p">{</span><span class="nx">Val</span><span class="p">:</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]}</span>
+        <span class="nx">root</span><span class="p">.</span><span class="nx">Left</span> <span class="p">=</span> <span class="nf">build</span><span class="p">(</span><span class="nx">l</span><span class="p">,</span> <span class="nx">mid</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nx">root</span><span class="p">.</span><span class="nx">Right</span> <span class="p">=</span> <span class="nf">build</span><span class="p">(</span><span class="nx">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">root</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nf">build</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>

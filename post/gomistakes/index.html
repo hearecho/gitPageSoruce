@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-08",
     "description": "Go常见错误的处理方法",
-    "wordCount":  1327 ,
+    "wordCount":  2277 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-08",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 08, 2021</time>
-                            | 7 minutes |1327 Words
+                            | 11 minutes |2277 Words
                         </div>
                         <div class="tags">
                             
@@ -1000,7 +1000,567 @@
 </code></pre></td></tr></table>
 </div>
 </div><p>*注意：*这个和上面转换一样存在意外情况就是字符串中含有<code>é</code>等类似字符，因为其占用两个字符。</p>
+<h4 id="21-在多行表示的切片数组和哈希表中缺少逗号">21. 在多行表示的切片，数组和哈希表中缺少逗号</h4>
+<p>在单行的时候，最后一个元素后面可以不用跟符号(多了也不会出现错误)，但是多行不可以，每一行最后都需要逗号。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">2</span> <span class="c1">//error
+</span><span class="c1"></span>    <span class="p">}</span>
+    <span class="nx">_</span> <span class="p">=</span> <span class="nx">x</span>
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// syntax error: need trailing comma before
+</span><span class="c1">// 正确示例
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="nx">x</span> <span class="p">=</span> <span class="nx">x</span>
 
+    <span class="nx">y</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,}</span> <span class="c1">//no error
+</span><span class="c1"></span>    <span class="nx">y</span> <span class="p">=</span> <span class="nx">y</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="22-logfatal-and-logpanic会停止程序">22. log.Fatal and log.Panic会停止程序</h4>
+<p><strong>log.Fatal and log.Panic</strong>会让打断程序。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="s">&#34;Fatal Level: log entry&#34;</span><span class="p">)</span> <span class="c1">//app exits here
+</span><span class="c1"></span>    <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Normal Level: log entry&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="23-内置的数据结构不是同步的">23. 内置的数据结构不是同步的</h4>
+<p>Go的内置数据结构都不支持并发，但是可以使用携程和通道来实现原子操作。</p>
+<h4 id="24-go的计算优先级不太相同">24. Go的计算优先级不太相同</h4>
+<p>在Go中位运算符的优先级是高于基础运算符（加减乘除）。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;0x2 &amp; 0x2 + 0x4 -&gt; %#x\n&#34;</span><span class="p">,</span><span class="mh">0x2</span> <span class="o">&amp;</span> <span class="mh">0x2</span> <span class="o">+</span> <span class="mh">0x4</span><span class="p">)</span>
+    <span class="c1">//prints: 0x2 &amp; 0x2 + 0x4 -&gt; 0x6
+</span><span class="c1"></span>    <span class="c1">//Go:    (0x2 &amp; 0x2) + 0x4
+</span><span class="c1"></span>    <span class="c1">//C++:    0x2 &amp; (0x2 + 0x4) -&gt; 0x2
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;0x2 + 0x2 &lt;&lt; 0x1 -&gt; %#x\n&#34;</span><span class="p">,</span><span class="mh">0x2</span> <span class="o">+</span> <span class="mh">0x2</span> <span class="o">&lt;&lt;</span> <span class="mh">0x1</span><span class="p">)</span>
+    <span class="c1">//prints: 0x2 + 0x2 &lt;&lt; 0x1 -&gt; 0x6
+</span><span class="c1"></span>    <span class="c1">//Go:     0x2 + (0x2 &lt;&lt; 0x1)
+</span><span class="c1"></span>    <span class="c1">//C++:   (0x2 + 0x2) &lt;&lt; 0x1 -&gt; 0x8
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;0xf | 0x2 ^ 0x2 -&gt; %#x\n&#34;</span><span class="p">,</span><span class="mh">0xf</span> <span class="p">|</span> <span class="mh">0x2</span> <span class="p">^</span> <span class="mh">0x2</span><span class="p">)</span>
+    <span class="c1">//prints: 0xf | 0x2 ^ 0x2 -&gt; 0xd
+</span><span class="c1"></span>    <span class="c1">//Go:    (0xf | 0x2) ^ 0x2
+</span><span class="c1"></span>    <span class="c1">//C++:    0xf | (0x2 ^ 0x2) -&gt; 0xf
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="25-协程还在运行程序便退出">25. 协程还在运行程序便退出</h4>
+<p>基本上如果不增加操作，程序是不会主动等待协程完成之后才会退出的。在Go中最基本的方式是使用<code>WaitGroup</code>来使得主进程等待所有的协程完成。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 不做操作
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">workerCount</span> <span class="o">:=</span> <span class="mi">2</span>
+
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">workerCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="nf">doit</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;all done!&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">doit</span><span class="p">(</span><span class="nx">workerId</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;[%v] is running\n&#34;</span><span class="p">,</span><span class="nx">workerId</span><span class="p">)</span>
+    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;[%v] is done\n&#34;</span><span class="p">,</span><span class="nx">workerId</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">//运行结果
+</span><span class="c1"></span><span class="cm">/**
+</span><span class="cm">[0] is running
+</span><span class="cm">[1] is running
+</span><span class="cm">all done!
+</span><span class="cm">*/</span>
+<span class="c1">// 使用WaitGroup
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+    <span class="nx">done</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span>
+    <span class="nx">wq</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">interface</span><span class="p">{})</span>
+    <span class="nx">workerCount</span> <span class="o">:=</span> <span class="mi">2</span>
+
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">workerCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">go</span> <span class="nf">doit</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">wq</span><span class="p">,</span><span class="nx">done</span><span class="p">,</span><span class="o">&amp;</span><span class="nx">wg</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">workerCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">wq</span> <span class="o">&lt;-</span> <span class="nx">i</span>
+    <span class="p">}</span>
+
+    <span class="nb">close</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span>
+    <span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;all done!&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">doit</span><span class="p">(</span><span class="nx">workerId</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">wq</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">interface</span><span class="p">{},</span><span class="nx">done</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{},</span><span class="nx">wg</span> <span class="o">*</span><span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;[%v] is running\n&#34;</span><span class="p">,</span><span class="nx">workerId</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">{</span>
+        <span class="k">select</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nx">m</span> <span class="o">:=</span> <span class="o">&lt;-</span> <span class="nx">wq</span><span class="p">:</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;[%v] m =&gt; %v\n&#34;</span><span class="p">,</span><span class="nx">workerId</span><span class="p">,</span><span class="nx">m</span><span class="p">)</span>
+        <span class="k">case</span> <span class="o">&lt;-</span> <span class="nx">done</span><span class="p">:</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;[%v] is done\n&#34;</span><span class="p">,</span><span class="nx">workerId</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">//运行结果
+</span><span class="c1"></span><span class="cm">/*
+</span><span class="cm">[1] is running
+</span><span class="cm">[1] m =&gt; 0
+</span><span class="cm">[0] is running
+</span><span class="cm">[0] is done
+</span><span class="cm">[1] m =&gt; 1
+</span><span class="cm">[1] is done
+</span><span class="cm">all done!
+</span><span class="cm">*/</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="26-向无缓冲通道中发送消息">26. 向无缓冲通道中发送消息</h4>
+<p>在你的信息被接收方处理之前，发送方不会被阻塞。根据你运行代码的机器，在发送方继续执行之前，接收方的goroutine可能有也可能没有足够的时间来处理消息。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">)</span>
+
+    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="nx">m</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">ch</span> <span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;processed:&#34;</span><span class="p">,</span><span class="nx">m</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+
+    <span class="nx">ch</span> <span class="o">&lt;-</span> <span class="s">&#34;cmd.1&#34;</span>
+    <span class="nx">ch</span> <span class="o">&lt;-</span> <span class="s">&#34;cmd.2&#34;</span> <span class="c1">//won&#39;t be processed
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="27-向已经关闭的通道发送消息">27. 向已经关闭的通道发送消息</h4>
+<p>从已经关闭的通道中接收消息是安全的。返回值<code>ok</code>会被赋值为<code>false</code>表示没有数据被接收到。发送通道关闭周，向发送通道中再次发送数据会导致出错。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">idx</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">ch</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="nx">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1">//get the first result
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">&lt;-</span><span class="nx">ch</span><span class="p">)</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">ch</span><span class="p">)</span> <span class="c1">//not ok (you still have other senders)
+</span><span class="c1"></span>    <span class="c1">//do other work
+</span><span class="c1"></span>    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这个错误的例子可以通过使用一个特殊的取消通道，向剩余的工作者发出不再需要他们的结果的信号来解决。示例如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+    <span class="nx">done</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">idx</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">select</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="nx">ch</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="nx">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">idx</span><span class="p">,</span><span class="s">&#34;sent result&#34;</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">&lt;-</span> <span class="nx">done</span><span class="p">:</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">idx</span><span class="p">,</span><span class="s">&#34;exiting&#34;</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1">//get first result
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;result:&#34;</span><span class="p">,</span><span class="o">&lt;-</span><span class="nx">ch</span><span class="p">)</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span>
+    <span class="c1">//do other work
+</span><span class="c1"></span>    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="28-使用未初始化的通道">28. 使用未初始化的通道</h4>
+<p>向一个未初始化的通道中发送消息或者是接收消息会永远阻塞。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="kd">var</span> <span class="nx">ch</span> <span class="kd">chan</span> <span class="kt">int</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">idx</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">ch</span> <span class="o">&lt;-</span> <span class="p">(</span><span class="nx">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="p">}(</span><span class="nx">i</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1">//get first result
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;result:&#34;</span><span class="p">,</span><span class="o">&lt;-</span><span class="nx">ch</span><span class="p">)</span>
+    <span class="c1">//do other work
+</span><span class="c1"></span>    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">// 错误信息
+</span><span class="c1">// all goroutines are asleep - deadlock!
+</span></code></pre></td></tr></table>
+</div>
+</div><p>这种行为可以作为一种方式，在<code>select</code>语句中动态地启用和禁用<code>case</code>块。。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">inch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+    <span class="nx">outch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+
+    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">in</span> <span class="o">&lt;-</span> <span class="kd">chan</span> <span class="kt">int</span> <span class="p">=</span> <span class="nx">inch</span>
+        <span class="kd">var</span> <span class="nx">out</span> <span class="kd">chan</span> <span class="o">&lt;-</span> <span class="kt">int</span>
+        <span class="kd">var</span> <span class="nx">val</span> <span class="kt">int</span>
+        <span class="k">for</span> <span class="p">{</span>
+            <span class="k">select</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="nx">out</span> <span class="o">&lt;-</span> <span class="nx">val</span><span class="p">:</span>
+                <span class="c1">// 关闭输出通道
+</span><span class="c1"></span>                <span class="nx">out</span> <span class="p">=</span> <span class="kc">nil</span>
+                <span class="nx">in</span> <span class="p">=</span> <span class="nx">inch</span>
+            <span class="k">case</span> <span class="nx">val</span> <span class="p">=</span> <span class="o">&lt;-</span> <span class="nx">in</span><span class="p">:</span>
+                <span class="nx">out</span> <span class="p">=</span> <span class="nx">outch</span>
+                <span class="c1">// 关闭 输入通道
+</span><span class="c1"></span>                <span class="nx">in</span> <span class="p">=</span> <span class="kc">nil</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+
+    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="nx">r</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">outch</span> <span class="p">{</span>
+            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;result:&#34;</span><span class="p">,</span><span class="nx">r</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+
+    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nx">inch</span> <span class="o">&lt;-</span> <span class="mi">1</span>
+    <span class="nx">inch</span> <span class="o">&lt;-</span> <span class="mi">2</span>
+    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="中级">中级</h3>
+<h4 id="1-关闭http响应">1. 关闭HTTP响应</h4>
+<p>关闭HTTP相应我们通常使用<code>defer</code>进行关闭，但是在大多数情况下我们可能会将<code>defer</code>语句放错位置。当相应为<code>nil</code>的时候就会出现错误。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 错误示范
+</span><span class="c1">//  如果请求正常相应，程序不会出错，但是如果不是正常相应，则会
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;https://api.ipify.org?format=json&#34;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span><span class="c1">//not ok
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="nx">body</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">body</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="c1">// 正确做法
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="s">&#34;https://api.ipify.org?format=json&#34;</span><span class="p">)</span>
+    <span class="c1">// 为了防止 重定向相应，此时err为nil
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nx">resp</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="nx">body</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nf">ReadAll</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">body</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>resp.Body.Close()的原始实现也读取并丢弃剩余的响应体数据。这确保了如果启用了http连接的keepalive行为，该http连接可以被重新用于另一个请求。最新的http客户端行为是不同的。现在，你有责任读取并丢弃剩余的响应数据。如果你不这样做，http连接可能会被关闭，而不是被重新使用。这个小问题应该在Go 1.5中有所记载。如果重用http连接对你的应用程序很重要，你可能需要在响应处理逻辑的末尾添加类似这样的东西。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">Copy</span><span class="p">(</span><span class="nx">ioutil</span><span class="p">.</span><span class="nx">Discard</span><span class="p">,</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>  
+</code></pre></td></tr></table>
+</div>
+</div>
     </div>
 </div>
 
