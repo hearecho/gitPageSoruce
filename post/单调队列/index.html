@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-24",
     "description": "单调队列，单调栈等等",
-    "wordCount":  91 ,
+    "wordCount":  175 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-24",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 24, 2021</time>
-                            | 1 minutes |91 Words
+                            | 1 minutes |175 Words
                         </div>
                         <div class="tags">
                             
@@ -165,10 +165,59 @@
 	<span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="nx">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">dqueue</span><span class="p">)</span> <span class="nf">Pop</span><span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">){</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span><span class="nx">dqueue</span><span class="p">)</span> <span class="nf">Pop</span><span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">d</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">*</span><span class="nx">d</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nx">n</span> <span class="p">{</span>
-		<span class="o">*</span><span class="nx">d</span> <span class="p">=</span> <span class="p">(</span><span class="o">*</span><span class="nx">d</span><span class="p">)[:</span><span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">d</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+		<span class="o">*</span><span class="nx">d</span> <span class="p">=</span> <span class="p">(</span><span class="o">*</span><span class="nx">d</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
 	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="例题-滑动窗口最大值httpsleetcode-cncomleetbookreadtop-interview-questionsxatgye">例题： <a href="https://leetcode-cn.com/leetbook/read/top-interview-questions/xatgye/">滑动窗口最大值</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">maxSlidingWindowQueue</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">k</span> <span class="kt">int</span><span class="p">)</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">{</span>
+	<span class="c1">// 使用单调队列或者是 优先队列 优先队列存储的索引，但是按照的是最大值进行的排序
+</span><span class="c1"></span>	<span class="nx">res</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+	<span class="nx">q</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="nx">dqueue</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">j</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">j</span><span class="o">-</span><span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">k</span> <span class="p">{</span>
+			<span class="nx">q</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">t</span> <span class="o">:=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+			<span class="nx">res</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">res</span><span class="p">,</span> <span class="nx">q</span><span class="p">.</span><span class="nf">Max</span><span class="p">())</span>
+			<span class="nx">q</span><span class="p">.</span><span class="nf">Pop</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+			<span class="k">if</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">q</span><span class="p">.</span><span class="nf">Push</span><span class="p">(</span><span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
+			<span class="p">}</span>
+			<span class="nx">i</span><span class="o">++</span>
+		<span class="p">}</span>
+		<span class="nx">j</span><span class="o">++</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">res</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
