@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-24",
     "description": "单调队列，单调栈等等",
-    "wordCount":  175 ,
+    "wordCount":  388 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-24",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 24, 2021</time>
-                            | 1 minutes |175 Words
+                            | 2 minutes |388 Words
                         </div>
                         <div class="tags">
                             
@@ -221,7 +221,161 @@
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
+</div><h3 id="单调栈">单调栈</h3>
+<p>单调栈和单调队列类似，也是为了维持单调性，所以在插入的过程中需要删除一些元素。例如如果一个栈中暂时有数据<code>{81，45，11，0}</code>，那么要插入<code>14</code>的时候，就需要先把<code>0,11</code>出栈。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Monotonstack</span> <span class="p">[]</span><span class="kt">int</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">Monotonstack</span><span class="p">)</span> <span class="nf">Push</span><span class="p">(</span><span class="nx">x</span> <span class="kt">int</span><span class="p">)</span>  <span class="p">{</span>
+	<span class="k">for</span> <span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)[</span><span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">x</span> <span class="p">{</span>
+		<span class="o">*</span><span class="nx">m</span> <span class="p">=</span> <span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)[:</span><span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="o">*</span><span class="nx">m</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">,</span> <span class="nx">x</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 之所以传入值 是因为可能需要取出的值已经不存在了
+</span><span class="c1"></span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">m</span> <span class="o">*</span><span class="nx">Monotonstack</span><span class="p">)</span> <span class="nf">Pop</span><span class="p">(</span><span class="nx">x</span> <span class="kt">int</span><span class="p">)</span>  <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">x</span> <span class="o">==</span> <span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)[</span><span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">{</span>
+		<span class="o">*</span><span class="nx">m</span> <span class="p">=</span> <span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)[:</span><span class="nb">len</span><span class="p">(</span><span class="o">*</span><span class="nx">m</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
+</div><h3 id="并查集">并查集</h3>
+<p>并查集是一种树形的数据结构，但是存储是使用数组进行存储的。主要用于处理一些不交集的合并及查询问题。</p>
+<h4 id="初始化">初始化</h4>
+<p>初始化就是初始化一个数组，并且本身在自己的集合之中。即<code>fa[i]=i</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">makeSet</span><span class="p">(</span><span class="nx">size</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="o">:=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="p">&lt;</span><span class="nx">size</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">fa</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">i</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="查找">查找</h4>
+<p>通俗地讲一个故事：几个家族进行宴会，但是家族普遍长寿，所以人数众多。由于长时间的分离以及年龄的增长，这些人逐渐忘掉了自己的亲人，只记得自己的爸爸是谁了，而最长者（称为「祖先」）的父亲已经去世，他只知道自己是祖先。为了确定自己是哪个家族，他们想出了一个办法，只要问自己的爸爸是不是祖先，一层一层的向上问，直到问到祖先。如果要判断两人是否在同一家族，只要看两人的祖先是不是同一人就可以了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nx">x</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span><span class="p">{</span>
+    <span class="k">if</span> <span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="o">==</span> <span class="nx">x</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">x</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nf">find</span><span class="p">(</span><span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">])</span>
+<span class="p">}</span>
+<span class="c1">// 查找就是查找给定角色的祖先
+</span></code></pre></td></tr></table>
+</div>
+</div><h4 id="路径压缩">路径压缩</h4>
+<p>如果只是需要查找祖先，则这样查找有较多的浪费，所以进行路径压缩，将路径上的各个节点都直接连接欸在根节点上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nx">X</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="o">!=</span> <span class="nx">x</span> <span class="p">{</span>
+        <span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="p">=</span> <span class="nf">find</span><span class="p">(</span><span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="合并">合并</h4>
+<h5 id="简单合并">简单合并</h5>
+<p>两个不相交的并查集合并成为一个并查集，简单的合并就是让一个祖先成为另一个祖先的儿子。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">union</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">x</span> <span class="p">=</span> <span class="nf">find</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+    <span class="nx">y</span> <span class="p">=</span> <span class="nf">find</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span>
+    <span class="nx">fa</span><span class="p">[</span><span class="nx">x</span><span class="p">]</span> <span class="p">=</span> <span class="nx">y</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="按照秩合并">按照秩合并</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">union</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">xx</span><span class="p">,</span> <span class="nx">yy</span> <span class="o">:=</span> <span class="nf">find</span><span class="p">(</span><span class="nx">x</span><span class="p">),</span> <span class="nf">find</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">xx</span> <span class="o">==</span> <span class="nx">yy</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> 
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">size</span><span class="p">[</span><span class="nx">xx</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">size</span><span class="p">[</span><span class="nx">yy</span><span class="p">]</span> <span class="p">{</span>
+        <span class="nx">xx</span><span class="p">,</span> <span class="nx">yy</span> <span class="p">=</span> <span class="nx">yy</span><span class="p">,</span> <span class="nx">xx</span>
+    <span class="p">}</span>
+    <span class="nx">fa</span><span class="p">[</span><span class="nx">xx</span><span class="p">]</span> <span class="p">=</span> <span class="nx">yy</span>
+    <span class="nx">size</span><span class="p">[</span><span class="nx">yy</span><span class="p">]</span> <span class="p">=</span> <span class="nx">size</span><span class="p">[</span><span class="nx">xx</span><span class="p">]</span> <span class="o">+</span> <span class="nx">size</span><span class="p">[</span><span class="nx">yy</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="引用">引用</h3>
+<ol>
+<li><a href="https://oi-wiki.org/ds/dsu/#_9">并查集 - OI Wiki (oi-wiki.org)</a></li>
+</ol>
+
     </div>
 </div>
 
