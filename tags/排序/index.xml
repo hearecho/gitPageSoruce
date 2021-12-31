@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>排序 on Road to Final</title>
+    <link>https://hearecho.github.io/tags/%E6%8E%92%E5%BA%8F/</link>
+    <description>Recent content in 排序 on Road to Final</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 30 Dec 2021 13:45:44 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E6%8E%92%E5%BA%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>排序</title>
+      <link>https://hearecho.github.io/post/%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Thu, 30 Dec 2021 13:45:44 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/%E6%8E%92%E5%BA%8F/</guid>
+      <description>排序 排序算法就是将一组数据按照特定的规则进行排列。排序算法主要从时间复杂度，空间复杂度，稳定性等方面来考虑性能。稳定性：稳定性指的是相等的排序元素再经过排序之后相对顺序是否发生了改变。这个主要是防止破环原有的顺序，一般再多次使用不同的key来排序元素的时候防止破坏上次排序。
+基数排序、计数排序、插入排序、冒泡排序、归并排序是稳定排序。选择排序、堆排序、快速排序不是稳定排序。
+选择排序 选择排序就是一次从未排序的数组中选择最小或者是最大的元素与当前元素进行交换。
+稳定性 由于选择排序存在swap操作，所以选择排序是一种不稳定排序算法。
+时间复杂度和空间复杂度 时间复杂度为$O(n^2)$，没有使用额外的空间。
+实现 1 2 3 4 5 6 7 8 9 10 11  func SelectSort(nums []int) { for i := 0; i &amp;lt; len(nums); i++ { min := i for j := i; j &amp;lt; len(nums); j++ { if nums[min] &amp;gt; nums[j] { min = j } } nums[i], nums[min] = nums[min], nums[i] } }   冒泡排序 冒泡排序相比较于选择排序同样是进行交换，不过冒泡排序是将较小的元素不断的进行上浮。工作原理就是每次比较相邻的两个元素，然后入喉第i个元素小于第i+1个元素，则将两个元素进行交换，知道某一次遍历过程中没有发生交换则证明排序完成。
+稳定性 冒泡排序虽然进行了交换，但是交换是相邻的两个元素进行交换，而相同的元素不会进行交换，所以没有破坏原有的顺序。冒泡排序是一个稳定的排序算法。</description>
+    </item>
+    
+  </channel>
+</rss>

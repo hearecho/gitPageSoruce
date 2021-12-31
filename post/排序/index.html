@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>排序 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="排序 | Road to Final"/>
+    <meta itemprop="name" content="排序 | Road to Final" />
+    <meta name="twitter:title" content="排序 | Road to Final" />
+    <meta name="application-name" content="排序 | Road to Final" />
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
+    <meta name="description" content="Work，Walk，Rest!" />
+    <meta name="twitter:description" content="Work，Walk，Rest!"/>
+    <meta itemprop="description" content="Work，Walk，Rest!"/>
+    <meta property="og:description" content="Work，Walk，Rest!" />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2021-12-30T13:45:44&#43;0800 />
+<meta property="article:published_time" content=2021-12-30T13:45:44&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "排序",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2021-12-30",
+    "description": "",
+    "wordCount":  290 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2021-12-30",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>排序</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>December 30, 2021</time>
+                            | 2 minutes |290 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <h2 id="排序">排序</h2>
+<p>排序算法就是将一组数据按照特定的规则进行排列。排序算法主要从时间复杂度，空间复杂度，稳定性等方面来考虑性能。<strong>稳定性</strong>：稳定性指的是相等的排序元素再经过排序之后相对顺序是否发生了改变。这个主要是防止破环原有的顺序，一般再多次使用不同的<code>key</code>来排序元素的时候防止破坏上次排序。</p>
+<p><em>基数排序、计数排序、插入排序、冒泡排序、归并排序是稳定排序。选择排序、堆排序、快速排序不是稳定排序。</em></p>
+<h3 id="选择排序">选择排序</h3>
+<p>选择排序就是一次从未排序的数组中选择最小或者是最大的元素与当前元素进行交换。</p>
+<h4 id="稳定性">稳定性</h4>
+<p>由于选择排序存在<code>swap</code>操作，所以选择排序是一种不稳定排序算法。</p>
+<h4 id="时间复杂度和空间复杂度">时间复杂度和空间复杂度</h4>
+<p>时间复杂度为$O(n^2)$，没有使用额外的空间。</p>
+<h4 id="实现">实现</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">SelectSort</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">min</span> <span class="o">:=</span> <span class="nx">i</span>
+		<span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="nx">i</span><span class="p">;</span> <span class="nx">j</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">);</span> <span class="nx">j</span><span class="o">++</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">min</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">{</span>
+				<span class="nx">min</span> <span class="p">=</span> <span class="nx">j</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">min</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">min</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="冒泡排序">冒泡排序</h3>
+<p>冒泡排序相比较于选择排序同样是进行交换，不过冒泡排序是将较小的元素不断的进行上浮。工作原理就是每次比较相邻的两个元素，然后入喉第<code>i</code>个元素小于第<code>i+1</code>个元素，则将两个元素进行交换，知道某一次遍历过程中没有发生交换则证明排序完成。</p>
+<h4 id="稳定性-1">稳定性</h4>
+<p>冒泡排序虽然进行了交换，但是交换是相邻的两个元素进行交换，而相同的元素不会进行交换，所以没有破坏原有的顺序。冒泡排序是一个稳定的排序算法。</p>
+<h4 id="时间复杂度和空间复杂度-1">时间复杂度和空间复杂度</h4>
+<p>时间复杂度为$O(n^2)$，完全有序的时候为$O(n)$.没有使用额外的空间。</p>
+<h4 id="实现-1">实现</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">BubbleSort</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">flag</span> <span class="o">:=</span> <span class="kc">true</span>
+	<span class="k">for</span> <span class="nx">flag</span> <span class="p">{</span>
+		<span class="nx">flag</span> <span class="p">=</span> <span class="kc">false</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">{</span>
+				<span class="nx">flag</span> <span class="p">=</span> <span class="kc">true</span>
+				<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="插入排序">插入排序</h3>
+<p>插入排序是将未排序范围内的元素，选择一个然后在插入到已经排序的元素中的正确位置。和选择排序不相同，选择排序是直接将选择的元素加在已经排序元素的最后面，而插入排序需要搜索之后才知道元素的合适位置。</p>
+<h4 id="稳定性-2">稳定性</h4>
+<p>插入排序是一种稳定的排序算法。</p>
+<h4 id="时间复杂度和空间复杂度-2">时间复杂度和空间复杂度</h4>
+<p>插入排序的最优时间复杂度为 $O(n)$，在数列几乎有序时效率很高。</p>
+<p>插入排序的最坏时间复杂度和平均时间复杂度都为 $O(n^2)$，没有使用额外的空间。</p>
+<h4 id="实现-2">实现</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">InsertSort</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">key</span> <span class="o">:=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+		<span class="nx">j</span> <span class="o">:=</span> <span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="nx">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">key</span> <span class="p">{</span>
+			<span class="c1">// 从后往前遍历，来查找插入位置
+</span><span class="c1"></span>			<span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span>
+			<span class="nx">j</span><span class="o">--</span>
+		<span class="p">}</span>
+		<span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="nx">key</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="快速排序">快速排序</h3>
+<p>快排的工作原理就是将数组化作两个部分，然后对每个部分再次进行递归排序，因为在划分的过程已经进行了排序，所以不需要进行合并，此时的数列已经完全有序了。快排在选择哨兵的方法和遍历交换过程都有几种实现方法。</p>
+<h4 id="稳定性-3">稳定性</h4>
+<p>快排是一种不稳定的排序算法。</p>
+<h4 id="时间复杂度和空间复杂度-3">时间复杂度和空间复杂度</h4>
+<p>快速排序的最优时间复杂度和平均时间复杂度为 $O(nlogn)$，最坏时间复杂度为 $O(n^2)$。</p>
+<h4 id="基础实现">基础实现</h4>
+<p>基础实现，哨兵选择第一个元素，然后分别使用两个指针从后和从前找到元素进行交换。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">quickSort</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// 第一种 使用双指针从两端进行遍历
+</span><span class="c1"></span>	<span class="c1">// 哨兵的话使用 nums[l]
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">l</span> <span class="o">&gt;=</span> <span class="nx">h</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="o">:=</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">h</span>
+	<span class="nx">watch</span> <span class="o">:=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">j</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">j</span> <span class="o">&amp;&amp;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">watch</span> <span class="p">{</span>
+			<span class="nx">j</span><span class="o">--</span>
+		<span class="p">}</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">j</span> <span class="o">&amp;&amp;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nx">watch</span> <span class="p">{</span>
+			<span class="nx">i</span><span class="o">++</span>
+		<span class="p">}</span>
+		<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+	<span class="nf">quickSort</span><span class="p">(</span><span class="nx">nums</span><span class="p">,</span> <span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
+	<span class="nf">quickSort</span><span class="p">(</span><span class="nx">nums</span><span class="p">,</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="优化思想">优化思想</h4>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/%E7%89%B9%E6%AE%8A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="Previous post (older)">
+            <span>Previous</span>
+            特殊的数据结构
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>
