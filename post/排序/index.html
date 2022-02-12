@@ -42,7 +42,7 @@
     },
     "datePublished": "2021-12-30",
     "description": "",
-    "wordCount":  290 ,
+    "wordCount":  426 ,
     "mainEntityOfPage": "True",
     "dateModified": "2021-12-30",
     "publisher": {
@@ -106,7 +106,7 @@
                               
                             
                             By Hearecho | <time>December 30, 2021</time>
-                            | 2 minutes |290 Words
+                            | 2 minutes |426 Words
                         </div>
                         <div class="tags">
                             
@@ -290,6 +290,84 @@
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="优化思想">优化思想</h4>
+<ul>
+<li>通过 <strong>三数取中（即选取第一个、最后一个以及中间的元素中的中位数）</strong> 的方法来选择两个子序列的分界元素（即比较基准）。这样可以避免极端数据（如升序序列或降序序列）带来的退化；</li>
+<li>当序列较短时，使用 <strong>插入排序</strong> 的效率更高；</li>
+<li>每趟排序后，<strong>将与分界元素相等的元素聚集在分界元素周围</strong>，这样可以避免极端数据（如序列中大部分元素都相等）带来的退化。</li>
+</ul>
+<h4 id="三路快排">三路快排</h4>
+<p>三路快速排序是快速排序和 基数排序的混合。三路快排在选取分界点$M$之后，会将待排序数列划分为三个部分：小于$M$，等于$M$，以及大于$M$。从原理就可以看出三路快排在处理重复元素较多的数组中，效率远远高于原始的快速排序。其最佳时间复杂度为$O(n)$。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">ThreeQuikcSort</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">h</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">l</span> <span class="o">&gt;=</span> <span class="nx">h</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="nx">random_index</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span> <span class="o">+</span> <span class="nx">l</span>
+	<span class="nx">pivot</span> <span class="o">:=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">random_index</span><span class="p">]</span>
+	<span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">random_index</span><span class="p">]</span> <span class="p">=</span> <span class="nx">pivot</span><span class="p">,</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span>
+	<span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">k</span> <span class="o">:=</span> <span class="nx">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">h</span><span class="o">+</span><span class="mi">1</span>
+    <span class="c1">// i表示等于，j表示小于，k表示大于
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">k</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">pivot</span> <span class="p">{</span>
+			<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+			<span class="nx">i</span><span class="o">++</span>
+			<span class="nx">j</span><span class="o">++</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">pivot</span> <span class="p">{</span>
+			<span class="c1">// 这个时候由于我们是从前往后进行遍历，所以不修改i
+</span><span class="c1"></span>			<span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">k</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+			<span class="nx">k</span><span class="o">--</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="c1">// 相等的时候
+</span><span class="c1"></span>			<span class="nx">i</span><span class="o">++</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span>
+	<span class="nf">ThreeQuikcSort</span><span class="p">(</span><span class="nx">nums</span><span class="p">,</span> <span class="nx">l</span><span class="p">,</span> <span class="nx">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+	<span class="nf">ThreeQuikcSort</span><span class="p">(</span><span class="nx">nums</span><span class="p">,</span> <span class="nx">k</span><span class="p">,</span> <span class="nx">h</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="归并排序">归并排序</h3>
+<p>归并排序的主要步骤就是分割之后合并。最重要的部分就是将两个有序的数组合并为一个有序的数组。其主要的三个步骤为：</p>
+<ol>
+<li>将当前数组段划分为两个部分；</li>
+<li>递归地分别对两个子学列进行归并排序。</li>
+<li>将子序列进行合并</li>
+</ol>
+<h4 id="稳定性-4">稳定性</h4>
+<p>归并排序是一种稳定的排序算法。</p>
+<h4 id="时间复杂度和空间复杂度-4">时间复杂度和空间复杂度</h4>
+<p>快速排序的最优时间复杂度和平均时间复杂度为 $O(nlogn)$，空间复杂度为 $O(n)$。</p>
 
     </div>
 </div>
@@ -304,6 +382,11 @@
             </a>
         
         
+        
+        <a rel="next" href="https://hearecho.github.io/post/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" title="Next post (newer)">
+            <span>Next</span>
+            滑动窗口
+            </a> 
         
     </nav>
     
@@ -320,6 +403,14 @@
             
         </nav>
     </section>
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
     <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
 </footer>
     </body>
