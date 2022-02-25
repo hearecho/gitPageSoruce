@@ -6,7 +6,19 @@
     <description>Recent content in Posts on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 12 Feb 2022 15:35:05 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Feb 2022 14:12:22 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go Question</title>
+      <link>https://hearecho.github.io/post/go-question/</link>
+      <pubDate>Fri, 25 Feb 2022 14:12:22 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/go-question/</guid>
+      <description>Go Questions 1.nil切片和空切片、零切片 nil切片指向的地址为0，而所有创建的空切片的内存地址是存在的，并且是一个固定值。
+零切片就是底层数组内部数据全是零变量。说白了就是使用make初始化之后的切片。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  func compareSlice() { var s1 []int s2 := make([]int,0) s4 := make([]int,0) fmt.Printf(&amp;#34;s1 pointer:%+v, s2 pointer:%+v, s4 pointer:%+v, \n&amp;#34;, *(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s1)),*(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s2)),*(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s4))) fmt.Printf(&amp;#34;%v\n&amp;#34;, (*(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s1))).Data==(*(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s2))).Data) fmt.Printf(&amp;#34;%v\n&amp;#34;, (*(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s2))).Data==(*(*reflect.SliceHeader)(unsafe.Pointer(&amp;amp;s4))).Data) } // 结果 /** s1 pointer:{Data:0 Len:0 Cap:0}, s2 pointer:{Data:824633999016 Len:0 Cap:0}, s4 pointer:{Data:824633999016 Len:0 Cap:0}, false true */   2.字符串转换为byte数组，会发生内存拷贝吗？ 严格来说，只要进行了类型的强制转换都会发生内存拷贝。所以说字符串转换为byte数组会发生内存拷贝。go的字符串也为不可变对象，在内存中的实现方式是一个只读的字节数组。字符串要想修改只能先转换为可写的数组，然后在转换为字符串。其数据结构如下：
+1 2 3 4  type StringHeader struct { Data uintptr Len int }   用代码展示，可以从结果上看出，不论是从字符串转换为byte数组还是从byte数组转换为字符串，均发生内存拷贝了。</description>
+    </item>
+    
     <item>
       <title>滑动窗口</title>
       <link>https://hearecho.github.io/post/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</link>
