@@ -5,7 +5,130 @@
     <description>Recent content on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Feb 2022 14:12:22 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Mar 2022 17:04:41 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+    <title>Go垃圾收集</title>
+    <link>https://hearecho.github.io/post/go%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/</link>
+    <pubDate>Fri, 04 Mar 2022 17:04:41 +0800</pubDate>
+    
+    <guid>https://hearecho.github.io/post/go%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/</guid>
+    <description>
+        &lt;h2 id=&#34;go-垃圾收集&#34;&gt;Go 垃圾收集&lt;/h2&gt;
+&lt;p&gt;Go垃圾收集使用的标记清除的方式，并且是并行GC，即和用户程序是一起运行的。标记方式使用的则是三色收集法。&lt;/p&gt;
+&lt;h3 id=&#34;垃圾收集步骤&#34;&gt;垃圾收集步骤&lt;/h3&gt;
+&lt;p&gt;Go垃圾收集总共是分为四部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Sweep Termination: 对未清扫的span进行清扫, 只有上一轮的GC的清扫工作完成才可以开始新一轮的GC&lt;/li&gt;
+&lt;li&gt;Mark: 扫描所有根对象, 和根对象可以到达的所有对象, 标记它们不被回收&lt;/li&gt;
+&lt;li&gt;Mark Termination: 完成标记工作, 重新扫描部分根对象&lt;/li&gt;
+&lt;li&gt;Sweep: 按标记结果清扫span&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在GC过程中会有两种后台任务(G), 一种是标记用的后台任务, 一种是清扫用的后台任务。清扫任务会在程序启动时就启动，但是在进入清扫阶段之后才被唤醒。其中在标记阶段开始的时候和标记阶段结束的时候需要停止用户程序即STW（Stop The World）。两次STW的作用如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;第一次STW会准备根对象的扫描, 启动写屏障(Write Barrier)和辅助GC(mutator assist).&lt;/li&gt;
+&lt;li&gt;第二次STW会重新扫描部分根对象, 禁用写屏障(Write Barrier)和辅助GC(mutator assist).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;gc的触发条件&#34;&gt;Gc的触发条件&lt;/h3&gt;
+&lt;p&gt;源码给出的触发条件主要有三种，如果不是这三种则是一直进行GC：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;gcTriggerHeap: 当前分配的内存达到一定值就触发GC&lt;/li&gt;
+&lt;li&gt;gcTriggerTime: 当一定时间没有执行过GC就触发GC&lt;/li&gt;
+&lt;li&gt;gcTriggerCycle: 要求启动新一轮的GC, 已启动则跳过, 手动触发GC的&lt;code&gt;runtime.GC()&lt;/code&gt;会使用这个条件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;go源代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gcTrigger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;memstats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;enablegc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;panicking&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gcphase&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_GCoff&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;switch&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;kind&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gcTriggerHeap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+		&lt;span class=&#34;c1&#34;&gt;// Non-atomic access to heap_live for performance. If
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;// we are going to trigger on this, this thread just
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;// atomically wrote heap_live anyway and we&amp;#39;ll see our
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;// own write.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;memstats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;heap_live&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;memstats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;gc_trigger&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gcTriggerTime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gcpercent&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+			&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;
+		&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;lastgc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;atomic&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Load64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;memstats&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;last_gc_nanotime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;lastgc&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;now&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lastgc&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;forcegcperiod&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gcTriggerCycle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+		&lt;span class=&#34;c1&#34;&gt;// t.n &amp;gt; work.cycles, but accounting for wraparound.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;work&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cycles&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;三色标记法&#34;&gt;三色标记法&lt;/h3&gt;
+&lt;p&gt;三色标记法就是通过堆内存中不同状态的下的对象进行标价来为后续的清除做准备。三色的含义如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;黑色: 对象在这次GC中已标记, 且这个对象包含的子对象也已标记&lt;/li&gt;
+&lt;li&gt;灰色: 对象在这次GC中已标记, 但这个对象包含的子对象未标记&lt;/li&gt;
+&lt;li&gt;白色: 对象在这次GC中未标记&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;三色标记的过程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先将Gc root标记为灰色，加入到灰色队列中&lt;/li&gt;
+&lt;li&gt;从灰色队列中取出对象，将其标记为黑色，并将其直接引用对象标记为灰色放入到灰色队列中&lt;/li&gt;
+&lt;li&gt;重复步骤2，直到没有灰色对象的存在，此时剩余的白色对象就是需要进行回收的对象。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Gc  root对象&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fixed Roots: 特殊的扫描工作
+&lt;ul&gt;
+&lt;li&gt;fixedRootFinalizers: 扫描析构器队列&lt;/li&gt;
+&lt;li&gt;fixedRootFreeGStacks: 释放已中止的G的栈&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Flush Cache Roots: 释放mcache中的所有span, 要求STW&lt;/li&gt;
+&lt;li&gt;Data Roots: 扫描可读写的全局变量&lt;/li&gt;
+&lt;li&gt;BSS Roots: 扫描只读的全局变量&lt;/li&gt;
+&lt;li&gt;Span Roots: 扫描各个span中特殊对象(析构器列表)&lt;/li&gt;
+&lt;li&gt;Stack Roots: 扫描各个G的栈&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;写屏障&#34;&gt;写屏障&lt;/h3&gt;
+&lt;p&gt;写屏障的存在是因为go的垃圾收集过程是和用户程序并行的。并行的过程就会产生一些对象依赖上的变化，造成错误回收。例如开始扫描的时候发现根对象A和B，B拥有C的指针，GC先扫描A, 然后B把C的指针交给A, GC再扫描B, 这时C就不会被扫描到。写屏障就是为了避免这种类型的问题而存在的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;启用了写屏障(Write Barrier)后, 当B把C的指针交给A时, GC会认为在这一轮的扫描中C的指针是存活的,
+即使A可能会在稍后丢掉C, 那么C就在下一轮回收.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;也就是说，写屏障启动之后，用户程序的改动对于GC将不会造成任何影响，相互独立。写屏障只针对指针启用, 而且只在GC的标记阶段启用, 平时会直接把值写入到目标地址.&lt;/p&gt;
+&lt;p&gt;混合写屏障会同时标记指针写入目标的&amp;quot;原指针&amp;quot;和“新指针&amp;quot;。标记原指针的原因是,，其他运行中的线程有可能会同时把这个指针的值复制到寄存器或者栈上的本地变量,因为&lt;strong&gt;复制指针到寄存器或者栈上的本地变量不会经过写屏障&lt;/strong&gt;, 所以有可能会导致指针不被标记，记新指针的原因是, 其他运行中的线程有可能会转移指针的位置。混合写屏障可以让GC在并行标记结束后不需要重新扫描各个G的堆栈, 可以减少Mark Termination中的STW时间。如果只是单独的写屏障，需要排除那些不经过写屏障的读写操作。&lt;/p&gt;
+&lt;h3 id=&#34;辅助gc&#34;&gt;辅助GC&lt;/h3&gt;
+&lt;p&gt;为了防止heap增速太快, 在GC执行的过程中如果同时运行的G分配了内存, 那么这个G会被要求辅助GC做一部分的工作.
+在GC的过程中同时运行的G称为&amp;quot;mutator&amp;quot;, &amp;ldquo;mutator assist&amp;quot;机制就是G辅助GC做一部分工作的机制.&lt;/p&gt;
+&lt;p&gt;辅助GC做的工作有两种类型, 一种是标记(Mark), 另一种是清扫(Sweep).&lt;/p&gt;
+
+    </description>
+    </item>
+    
     <item>
     <title>Go Question</title>
     <link>https://hearecho.github.io/post/go-question/</link>

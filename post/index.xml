@@ -6,7 +6,21 @@
     <description>Recent content in Posts on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Feb 2022 14:12:22 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Mar 2022 17:04:41 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go垃圾收集</title>
+      <link>https://hearecho.github.io/post/go%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/</link>
+      <pubDate>Fri, 04 Mar 2022 17:04:41 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/go%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/</guid>
+      <description>Go 垃圾收集 Go垃圾收集使用的标记清除的方式，并且是并行GC，即和用户程序是一起运行的。标记方式使用的则是三色收集法。
+垃圾收集步骤 Go垃圾收集总共是分为四部分：
+ Sweep Termination: 对未清扫的span进行清扫, 只有上一轮的GC的清扫工作完成才可以开始新一轮的GC Mark: 扫描所有根对象, 和根对象可以到达的所有对象, 标记它们不被回收 Mark Termination: 完成标记工作, 重新扫描部分根对象 Sweep: 按标记结果清扫span  在GC过程中会有两种后台任务(G), 一种是标记用的后台任务, 一种是清扫用的后台任务。清扫任务会在程序启动时就启动，但是在进入清扫阶段之后才被唤醒。其中在标记阶段开始的时候和标记阶段结束的时候需要停止用户程序即STW（Stop The World）。两次STW的作用如下：
+ 第一次STW会准备根对象的扫描, 启动写屏障(Write Barrier)和辅助GC(mutator assist). 第二次STW会重新扫描部分根对象, 禁用写屏障(Write Barrier)和辅助GC(mutator assist).  Gc的触发条件 源码给出的触发条件主要有三种，如果不是这三种则是一直进行GC：
+ gcTriggerHeap: 当前分配的内存达到一定值就触发GC gcTriggerTime: 当一定时间没有执行过GC就触发GC gcTriggerCycle: 要求启动新一轮的GC, 已启动则跳过, 手动触发GC的runtime.GC()会使用这个条件  go源代码如下：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23  func (t gcTrigger) test() bool { if !</description>
+    </item>
+    
     <item>
       <title>Go Question</title>
       <link>https://hearecho.github.io/post/go-question/</link>
