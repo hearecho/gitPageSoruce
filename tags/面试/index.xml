@@ -6,7 +6,34 @@
     <description>Recent content in 面试 on Road to Final</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Feb 2022 14:12:22 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Apr 2022 12:09:28 +0800</lastBuildDate><atom:link href="https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>刷题笔记 双指针</title>
+      <link>https://hearecho.github.io/post/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0-%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+      <pubDate>Wed, 13 Apr 2022 12:09:28 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0-%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
+      <description>​	双指针经常在数组和链表中使用。二分查找、滑动窗口、快慢指针都是双指针的变形用法。
+二分查找 二分查找，主要是在有序数组中进行查找符合目标值，一般中等难度的问题都不会简单的让查找某个确定的值，而是进行变相的询问，例如询问左边界问题，左边界问题也是用的最多的一种方式。
+34. 在排序数组中查找元素的第一个和最后一个位置 这道题可以使用调用两次最左位置，或者是一次最左，一次最右。两次调用最左位置，就是查找$target$和$target+1$的最左位置，这样就可以获得目标值的最左位置和最有位置。当然最右位置等于$target+1$最左位置-1。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  func searchRange(nums []int, target int) []int { // 时间复杂度的要求所以肯定是使用二分查找方法  // 我们需要查找的是上边界以及下边界  if len(nums) == 0 { return []int{-1,-1} } l := binarySearch(nums, target) h := binarySearch(nums, target + 1) if l &amp;lt; len(nums) &amp;amp;&amp;amp; nums[l] == target { return []int{l, h-1} } return []int{-1,-1} } func binarySearch(nums []int, target int) int { l,h := 0, len(nums) for l&amp;lt;h { // 由于是查找边界，所以不能是  mid := l + (h-l)/2 if nums[mid] &amp;gt;= target { h = mid } else { l = mid + 1 } } return l }   354.</description>
+    </item>
+    
+    <item>
+      <title>计算机网络</title>
+      <link>https://hearecho.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Fri, 08 Apr 2022 20:47:06 +0800</pubDate>
+      
+      <guid>https://hearecho.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <description>网络层相关 传输层相关 1. 既然IP层会分片， 为什么TCP还要分段？ IP分片的原因：
+受到传输链路MTU的影响，而且因为数据链路层的MTU在传输过程中会发生改变，所以说在传输的过程中经过某个路由器之后也会进行分片。MTU默认值为1500byte
+TCP分片的原因：
+TCP分片的主要原因是因为受到网络层数据段的影响。即MSS大小的限制。MSS大小限制为1460，即1500 - 20（IP头） -20（TCP头）。
+TCP还要分段的原因：
+如果是TCP不分段，
+其他 </description>
+    </item>
+    
     <item>
       <title>Go Question</title>
       <link>https://hearecho.github.io/post/go-question/</link>

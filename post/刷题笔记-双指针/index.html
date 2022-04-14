@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>刷题笔记 双指针 | Road to Final</title>
+
+    <meta property="og:site_name" content="Road to Final" />
+    <meta property="og:title" content="刷题笔记 双指针 | Road to Final"/>
+    <meta itemprop="name" content="刷题笔记 双指针 | Road to Final" />
+    <meta name="twitter:title" content="刷题笔记 双指针 | Road to Final" />
+    <meta name="application-name" content="刷题笔记 双指针 | Road to Final" />
+    <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
+    <meta name="description" content="双指针用法讲解，二分查找、滑动窗口、快慢指针、leetcode" />
+    <meta name="twitter:description" content="双指针用法讲解，二分查找、滑动窗口、快慢指针、leetcode "/>
+    <meta itemprop="description" content=" 双指针用法讲解，二分查找、滑动窗口、快慢指针、leetcode "/>
+    <meta property="og:description" content=" 双指针用法讲解，二分查找、滑动窗口、快慢指针、leetcode " />
+
+    
+
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="Hearecho" />
+<meta property="og:article:published_time" content=2022-04-13T12:09:28&#43;0800 />
+<meta property="article:published_time" content=2022-04-13T12:09:28&#43;0800 />
+
+
+
+
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "刷题笔记 双指针",
+    "author": {
+      "@type": "Person",
+      "name": "Hearecho"
+    },
+    "datePublished": "2022-04-13",
+    "description": "双指针用法讲解，二分查找、滑动窗口、快慢指针、leetcode",
+    "wordCount":  788 ,
+    "mainEntityOfPage": "True",
+    "dateModified": "2022-04-13",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hearecho",
+      "logo": {
+        "@type": "imageObject",
+        "url": "https:\/\/hearecho.github.io\/favicon.ico"
+      }
+    }
+  }
+</script>
+
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://hearecho.github.io/favicon.ico" />
+    
+    <link rel="stylesheet" href="https://hearecho.github.io/sass/main.min.40aeb6acef96d81040c330db146a4d454b7f961bd5de06d6a1957365ac9232d5.css">
+	
+</head>
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="https://hearecho.github.io/">
+                    
+                    <span class="emoji">
+                        😎
+                    </span>
+                    
+                    
+                    Road to Final
+                    </a>
+            </div>
+            <div class="flex">
+                
+                <a href="https://hearecho.github.io/articles/">Articles</a>
+                
+                <button id="dark-mode-button">
+                  <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                  <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                </button>
+            </div>
+            </div>
+    </div>
+</nav>
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>刷题笔记 双指针</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>April 13, 2022</time>
+                            | 4 minutes |788 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">刷题笔记</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <p>​	双指针经常在数组和链表中使用。二分查找、滑动窗口、快慢指针都是双指针的变形用法。</p>
+<h3 id="二分查找">二分查找</h3>
+<p>二分查找，主要是在有序数组中进行查找符合目标值，一般中等难度的问题都不会简单的让查找某个确定的值，而是进行变相的询问，例如询问左边界问题，左边界问题也是用的最多的一种方式。</p>
+<h4 id="34-在排序数组中查找元素的第一个和最后一个位置httpsleetcode-cncomproblemsfind-first-and-last-position-of-element-in-sorted-array"><a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/">34. 在排序数组中查找元素的第一个和最后一个位置</a></h4>
+<p>这道题可以使用调用两次最左位置，或者是一次最左，一次最右。两次调用最左位置，就是查找$target$和$target+1$的最左位置，这样就可以获得目标值的最左位置和最有位置。当然最右位置等于$target+1$最左位置-1。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">searchRange</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">{</span>
+    <span class="c1">// 时间复杂度的要求所以肯定是使用二分查找方法
+</span><span class="c1"></span>    <span class="c1">// 我们需要查找的是上边界以及下边界
+</span><span class="c1"></span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">l</span> <span class="o">:=</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="nx">nums</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span>
+    <span class="nx">h</span> <span class="o">:=</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="nx">nums</span><span class="p">,</span> <span class="nx">target</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">l</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span> <span class="o">==</span> <span class="nx">target</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="nx">l</span><span class="p">,</span> <span class="nx">h</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">target</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="nx">l</span><span class="p">,</span><span class="nx">h</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">l</span><span class="p">&lt;</span><span class="nx">h</span> <span class="p">{</span>
+        <span class="c1">// 由于是查找边界，所以不能是
+</span><span class="c1"></span>        <span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">target</span> <span class="p">{</span>
+            <span class="nx">h</span> <span class="p">=</span> <span class="nx">mid</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">l</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">l</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="354-俄罗斯套娃信封问题httpsleetcode-cncomproblemsrussian-doll-envelopes"><a href="https://leetcode-cn.com/problems/russian-doll-envelopes/">354. 俄罗斯套娃信封问题</a></h4>
+<p>这道题可以转换为最长子序列问题，最长子学列问题通常使用动态规划数组，在这里我们使用二分查找的方式来解决最长子序列问题。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">maxEnvelopes</span><span class="p">(</span><span class="nx">envelopes</span> <span class="p">[][]</span><span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="c1">// 排序之后转换为寻找最长子序列问题
+</span><span class="c1"></span>	<span class="nx">sort</span><span class="p">.</span><span class="nf">Slice</span><span class="p">(</span><span class="nx">envelopes</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">&gt;</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+	<span class="p">})</span>
+	<span class="nx">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">envelopes</span><span class="p">)</span>
+	<span class="nx">heights</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">heights</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">envelopes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="c1">//求heights里面的最长上升子学列
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">lengthOfLTS</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">int</span>
+	<span class="c1">//
+</span><span class="c1"></span>	<span class="nx">lengthOfLTS</span> <span class="p">=</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+		<span class="c1">// 洗牌算法
+</span><span class="c1"></span>		<span class="nx">piles</span> <span class="o">:=</span> <span class="mi">0</span>
+		<span class="nx">top</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="c1">// 当前要处理的扑克牌
+</span><span class="c1"></span>			<span class="nx">poker</span> <span class="o">:=</span> <span class="nx">heights</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+			<span class="c1">// piles表示此时的牌堆
+</span><span class="c1"></span>			<span class="c1">// 而left就是当前要处理的牌要插入的位置，如果位置大于piles
+</span><span class="c1"></span>			<span class="c1">// 说明是放在牌堆大小扩充了
+</span><span class="c1"></span>			<span class="nx">left</span><span class="p">,</span> <span class="nx">right</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">piles</span>
+			<span class="k">for</span> <span class="nx">left</span> <span class="p">&lt;</span> <span class="nx">right</span> <span class="p">{</span>
+				<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">left</span> <span class="o">+</span> <span class="p">(</span><span class="nx">right</span><span class="o">-</span><span class="nx">left</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+				<span class="k">if</span> <span class="nx">top</span><span class="p">[</span><span class="nx">mid</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nx">poker</span> <span class="p">{</span>
+					<span class="nx">right</span> <span class="p">=</span> <span class="nx">mid</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="nx">left</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="nx">left</span> <span class="o">==</span> <span class="nx">piles</span> <span class="p">{</span>
+				<span class="nx">piles</span><span class="o">++</span>
+			<span class="p">}</span>
+			<span class="nx">top</span><span class="p">[</span><span class="nx">left</span><span class="p">]</span> <span class="p">=</span> <span class="nx">poker</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nx">piles</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nf">lengthOfLTS</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="875-爱吃香蕉的珂珂httpsleetcode-cncomproblemskoko-eating-bananas"><a href="https://leetcode-cn.com/problems/koko-eating-bananas/">875. 爱吃香蕉的珂珂</a></h4>
+<p>这道题是二分搜索的应用，将问题抽象为二分搜索。即我们要寻找一个$x$，使得$f(x)$满足目标$target$。</p>
+<p>例如该题中：$x$为吃香蕉的速度，$f(x)$为判断以$x$速度吃香蕉是否可以在警卫回来之前吃完($target$)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">minEatingSpeed</span><span class="p">(</span><span class="nx">piles</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">h</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="c1">// 首先确定速度k的范围
+</span><span class="c1"></span>	<span class="c1">// k最小值为1， 最大值当没办法进行确定的时候，就可以选择值的最大可能性
+</span><span class="c1"></span>	<span class="c1">// 二分法寻找左边界问题
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">,</span> <span class="nx">r</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100000001</span>
+	<span class="nx">sort2</span><span class="p">.</span><span class="nf">Ints</span><span class="p">(</span><span class="nx">piles</span><span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="nx">x</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span>
+    <span class="c1">// f(x)
+</span><span class="c1"></span>	<span class="nx">f</span> <span class="p">=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">x</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+		<span class="nx">use</span> <span class="o">:=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">piles</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+			<span class="nx">use</span> <span class="o">+=</span> <span class="nx">piles</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">/</span> <span class="nx">x</span>
+			<span class="k">if</span> <span class="nx">piles</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">%</span><span class="nx">x</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+				<span class="nx">use</span><span class="o">++</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="nx">use</span> <span class="o">&lt;=</span> <span class="nx">h</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="nx">l</span> <span class="p">&lt;</span> <span class="nx">r</span> <span class="p">{</span>
+		<span class="nx">mid</span> <span class="o">:=</span> <span class="nx">l</span> <span class="o">+</span> <span class="p">(</span><span class="nx">r</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+		<span class="k">if</span> <span class="nf">f</span><span class="p">(</span><span class="nx">mid</span><span class="p">)</span> <span class="p">{</span>
+			<span class="c1">// 可以吃完
+</span><span class="c1"></span>			<span class="nx">r</span> <span class="p">=</span> <span class="nx">mid</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="c1">// 不可以吃完
+</span><span class="c1"></span>			<span class="nx">l</span> <span class="p">=</span> <span class="nx">mid</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">l</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="滑动窗口">滑动窗口</h3>
+<p>滑动窗口算法是双指针的一种变种，或者说是应用方法。我们一般考虑的就是窗口的两个端点，可以看作两个指针。一般应用的题型的数据结构是字符串或者是数组。而且滑动窗口算法一般都可以使用暴力法来进行解决。</p>
+<p>滑动窗口一般处理都是连续问题，连续子数组或者是子串问题。因为非连续问题不可能存在于一个窗口中，那个时候可能使用动态规划可能会好一点。从类型上来说，滑动窗口一般分为两种类型：</p>
+<ul>
+<li>固定窗口大小，然后找到符合条件的结果</li>
+<li>非固定窗口大小，找到满足符合条件的结果。</li>
+</ul>
+<h4 id="固定窗口大小">固定窗口大小</h4>
+<p>对于固定窗口大小，我们第一步就需要初始化窗口，即构建一个最开始窗口。</p>
+<ul>
+<li>初始化<code>l</code>为0，初始化<code>r</code>使得<code>r-l+1</code>为窗口大小。</li>
+<li>同时移动<code>l、r</code>，来保证窗口的移动。</li>
+<li>判断窗口内部是否满足题目的条件，如果满足则更新或者直接结束，不满足则继续进行循环。</li>
+</ul>
+<h5 id="例题">例题</h5>
+<p><a href="https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/">438. 找到字符串中所有字母异位词 - 力扣（LeetCode） (leetcode-cn.com)</a></p>
+<p>该题就是固定窗口大小，而窗口大小并不是直接给出，而是根据匹配字符串的长度来确定窗口长度大小。使用哈希表的目的是为了判断是否满足题目中的条件，而答题流程则是固定滑动窗口答题流程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">findAnagrams</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span> <span class="nx">p</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">ans</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">sLen</span><span class="p">,</span> <span class="nx">pLen</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">sLen</span> <span class="p">&lt;</span> <span class="nx">pLen</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">sCount</span><span class="p">,</span> <span class="nx">pCount</span> <span class="p">[</span><span class="mi">26</span><span class="p">]</span><span class="kt">int</span>
+    <span class="c1">// 这部分就是初始化滑动窗口
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">ch</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">p</span> <span class="p">{</span>
+		<span class="nx">sCount</span><span class="p">[</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">]</span><span class="o">++</span>
+		<span class="nx">pCount</span><span class="p">[</span><span class="nx">ch</span><span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">]</span><span class="o">++</span>
+	<span class="p">}</span>
+    <span class="c1">// 初始化之后就需要进行一次判断
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">sCount</span> <span class="o">==</span> <span class="nx">pCount</span> <span class="p">{</span>
+		<span class="nx">ans</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">ans</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">ch</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">s</span><span class="p">[:</span><span class="nx">sLen</span><span class="o">-</span><span class="nx">pLen</span><span class="p">]</span> <span class="p">{</span>
+		<span class="c1">// 进入滑动窗口 即r的移动
+</span><span class="c1"></span>		<span class="nx">sCount</span><span class="p">[</span><span class="nx">ch</span><span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">]</span><span class="o">--</span>
+		<span class="c1">// 从滑动窗口中取出  即l的移动
+</span><span class="c1"></span>		<span class="nx">sCount</span><span class="p">[</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="o">+</span><span class="nx">pLen</span><span class="p">]</span><span class="o">-</span><span class="sc">&#39;a&#39;</span><span class="p">]</span><span class="o">++</span>
+        <span class="c1">// 进行是否满足条件的判断
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">sCount</span> <span class="o">==</span> <span class="nx">pCount</span> <span class="p">{</span>
+			<span class="nx">ans</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">ans</span><span class="p">,</span> <span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="可变滑动窗口">可变滑动窗口</h4>
+<p>对于可变滑动窗口，由于窗口大小是未知的，所以初始化的时候窗口大小为1</p>
+<ul>
+<li>初始化<code>l、r</code>为0</li>
+<li>移动<code>r</code>，来保证窗口的扩张。</li>
+<li>判断窗口内部是否满足题目的条件，如果满足则更新或者直接结束，不满足则可以通过和条件对比来增加<code>l</code>或者是<code>r</code>。</li>
+</ul>
+<h5 id="例题-1">例题</h5>
+<p><a href="https://leetcode-cn.com/problems/subarray-product-less-than-k/">713. 乘积小于K的子数组 - 力扣（LeetCode） (leetcode-cn.com)</a></p>
+<p>该题就很明显可以使用滑动窗口，并且窗口大小是可变的。而需要满足的条件就是乘积小于<code>K</code>。之后每次满足条件之后更新参数即可，并根据乘积值来更新窗口的大小。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">numSubarrayProductLessThanK</span><span class="p">(</span><span class="nx">nums</span> <span class="p">[]</span><span class="kt">int</span><span class="p">,</span> <span class="nx">k</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="c1">// 乘积小于k
+</span><span class="c1"></span>    <span class="c1">// 连续的子数组
+</span><span class="c1"></span>    <span class="c1">// 严格小于 等于不行
+</span><span class="c1"></span>    <span class="c1">// 正整数数组，即 k&lt;=1的话就直接返回空数组
+</span><span class="c1"></span>    <span class="nx">res</span> <span class="o">:=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nx">k</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">{</span>
+        <span class="k">return</span> <span class="nx">res</span>
+    <span class="p">}</span>
+    <span class="nx">mul</span> <span class="o">:=</span> <span class="mi">1</span>
+    <span class="nx">l</span><span class="p">,</span><span class="nx">r</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+    <span class="c1">// 滑动窗口 窗口长度的变化
+</span><span class="c1"></span>    <span class="c1">// 如果一个窗口的乘积小于k 因为都是正整数 所以整个区间内部的小窗口都会小于k
+</span><span class="c1"></span>    <span class="k">for</span> <span class="nx">r</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">mul</span> <span class="o">*=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">r</span><span class="p">]</span>
+        <span class="nx">r</span><span class="o">++</span>
+        <span class="k">for</span> <span class="nx">mul</span> <span class="o">&gt;=</span> <span class="nx">k</span> <span class="p">{</span>
+            <span class="nx">mul</span> <span class="o">/=</span> <span class="nx">nums</span><span class="p">[</span><span class="nx">l</span><span class="p">]</span>
+            <span class="nx">l</span><span class="o">++</span>
+        <span class="p">}</span>
+        <span class="nx">res</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">r</span><span class="o">-</span><span class="nx">l</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">res</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="快慢指针">快慢指针</h3>
+<p>快慢指针一般用于在链表中寻找中点，或者是链表环问题。一般是利用快指针会比慢指针走的距离多一倍。</p>
+<h4 id="142-环形链表-iihttpsleetcode-cncomproblemslinked-list-cycle-ii"><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/">142. 环形链表 II</a></h4>
+<p>相比<a href="https://leetcode-cn.com/problems/linked-list-cycle/">环形链表</a>该题需要找到环的入口，判断环形链表则是使用快指针慢指针走的位置是存在倍数关系的。而判断环的入口则是使用了两者之间走过的距离差是环的长度整数倍的数学关系。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">detectCycle</span><span class="p">(</span><span class="nx">head</span> <span class="o">*</span><span class="nx">ListNode</span><span class="p">)</span> <span class="o">*</span><span class="nx">ListNode</span> <span class="p">{</span>
+    <span class="c1">// 找到环入口节点
+</span><span class="c1"></span>    <span class="nx">slow</span><span class="p">,</span> <span class="nx">fast</span> <span class="o">:=</span> <span class="nx">head</span><span class="p">,</span> <span class="nx">head</span>
+    <span class="k">for</span> <span class="nx">fast</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">fast</span><span class="p">.</span><span class="nx">Next</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">slow</span> <span class="p">=</span> <span class="nx">slow</span><span class="p">.</span><span class="nx">Next</span>
+        <span class="nx">fast</span> <span class="p">=</span> <span class="nx">fast</span><span class="p">.</span><span class="nx">Next</span><span class="p">.</span><span class="nx">Next</span>
+        <span class="k">if</span> <span class="nx">fast</span> <span class="o">==</span> <span class="nx">slow</span> <span class="p">{</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">fast</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">||</span> <span class="nx">fast</span><span class="p">.</span><span class="nx">Next</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+    <span class="c1">// 相等证明有环
+</span><span class="c1"></span>    <span class="nx">fast</span> <span class="p">=</span> <span class="nx">head</span>
+    <span class="k">for</span> <span class="nx">slow</span> <span class="o">!=</span> <span class="nx">fast</span> <span class="p">{</span>
+        <span class="nx">slow</span> <span class="p">=</span> <span class="nx">slow</span><span class="p">.</span><span class="nx">Next</span>
+        <span class="nx">fast</span> <span class="p">=</span> <span class="nx">fast</span><span class="p">.</span><span class="nx">Next</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">fast</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="876-链表的中间结点httpsleetcode-cncomproblemsmiddle-of-the-linked-list"><a href="https://leetcode-cn.com/problems/middle-of-the-linked-list/">876. 链表的中间结点</a></h4>
+<p>该题是快慢指针最简单的运用，即快指针比慢指针走的距离的二倍。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">findMid</span><span class="p">(</span><span class="nx">head</span> <span class="o">*</span><span class="nx">ListNode</span><span class="p">)</span> <span class="o">*</span><span class="nx">ListNode</span><span class="p">{</span>
+    <span class="nx">slow</span><span class="p">,</span><span class="nx">fast</span> <span class="o">:=</span> <span class="nx">head</span><span class="p">,</span><span class="nx">head</span>
+    <span class="k">for</span> <span class="nx">fast</span><span class="o">!=</span><span class="kc">nil</span> <span class="o">||</span> <span class="nx">fast</span><span class="p">.</span><span class="nx">Next</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">slow</span> <span class="p">=</span> <span class="nx">slow</span><span class="p">.</span><span class="nx">Next</span>
+        <span class="nx">fast</span> <span class="p">=</span> <span class="nx">fast</span><span class="p">.</span><span class="nx">Next</span><span class="p">.</span><span class="nx">Next</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">slow</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="Previous post (older)">
+            <span>Previous</span>
+            计算机网络
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="https://hearecho.github.io/index.xml">📡</a>
+            
+        </nav>
+    </section>
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+    <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
+</footer>
+    </body>
+</html>

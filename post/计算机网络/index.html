@@ -7,25 +7,25 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="theme-color" content="dark">
-    <title>Posts | Road to Final</title>
+    <title>计算机网络 | Road to Final</title>
 
     <meta property="og:site_name" content="Road to Final" />
-    <meta property="og:title" content="Posts | Road to Final"/>
-    <meta itemprop="name" content="Posts | Road to Final" />
-    <meta name="twitter:title" content="Posts | Road to Final" />
-    <meta name="application-name" content="Posts | Road to Final" />
+    <meta property="og:title" content="计算机网络 | Road to Final"/>
+    <meta itemprop="name" content="计算机网络 | Road to Final" />
+    <meta name="twitter:title" content="计算机网络 | Road to Final" />
+    <meta name="application-name" content="计算机网络 | Road to Final" />
     <meta name="google-site-verification" content="neq0aVeCWe7m8dRcG0DYe70W84dIh8_CqQDqP-G9mlI" />
-    <meta name="description" content="Work，Walk，Rest!" />
-    <meta name="twitter:description" content="Work，Walk，Rest!"/>
-    <meta itemprop="description" content="Work，Walk，Rest!"/>
-    <meta property="og:description" content="Work，Walk，Rest!" />
+    <meta name="description" content="计算机网络相关面试题" />
+    <meta name="twitter:description" content="计算机网络相关面试题 "/>
+    <meta itemprop="description" content=" 计算机网络相关面试题 "/>
+    <meta property="og:description" content=" 计算机网络相关面试题 " />
 
     
 
 <meta property="og:type" content="article" />
 <meta property="article:publisher" content="Hearecho" />
-<meta property="og:article:published_time" content=2022-04-13T12:09:28&#43;0800 />
-<meta property="article:published_time" content=2022-04-13T12:09:28&#43;0800 />
+<meta property="og:article:published_time" content=2022-04-08T20:47:06&#43;0800 />
+<meta property="article:published_time" content=2022-04-08T20:47:06&#43;0800 />
 
 
 
@@ -35,16 +35,16 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Posts",
+    "headline": "计算机网络",
     "author": {
       "@type": "Person",
       "name": "Hearecho"
     },
-    "datePublished": "2022-04-13",
-    "description": "",
-    "wordCount":  0 ,
+    "datePublished": "2022-04-08",
+    "description": "计算机网络相关面试题",
+    "wordCount":  15 ,
     "mainEntityOfPage": "True",
-    "dateModified": "2022-04-13",
+    "dateModified": "2022-04-08",
     "publisher": {
       "@type": "Organization",
       "name": "Hearecho",
@@ -93,121 +93,69 @@
 </nav>
         <main>
             
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>计算机网络</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Hearecho | <time>April 08, 2022</time>
+                            | 1 minutes |15 Words
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="https://hearecho.github.io/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+                            
+                            <a href="https://hearecho.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
 
+    <div class="article-post">
+    <h2 id="网络层相关">网络层相关</h2>
+<h2 id="传输层相关">传输层相关</h2>
+<h3 id="1-既然ip层会分片-为什么tcp还要分段">1. 既然IP层会分片， 为什么TCP还要分段？</h3>
+<p>IP分片的原因：</p>
+<p>受到传输链路MTU的影响，而且因为数据链路层的MTU在传输过程中会发生改变，所以说在传输的过程中经过某个路由器之后也会进行分片。MTU默认值为1500byte</p>
+<p>TCP分片的原因：</p>
+<p>TCP分片的主要原因是因为受到网络层数据段的影响。即MSS大小的限制。MSS大小限制为1460，即1500 - 20（IP头） -20（TCP头）。</p>
+<p>TCP还要分段的原因：</p>
+<p>如果是TCP不分段，</p>
+<h2 id="其他">其他</h2>
 
+    </div>
+</div>
 
-
-<header>
-  <div class="container">
-    <h1>Posts</h1>
-    <p class="subtitle">
-      <span class="count">18</span> posts found.
-    </p>
-  </div>
-</header>
-
-<section>
-  <div class="container">
-    <section>
-      <section>
-        <div class="posts">
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/deff/">
-              <div class="post-row">
-                <time>Aug 22</time>
-                <h3>DEFF算法论文阅读</h3>
-              </div>
-              
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="https://hearecho.github.io/post/go%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86/" title="Previous post (older)">
+            <span>Previous</span>
+            Go垃圾收集
             </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/surver-dynamic-dag-schedule/">
-              <div class="post-row">
-                <time>Aug 22</time>
-                <h3>Surver Dynamic Dag Schedule</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/runtime_parallel_incremental_scheduling_of_dags%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">
-              <div class="post-row">
-                <time>Aug 08</time>
-                <h3>Runtime_Parallel_Incremental_Scheduling_of_DAGs论文阅读</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-edf/">
-              <div class="post-row">
-                <time>Jun 30</time>
-                <h3>论文阅读 EDF</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/redis%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">
-              <div class="post-row">
-                <time>Jun 26</time>
-                <h3>Redis面试问题</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-dag/">
-              <div class="post-row">
-                <time>Jun 25</time>
-                <h3>论文阅读 DAG</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/hugo%E6%B7%BB%E5%8A%A0google%E6%94%B6%E5%BD%95/">
-              <div class="post-row">
-                <time>Jun 24</time>
-                <h3>Hugo添加Google收录</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-          <div class="post">
-            <a href="https://hearecho.github.io/post/hugo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
-              <div class="post-row">
-                <time>Jun 23</time>
-                <h3>Hugo搭建个人博客</h3>
-              </div>
-              
-            </a>
-          </div>
-          
-        </div>
-      </section>
-    </section>
-  </div>
-</section>
-<section>
-  <div class="container">
-    <nav class="pagination">
-      <div class="prev-page">
-        <a href="https://hearecho.github.io/post/">Previous Page</a>
-      </div>
-      
+        
+        
+        
+        <a rel="next" href="https://hearecho.github.io/post/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0-%E5%8F%8C%E6%8C%87%E9%92%88/" title="Next post (newer)">
+            <span>Next</span>
+            刷题笔记 双指针
+            </a> 
+        
     </nav>
-  </div>
-</section>
-
+    
+</div>
+</main>
 
 
         </main>
@@ -219,6 +167,14 @@
             
         </nav>
     </section>
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
     <script async src="https://hearecho.github.io/ts/features.aae54872a4ce10f31183401ffe494fdc7160fa4925869741aee7ab580afc9908.js" data-enable-footnotes="true"></script>
 </footer>
     </body>
